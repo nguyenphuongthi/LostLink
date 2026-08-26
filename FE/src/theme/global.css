@@ -1,0 +1,138 @@
+/* ─────────────────────────────────────────────────────────────
+   Global reset + the interactive (hover) layer.
+
+   The design uses inline styles everywhere (ported faithfully as
+   React style objects). Inline styles can't express :hover, so the
+   hover behaviours from the original `style-hover` attributes live
+   here as small utility classes. Elements opt in via className while
+   keeping their inline base style.
+   ───────────────────────────────────────────────────────────── */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+}
+
+body {
+  background: #e7ecf3;
+  font-family: 'Be Vietnam Pro', system-ui, -apple-system, Segoe UI, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  color: #16233a;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+a {
+  color: #2e6db4;
+  text-decoration: none;
+}
+a:hover {
+  color: #1e4e86;
+  text-decoration: underline;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: #cdd6e2;
+  border-radius: 99px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+
+input,
+textarea,
+button {
+  font-family: inherit;
+}
+input[type='date'] {
+  color-scheme: light;
+}
+
+/* Smooth transitions for every interactive utility below. */
+.ll-nav,
+.ll-primary,
+.ll-dark,
+.ll-subtle,
+.ll-chip-soft,
+.ll-tab-soft,
+.ll-meetup,
+.ll-evidence,
+.ll-report,
+.ll-name,
+.ll-row,
+.ll-area-add,
+.ll-match-row,
+.ll-notphai,
+.ll-card,
+.ll-card-sm {
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    box-shadow 0.16s ease,
+    transform 0.16s ease,
+    border-color 0.15s ease;
+}
+
+.ll-nav:hover {
+  background: #edf1f7 !important;
+  color: #16233a !important;
+}
+.ll-primary:hover {
+  background: #1e4e86 !important;
+}
+.ll-dark:hover {
+  background: #16233a !important;
+}
+.ll-card:hover {
+  box-shadow: 0 10px 26px rgba(22, 35, 58, 0.1);
+  transform: translateY(-2px);
+}
+.ll-card-sm:hover {
+  box-shadow: 0 8px 22px rgba(22, 35, 58, 0.09);
+}
+.ll-subtle:hover {
+  background: #f8fafc !important;
+}
+.ll-chip-soft:hover {
+  background: #e3eaf4 !important;
+}
+.ll-tab-soft:hover {
+  background: #e7f0fb !important;
+  color: #2e6db4 !important;
+}
+.ll-meetup:hover {
+  background: #e7f0fb !important;
+  border-color: #c6dcf3 !important;
+}
+.ll-evidence:hover {
+  border-color: #2e6db4 !important;
+  background: #f4f8fd !important;
+}
+.ll-report:hover {
+  background: #fceaec !important;
+}
+.ll-name:hover {
+  color: #2e6db4 !important;
+}
+.ll-row:hover {
+  background: #f8fafc !important;
+}
+.ll-area-add:hover {
+  border-color: #2e6db4 !important;
+  color: #2e6db4 !important;
+}
+.ll-match-row:hover {
+  background: #fbfcfe !important;
+}
+.ll-notphai:hover {
+  background: #edf1f7 !important;
+}

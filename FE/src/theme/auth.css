@@ -1,0 +1,211 @@
+/* ─────────────────────────────────────────────────────────────
+   Auth (dark "galaxy") theme — the interactive + animation layer.
+
+   The auth screens are ported from the LostLink Auth design component
+   as inline React style objects. Inline styles can't express :focus,
+   :hover, ::placeholder or @keyframes, so those live here. Imported
+   once by src/pages/auth/AuthPage.jsx (scoped to the auth flow).
+   ───────────────────────────────────────────────────────────── */
+
+.auth-input::placeholder {
+  color: rgba(234, 241, 251, 0.38);
+}
+.auth-input:focus {
+  border-color: #6ea8ff;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 0 3px rgba(110, 168, 255, 0.16);
+}
+
+.auth-primary {
+  transition:
+    filter 0.15s,
+    transform 0.1s;
+}
+.auth-primary:hover {
+  filter: brightness(1.08);
+}
+.auth-primary:active {
+  transform: translateY(1px);
+}
+
+.auth-google {
+  transition: background 0.15s;
+}
+.auth-google:hover {
+  background: #fff;
+}
+
+.auth-link {
+  cursor: pointer;
+}
+.auth-link:hover {
+  color: #c8deff;
+}
+
+/* ── Keyframes (ported verbatim from the design component) ── */
+@keyframes ll-lens-in {
+  0% {
+    transform: translate(-96px, 34px) scale(0.62) rotate(-26deg);
+    opacity: 0;
+    filter: blur(3px);
+  }
+  26% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+    opacity: 1;
+    filter: blur(0);
+  }
+  82% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+    opacity: 1;
+    filter: blur(0);
+  }
+  100% {
+    transform: translate(-96px, 34px) scale(0.62) rotate(-26deg);
+    opacity: 0;
+    filter: blur(3px);
+  }
+}
+@keyframes ll-pin-in {
+  0% {
+    transform: translate(112px, -46px) scale(0.5);
+    opacity: 0;
+    filter: blur(3px);
+  }
+  30% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+    filter: blur(0);
+  }
+  36% {
+    transform: translate(0, -5px) scale(1.06);
+  }
+  42% {
+    transform: translate(0, 0) scale(1);
+  }
+  82% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(112px, -46px) scale(0.5);
+    opacity: 0;
+    filter: blur(3px);
+  }
+}
+@keyframes ll-tether {
+  0% {
+    transform: rotate(var(--a)) scaleX(1);
+    opacity: 0.6;
+  }
+  24% {
+    opacity: 0.9;
+  }
+  30% {
+    transform: rotate(var(--a)) scaleX(0);
+    opacity: 0;
+  }
+  82% {
+    transform: rotate(var(--a)) scaleX(0);
+    opacity: 0;
+  }
+  100% {
+    transform: rotate(var(--a)) scaleX(1);
+    opacity: 0.6;
+  }
+}
+@keyframes ll-snap {
+  0%,
+  27% {
+    transform: scale(0.2);
+    opacity: 0;
+  }
+  33% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  46%,
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+@keyframes ll-trace {
+  0% {
+    stroke-dashoffset: 300;
+  }
+  26% {
+    stroke-dashoffset: 0;
+  }
+  82% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: 300;
+  }
+}
+@keyframes ll-burst {
+  0%,
+  26% {
+    transform: scale(0.55);
+    opacity: 0;
+  }
+  34% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(2.3);
+    opacity: 0;
+  }
+}
+@keyframes ll-sweep {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes ll-glow {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+@keyframes ll-pulse {
+  0% {
+    transform: scale(0.7);
+    opacity: 0.55;
+  }
+  100% {
+    transform: scale(2.1);
+    opacity: 0;
+  }
+}
+@keyframes ll-fade {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes ll-drift {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-18px, 22px);
+  }
+}
+@keyframes ll-twinkle {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 1;
+  }
+}
