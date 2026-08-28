@@ -27,8 +27,7 @@ export default function Profile() {
 
       {/* ── Header ─────────────────────────────────── */}
       <div className="card mb-5 overflow-hidden rounded-[14px]">
-        <div className="h-32 bg-[linear-gradient(120deg,#1B3358_0%,#2E6DB4_100%)]" />
-        <div className="-mt-11 flex items-end gap-5 px-7 pb-6">
+        <div className="flex items-end gap-5 px-7 pb-6 pt-6">
           <div className="flex h-[108px] w-[108px] flex-shrink-0 items-center justify-center rounded-full border-[5px] border-white bg-blue-soft text-[28.5px] font-bold text-blue">
             {profile.initials}
           </div>
