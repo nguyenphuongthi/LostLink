@@ -1,7 +1,11 @@
 // ─────────────────────────────────────────────────────────────
-// Design tokens — ported 1:1 from the LostLink design component.
-// Colors, image helpers and the small style helpers that repeat
-// across every screen live here so pages stay declarative.
+// Design tokens. The full palette now lives as Tailwind @theme
+// variables in ./global.css (utilities like `bg-blue`, `text-ink`),
+// and the repeated surface/pill helpers became component classes
+// (`card`, `badge`, `chip`, `eyebrow`) there too. What remains here
+// is the runtime bits Tailwind classes can't express: the `c` color
+// map (still handy for computed inline colors) plus the dynamic
+// image helpers.
 // ─────────────────────────────────────────────────────────────
 
 export const c = {
@@ -55,65 +59,3 @@ export const PHOTO = (url, w, h, r) => ({
 });
 
 export const BADGE_LABEL = { lost: 'MẤT ĐỒ', found: 'NHẶT ĐƯỢC' };
-
-// Lost / found pill.
-export const badgeStyle = (type) => ({
-  height: 24,
-  padding: '0 11px',
-  borderRadius: 99,
-  background: type === 'lost' ? c.redSoft : c.blueSoft,
-  color: type === 'lost' ? c.red : c.blue,
-  fontSize: 10.5,
-  fontWeight: 700,
-  display: 'flex',
-  alignItems: 'center',
-  letterSpacing: '.02em',
-  whiteSpace: 'nowrap',
-  flexShrink: 0,
-});
-
-// Lifecycle status pill — tone: 'ok' | 'warn' | 'idle'.
-export const statusStyle = (tone) => ({
-  height: 24,
-  padding: '0 11px',
-  borderRadius: 99,
-  fontSize: 10.5,
-  fontWeight: 600,
-  display: 'flex',
-  alignItems: 'center',
-  ...(tone === 'ok'
-    ? { background: c.blueSoft, color: c.blue }
-    : tone === 'warn'
-      ? { background: c.amberSoft, color: c.amber }
-      : { background: c.chip, color: c.muted }),
-});
-
-// Filter / selection chip.
-export const chipStyle = (on) => ({
-  height: 32,
-  padding: '0 14px',
-  borderRadius: 99,
-  fontSize: 11.5,
-  fontWeight: 500,
-  display: 'flex',
-  alignItems: 'center',
-  cursor: 'pointer',
-  ...(on ? { background: c.blue, color: '#fff' } : { background: c.chip, color: c.ink2 }),
-});
-
-// Small section label (uppercase eyebrow).
-export const eyebrow = {
-  fontSize: 10.5,
-  fontWeight: 600,
-  color: c.muted2,
-  letterSpacing: '0.04em',
-  textTransform: 'uppercase',
-  marginBottom: 10,
-};
-
-// White surface card.
-export const card = {
-  background: '#fff',
-  border: `1px solid ${c.line}`,
-  borderRadius: 12,
-};

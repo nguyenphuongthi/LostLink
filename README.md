@@ -74,7 +74,7 @@ Project/
 # Frontend
 cd FE
 npm install
-npm run dev        # http://localhost:8080
+npm run dev      
 
 # Backend
 cd BE

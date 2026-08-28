@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
-import { c } from '../theme/tokens'
 
 // Raised whenever a guest attempts a User-only action. Logging in flips
 // the app role to 'user'; "Đăng ký ngay" hands off to the full auth flow.
@@ -18,69 +17,37 @@ export default function LoginModal() {
   return (
     <div
       onClick={closeLogin}
-      style={{
-        position: 'fixed',
-        inset: 0,
-        zIndex: 90,
-        background: 'rgba(22,35,58,0.45)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
+      className="fixed inset-0 z-[90] flex items-center justify-center bg-[rgba(22,35,58,0.45)]"
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        style={{ width: 440, background: '#fff', borderRadius: 14, padding: 32, boxShadow: '0 24px 60px rgba(0,0,0,.25)' }}
+        className="w-[440px] rounded-[14px] bg-white p-8 shadow-[0_24px_60px_rgba(0,0,0,.25)]"
       >
-        <div style={{ fontSize: 19.5, fontWeight: 700, letterSpacing: '-0.02em', marginBottom: 6 }}>
-          Đăng nhập để tiếp tục
-        </div>
-        <div style={{ fontSize: 12.5, lineHeight: 1.55, color: c.muted, marginBottom: 24 }}>
+        <div className="mb-1.5 text-[19.5px] font-bold tracking-[-0.02em]">Đăng nhập để tiếp tục</div>
+        <div className="mb-6 text-[12.5px] leading-[1.55] text-muted">
           Đăng nhập rồi bạn có thể bình luận, nhận lại đồ và nhắn tin với người nhặt được.
         </div>
 
-        <div style={{ fontSize: 12, fontWeight: 500, marginBottom: 7 }}>Email</div>
-        <div style={inputBox}>ten@email.com</div>
+        <div className="mb-[7px] text-[12px] font-medium">Email</div>
+        <div className={inputBox}>ten@email.com</div>
 
-        <div style={{ fontSize: 12, fontWeight: 500, margin: '14px 0 7px' }}>Mật khẩu</div>
-        <div style={inputBox}>••••••••</div>
+        <div className="mb-[7px] mt-3.5 text-[12px] font-medium">Mật khẩu</div>
+        <div className={inputBox}>••••••••</div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: 9, margin: '16px 0 20px' }}>
-          <div
-            style={{
-              width: 18,
-              height: 18,
-              borderRadius: 5,
-              background: c.blue,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <div style={{ width: 4, height: 8, borderRight: '2px solid #fff', borderBottom: '2px solid #fff', transform: 'rotate(45deg)', marginTop: -2 }} />
+        <div className="my-4 mb-5 flex items-center gap-2.5">
+          <div className="flex h-[18px] w-[18px] items-center justify-center rounded-[5px] bg-blue">
+            <div className="-mt-0.5 h-2 w-1 rotate-45 border-b-2 border-r-2 border-white" />
           </div>
-          <div style={{ fontSize: 11.5, color: c.ink2 }}>Nhận email khi có người cần liên hệ hoặc có gợi ý mới</div>
+          <div className="text-[11.5px] text-ink2">Nhận email khi có người cần liên hệ hoặc có gợi ý mới</div>
         </div>
 
         <div
-          className="ll-primary"
+          className="ll-primary flex h-12 cursor-pointer items-center justify-center rounded-[9px] bg-blue text-[13.5px] font-semibold text-white"
           onClick={doLogin}
-          style={{
-            height: 48,
-            borderRadius: 9,
-            background: c.blue,
-            color: '#fff',
-            fontSize: 13.5,
-            fontWeight: 600,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-          }}
         >
           Đăng nhập
         </div>
-        <div style={{ textAlign: 'center', fontSize: 12, color: c.muted, marginTop: 14 }}>
+        <div className="mt-3.5 text-center text-[12px] text-muted">
           Chưa có tài khoản? <a href="/auth?screen=register" onClick={goRegister}>Đăng ký ngay</a>
         </div>
       </div>
@@ -88,14 +55,5 @@ export default function LoginModal() {
   )
 }
 
-const inputBox = {
-  height: 46,
-  borderRadius: 8,
-  border: '1px solid #DFE5EE',
-  background: '#F8FAFC',
-  display: 'flex',
-  alignItems: 'center',
-  padding: '0 14px',
-  fontSize: 13,
-  color: '#9AA7B8',
-}
+const inputBox =
+  'flex h-[46px] items-center rounded-lg border border-line bg-soft px-3.5 text-[13px] text-muted3'

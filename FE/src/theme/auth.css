@@ -1,12 +1,19 @@
-/* ─────────────────────────────────────────────────────────────
-   Auth (dark "galaxy") theme — the interactive + animation layer.
-
-   The auth screens are ported from the LostLink Auth design component
-   as inline React style objects. Inline styles can't express :focus,
-   :hover, ::placeholder or @keyframes, so those live here. Imported
-   once by src/pages/auth/AuthPage.jsx (scoped to the auth flow).
-   ───────────────────────────────────────────────────────────── */
-
+.auth-input {
+  width: 100%;
+  height: 46px;
+  padding: 0 14px;
+  font-family: inherit;
+  font-size: 14.5px;
+  color: #eaf1fb;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 10px;
+  outline: none;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s,
+    background 0.15s;
+}
 .auth-input::placeholder {
   color: rgba(234, 241, 251, 0.38);
 }
@@ -16,7 +23,27 @@
   box-shadow: 0 0 0 3px rgba(110, 168, 255, 0.16);
 }
 
+/* Uppercase field label (was labelStyle). */
+.auth-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: rgba(234, 241, 251, 0.6);
+}
+
+/* Primary gradient button (was primaryBtn). */
 .auth-primary {
+  width: 100%;
+  height: 48px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #4c86e0, #2b5fae);
+  color: #fff;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 10px 24px -10px rgba(59, 118, 214, 0.9);
   transition:
     filter 0.15s,
     transform 0.1s;
@@ -28,7 +55,22 @@
   transform: translateY(1px);
 }
 
+/* "Continue with Google" button base. */
 .auth-google {
+  width: 100%;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.96);
+  color: #1f2a44;
+  font-family: inherit;
+  font-size: 14.5px;
+  font-weight: 600;
+  cursor: pointer;
   transition: background 0.15s;
 }
 .auth-google:hover {

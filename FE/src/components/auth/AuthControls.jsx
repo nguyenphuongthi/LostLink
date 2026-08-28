@@ -1,16 +1,15 @@
-import { a, field, labelStyle, primaryBtn } from '../../theme/authTokens'
-
 // Small presentational primitives shared by every auth screen. Grouped in
 // one file because each is only a handful of lines and they always travel
-// together across the login / register / verify / reset forms.
+// together across the login / register / verify / reset forms. Base styling
+// for the field / button lives in src/theme/auth.css.
 
 // Labeled text field. Any <input> prop (type, value, onChange, placeholder…)
 // passes straight through.
 export function Field({ label, ...props }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
-      <label style={labelStyle}>{label}</label>
-      <input className="auth-input" style={field} {...props} />
+    <div className="flex flex-col gap-[7px]">
+      <label className="auth-label">{label}</label>
+      <input className="auth-input" {...props} />
     </div>
   )
 }
@@ -18,19 +17,19 @@ export function Field({ label, ...props }) {
 // Password-strength bar shown under the register password field.
 export function StrengthMeter({ width, color, label }) {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 3 }}>
-      <div style={{ flex: 1, height: 4, borderRadius: 4, background: 'rgba(255,255,255,.12)', overflow: 'hidden' }}>
-        <div style={{ height: '100%', borderRadius: 4, transition: 'width .3s, background .3s', width, background: color }} />
+    <div className="mt-[3px] flex items-center gap-2.5">
+      <div className="h-1 flex-1 overflow-hidden rounded bg-white/[0.12]">
+        <div className="h-full rounded transition-[width,background] duration-300" style={{ width, background: color }} />
       </div>
-      <span style={{ whiteSpace: 'nowrap', fontSize: 11.5, fontWeight: 600, color: a.dim2 }}>{label}</span>
+      <span className="whitespace-nowrap text-[11.5px] font-semibold text-au-dim2">{label}</span>
     </div>
   )
 }
 
 // Primary gradient action button.
-export function PrimaryButton({ children, style, ...props }) {
+export function PrimaryButton({ children, className = '', ...props }) {
   return (
-    <button className="auth-primary" style={{ ...primaryBtn, ...style }} {...props}>
+    <button className={`auth-primary ${className}`} {...props}>
       {children}
     </button>
   )
@@ -39,27 +38,8 @@ export function PrimaryButton({ children, style, ...props }) {
 // "Continue with Google" button (label passed as children).
 export function GoogleButton({ children, ...props }) {
   return (
-    <button
-      className="auth-google"
-      style={{
-        height: 48,
-        width: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: 10,
-        border: '1px solid rgba(255,255,255,.2)',
-        borderRadius: 10,
-        background: 'rgba(255,255,255,.96)',
-        color: '#1F2A44',
-        fontFamily: 'inherit',
-        fontSize: 14.5,
-        fontWeight: 600,
-        cursor: 'pointer',
-      }}
-      {...props}
-    >
-      <svg width="18" height="18" viewBox="0 0 48 48" style={{ flex: 'none' }} aria-hidden="true">
+    <button className="auth-google" {...props}>
+      <svg width="18" height="18" viewBox="0 0 48 48" className="flex-none" aria-hidden="true">
         <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
         <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z" />
         <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z" />
@@ -71,12 +51,12 @@ export function GoogleButton({ children, ...props }) {
 }
 
 // "HOẶC" rule between the primary action and the Google button.
-export function Divider({ style }) {
+export function Divider({ className = '' }) {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 12, ...style }}>
-      <div style={{ flex: 1, height: 1, background: a.hair }} />
-      <span style={{ fontSize: 11.5, letterSpacing: '.1em', color: a.faint }}>HOẶC</span>
-      <div style={{ flex: 1, height: 1, background: a.hair }} />
+    <div className={`flex items-center gap-3 ${className}`}>
+      <div className="h-px flex-1 bg-white/[0.14]" />
+      <span className="text-[11.5px] tracking-[.1em] text-au-faint">HOẶC</span>
+      <div className="h-px flex-1 bg-white/[0.14]" />
     </div>
   )
 }

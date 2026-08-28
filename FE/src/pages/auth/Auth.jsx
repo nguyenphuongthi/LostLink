@@ -9,12 +9,12 @@ import BrandMark from '../../components/auth/BrandMark'
 import AuthArt from '../../components/auth/AuthArt'
 import ScreenTabs from '../../components/auth/ScreenTabs'
 
-import LoginScreen from './LoginScreen'
-import RegisterScreen from './RegisterScreen'
-import VerifyScreen from './VerifyScreen'
-import ForgotScreen from './ForgotScreen'
-import ResetScreen from './ResetScreen'
-import DoneScreen from './DoneScreen'
+import Login from './Login'
+import Register from './Register'
+import Verify from './Verify'
+import Forgot from './Forgot'
+import Reset from './Reset'
+import Done from './Done'
 
 const RESEND_SECONDS = 45
 const EMPTY_CODE = ['', '', '', '', '', '']
@@ -38,7 +38,7 @@ function scorePassword(p) {
 // The whole authentication flow — a single full-bleed dark surface that
 // walks through login → register → verify → forgot → reset → done, holding
 // the email / password / code state each step shares.
-export default function AuthPage() {
+export default function Auth() {
   const navigate = useNavigate()
   const { doLogin } = useApp()
 
@@ -121,25 +121,18 @@ export default function AuthPage() {
   const showTabs = screen === 'login' || screen === 'register'
 
   const screens = {
-    login: <LoginScreen email={email} onEmail={onEmail} onSubmit={enterApp} onGoogle={enterApp} goForgot={() => go('forgot')} goRegister={() => go('register')} />,
-    register: <RegisterScreen email={email} onEmail={onEmail} password={password} onPassword={onPassword} strength={strength} notify={notify} toggleNotify={toggleNotify} onSubmit={submitRegister} onGoogle={enterApp} />,
-    verify: <VerifyScreen emailShown={emailShown} slots={slots} onSubmit={() => go('done')} resendText={resendText} canResend={seconds === 0} resend={() => seconds === 0 && startTimer()} goRegister={() => go('register')} />,
-    forgot: <ForgotScreen email={email} onEmail={onEmail} emailShown={emailShown} onSubmit={() => setForgotSent(true)} forgotSent={forgotSent} goLogin={() => go('login')} />,
-    reset: <ResetScreen emailShown={emailShown} password={password} onPassword={onPassword} onSubmit={() => go('login')} />,
-    done: <DoneScreen emailShown={emailShown} notifyNote={notifyNote} onEnter={enterApp} />,
+    login: <Login email={email} onEmail={onEmail} onSubmit={enterApp} onGoogle={enterApp} goForgot={() => go('forgot')} goRegister={() => go('register')} />,
+    register: <Register email={email} onEmail={onEmail} password={password} onPassword={onPassword} strength={strength} notify={notify} toggleNotify={toggleNotify} onSubmit={submitRegister} onGoogle={enterApp} />,
+    verify: <Verify emailShown={emailShown} slots={slots} onSubmit={() => go('done')} resendText={resendText} canResend={seconds === 0} resend={() => seconds === 0 && startTimer()} goRegister={() => go('register')} />,
+    forgot: <Forgot email={email} onEmail={onEmail} emailShown={emailShown} onSubmit={() => setForgotSent(true)} forgotSent={forgotSent} goLogin={() => go('login')} />,
+    reset: <Reset emailShown={emailShown} password={password} onPassword={onPassword} onSubmit={() => go('login')} />,
+    done: <Done emailShown={emailShown} notifyNote={notifyNote} onEnter={enterApp} />,
   }
 
   return (
     <div
-      style={{
-        position: 'relative',
-        minHeight: '100vh',
-        overflow: 'hidden',
-        fontFamily: "'Be Vietnam Pro', Helvetica, sans-serif",
-        color: a.ink,
-        backgroundColor: a.bgTop,
-        backgroundImage: `linear-gradient(160deg, ${a.bgDeep} 0%, ${a.bgTop} 100%)`,
-      }}
+      className="relative min-h-screen overflow-hidden text-au-ink [font-family:'Be_Vietnam_Pro',Helvetica,sans-serif]"
+      style={{ backgroundColor: a.bgTop, backgroundImage: `linear-gradient(160deg, ${a.bgDeep} 0%, ${a.bgTop} 100%)` }}
     >
       <Starfield />
 
@@ -152,42 +145,25 @@ export default function AuthPage() {
 
       {/* Brand bar — shares the content's centered max-width so the logo
           lines up with the illustration column instead of floating far left. */}
-      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 3 }}>
-        <div style={{ maxWidth: 920, margin: '0 auto', padding: '30px clamp(20px, 4vw, 40px) 0' }}>
+      <div className="absolute inset-x-0 top-0 z-[3]">
+        <div className="mx-auto max-w-[920px] px-[clamp(20px,4vw,40px)] pt-[30px]">
           <BrandMark />
         </div>
       </div>
 
-      <div
-        style={{
-          position: 'relative',
-          zIndex: 2,
-          minHeight: '100vh',
-          maxWidth: 920,
-          margin: '0 auto',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: 'clamp(24px, 3vw, 56px)',
-          padding: '40px clamp(20px, 4vw, 40px) 48px',
-        }}
-      >
+      <div className="relative z-[2] mx-auto flex min-h-screen max-w-[920px] items-center justify-between gap-[clamp(24px,3vw,56px)] px-[clamp(20px,4vw,40px)] pb-12 pt-10">
         <AuthArt />
 
         <div
+          className="w-[min(404px,100%)] flex-[0_1_404px] rounded-[22px] px-[30px] pb-[30px] pt-7 backdrop-blur-[20px]"
           style={{
-            width: 'min(404px, 100%)',
-            flex: '0 1 404px',
-            padding: '28px 30px 30px',
-            borderRadius: 22,
             background: a.panel,
             border: `1px solid ${a.panelLine}`,
             boxShadow: '0 30px 80px -24px rgba(4,12,24,.7), inset 0 1px 0 rgba(255,255,255,.14)',
-            backdropFilter: 'blur(20px)',
           }}
         >
           {showTabs && <ScreenTabs screen={screen} go={go} />}
-          <div key={screen} style={{ animation: 'll-fade .35s ease both' }}>
+          <div key={screen} className="[animation:ll-fade_.35s_ease_both]">
             {screens[screen]}
           </div>
         </div>

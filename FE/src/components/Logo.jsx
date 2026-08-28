@@ -12,7 +12,7 @@ export default function Logo({ size = 42 }) {
       alt="LostLink"
       width={size}
       height={size}
-      style={{ objectFit: 'contain', display: 'block' }}
+      className="block object-contain"
       onError={() => {
         if (src !== '/logo.svg') setSrc('/logo.svg')
       }}

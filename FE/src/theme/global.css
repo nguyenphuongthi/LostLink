@@ -1,42 +1,93 @@
 /* ─────────────────────────────────────────────────────────────
-   Global reset + the interactive (hover) layer.
+   Tailwind entry + design tokens.
 
-   The design uses inline styles everywhere (ported faithfully as
-   React style objects). Inline styles can't express :hover, so the
-   hover behaviours from the original `style-hover` attributes live
-   here as small utility classes. Elements opt in via className while
-   keeping their inline base style.
+   The palette is ported 1:1 from the old tokens.js into Tailwind's
+   @theme so utilities like `bg-blue`, `text-ink`, `border-line` map
+   to the exact same colors. Repeated surface/pill helpers that used
+   to be style objects (card, badge, chip, eyebrow…) live in the
+   component layer below. The hover behaviours the design relies on
+   stay as small `.ll-*` utility classes.
    ───────────────────────────────────────────────────────────── */
 
+@import 'tailwindcss';
+
+@theme {
+  --color-bg: #f4f6fa;
+  --color-bg-outer: #e7ecf3;
+
+  --color-ink: #16233a;
+  --color-ink2: #3c4a61;
+  --color-muted: #5a6980;
+  --color-muted2: #8494a8;
+  --color-muted3: #9aa7b8;
+
+  --color-line: #dfe5ee;
+  --color-line2: #edf1f7;
+  --color-soft: #f8fafc;
+  --color-chip: #edf1f7;
+
+  --color-blue: #2e6db4;
+  --color-blue-dark: #1b3358;
+  --color-blue-hover: #1e4e86;
+  --color-blue-ink: #1b4a7e;
+  --color-blue-soft: #e7f0fb;
+  --color-blue-line: #c6dcf3;
+  --color-blue-text: #3b5b80;
+
+  --color-red: #b5455c;
+  --color-red-soft: #fceaec;
+  --color-red-line: #f0cbd2;
+  --color-red-ink: #9a3348;
+
+  --color-amber: #a67b12;
+  --color-amber-soft: #fcf4e6;
+  --color-amber-line: #f2e4c6;
+  --color-amber-ink: #7a5a14;
+  --color-star: #e0a33c;
+
+  --color-green: #2f7d5b;
+  --color-green-soft: #e6f2ec;
+
+  /* Auth (dark "galaxy") palette — used only by the /auth flow. */
+  --color-au-ink: #eaf1fb;
+  --color-au-accent: #6ea8ff;
+  --color-au-link: #8fbbff;
+  --color-au-link-hover: #c8deff;
+  --color-au-star: #a9ccff;
+  --color-au-dim: rgba(234, 241, 251, 0.62);
+  --color-au-dim2: rgba(234, 241, 251, 0.6);
+  --color-au-dim3: rgba(234, 241, 251, 0.55);
+  --color-au-dim4: rgba(234, 241, 251, 0.5);
+  --color-au-faint: rgba(234, 241, 251, 0.45);
+
+  --font-sans: 'Be Vietnam Pro', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+/* ── Base ──────────────────────────────────────────────────── */
 * {
   box-sizing: border-box;
 }
-
 html,
 body {
   margin: 0;
 }
-
 body {
-  background: #e7ecf3;
-  font-family: 'Be Vietnam Pro', system-ui, -apple-system, Segoe UI, sans-serif;
+  background: var(--color-bg-outer);
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
-  color: #16233a;
+  color: var(--color-ink);
 }
-
 #root {
   min-height: 100vh;
 }
-
 a {
-  color: #2e6db4;
+  color: var(--color-blue);
   text-decoration: none;
 }
 a:hover {
-  color: #1e4e86;
+  color: var(--color-blue-hover);
   text-decoration: underline;
 }
-
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
@@ -47,7 +98,6 @@ a:hover {
   border: 3px solid transparent;
   background-clip: content-box;
 }
-
 input,
 textarea,
 button {
@@ -57,7 +107,89 @@ input[type='date'] {
   color-scheme: light;
 }
 
-/* Smooth transitions for every interactive utility below. */
+/* ── Reusable surfaces / pills (were style objects in tokens.js) ─ */
+@layer components {
+  .card {
+    background: #fff;
+    border: 1px solid var(--color-line);
+    border-radius: 12px;
+  }
+
+  /* Lost / found badge. Modifier picks the color. */
+  .badge {
+    height: 24px;
+    padding: 0 11px;
+    border-radius: 99px;
+    font-size: 10.5px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .badge-lost {
+    background: var(--color-red-soft);
+    color: var(--color-red);
+  }
+  .badge-found {
+    background: var(--color-blue-soft);
+    color: var(--color-blue);
+  }
+
+  /* Lifecycle status pill — tone via modifier. */
+  .status {
+    height: 24px;
+    padding: 0 11px;
+    border-radius: 99px;
+    font-size: 10.5px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+  }
+  .status-ok {
+    background: var(--color-blue-soft);
+    color: var(--color-blue);
+  }
+  .status-warn {
+    background: var(--color-amber-soft);
+    color: var(--color-amber);
+  }
+  .status-idle {
+    background: var(--color-chip);
+    color: var(--color-muted);
+  }
+
+  /* Filter / selection chip. */
+  .chip {
+    height: 32px;
+    padding: 0 14px;
+    border-radius: 99px;
+    font-size: 11.5px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    background: var(--color-chip);
+    color: var(--color-ink2);
+  }
+  .chip-on {
+    background: var(--color-blue);
+    color: #fff;
+  }
+
+  /* Small uppercase section label. */
+  .eyebrow {
+    font-size: 10.5px;
+    font-weight: 600;
+    color: var(--color-muted2);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+}
+
+/* ── Interactive (hover) layer — inline styles can't express :hover ─ */
 .ll-nav,
 .ll-primary,
 .ll-dark,

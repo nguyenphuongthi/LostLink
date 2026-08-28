@@ -1,28 +1,27 @@
 // The LOSTLINK wordmark + magnifier logo. Positioning is handled by the
-// centered top bar in AuthPage so the logo lines up with the content block.
+// centered top bar in Auth so the logo lines up with the content block.
 export default function BrandMark() {
   return (
-    <div
-      style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        gap: 12,
-      }}
-    >
-      <svg width="34" height="34" viewBox="0 0 48 48" fill="none">
+    <div className="inline-flex items-center gap-3">
+      <svg width="34" height="34" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <linearGradient id="llHeadG" x1="6" y1="4" x2="42" y2="44" gradientUnits="userSpaceOnUse">
-            <stop stopColor="#8FBBFF" />
-            <stop offset="1" stopColor="#3B76D6" />
+          <linearGradient id="llHeadG" x1="20" y1="15" x2="38" y2="40" gradientUnits="userSpaceOnUse">
+            <stop stopColor="#3E86D6" />
+            <stop offset="1" stopColor="#2E6DB4" />
           </linearGradient>
         </defs>
-        <circle cx="21" cy="21" r="16" stroke="url(#llHeadG)" strokeWidth="5" strokeLinecap="round" strokeDasharray="70 100.5" transform="rotate(-52 21 21)" />
-        <circle cx="21" cy="21" r="16" stroke="rgba(255,255,255,.32)" strokeWidth="5" strokeLinecap="round" strokeDasharray="15 100.5" strokeDashoffset="-79" transform="rotate(-52 21 21)" />
-        <path d="M32.6 32.6 L42 42" stroke="url(#llHeadG)" strokeWidth="5.5" strokeLinecap="round" />
-        <path d="M21 28.4c0 0 5.1-5.4 5.1-8.9a5.1 5.1 0 1 0-10.2 0c0 3.5 5.1 8.9 5.1 8.9Z" fill="#fff" />
-        <circle cx="21" cy="19.2" r="1.9" fill="#122740" />
+        {/* magnifier handle */}
+        <path d="M43 42 L55 54" stroke="#1B3358" strokeWidth="7" strokeLinecap="round" />
+        {/* lens ring: dark (major arc) + grey (minor arc) */}
+        <path d="M45.3 35.6 A18 18 0 1 1 34.6 10.9" stroke="#1B3358" strokeWidth="5" strokeLinecap="round" />
+        <path d="M34.6 10.9 A18 18 0 0 1 45.3 35.6" stroke="#9AA7BA" strokeWidth="5" strokeLinecap="round" />
+        {/* cupping hand */}
+        <path d="M16 38 C22 43 40 43 47 38.5 C46 47 38 50 30 50 C22 50 17 45 16 38 Z" fill="#1B3358" />
+        {/* location pin */}
+        <path d="M29 14.5 C23.8 14.5 19.6 18.7 19.6 23.9 C19.6 31 29 40.2 29 40.2 C29 40.2 38.4 31 38.4 23.9 C38.4 18.7 34.2 14.5 29 14.5 Z" fill="url(#llHeadG)" />
+        <circle cx="29" cy="23.7" r="4.1" fill="#fff" />
       </svg>
-      <span style={{ fontSize: 17, fontWeight: 700, letterSpacing: '.14em' }}>LOSTLINK</span>
+      <span className="text-[17px] font-bold tracking-[.14em]">LOSTLINK</span>
     </div>
   )
 }

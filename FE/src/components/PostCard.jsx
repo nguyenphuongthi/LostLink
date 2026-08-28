@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
-import { c, IMG, PHOTO, badgeStyle, BADGE_LABEL } from '../theme/tokens'
+import { IMG, PHOTO, BADGE_LABEL } from '../theme/tokens'
 
 // A feed row on Home. Whole card opens the post; the like pill and the
 // author name are independent click targets.
@@ -14,87 +14,62 @@ export default function PostCard({ post }) {
 
   return (
     <div
-      className="ll-card"
+      className="ll-card flex cursor-pointer gap-5 rounded-xl border border-line bg-white p-[18px]"
       onClick={() => navigate('/post/' + post.id)}
-      style={{
-        background: '#fff',
-        border: `1px solid ${c.line}`,
-        borderRadius: 12,
-        padding: 18,
-        display: 'flex',
-        gap: 20,
-        cursor: 'pointer',
-      }}
     >
       <div style={PHOTO(IMG(post.seed, 400), 176, 212, 10)} />
-      <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
+      <div className="flex min-w-0 flex-1 flex-col">
+        <div className="mb-2 flex items-center gap-2.5">
           <div
-            className="ll-name"
+            className="ll-name cursor-pointer whitespace-nowrap text-[12.5px] font-semibold text-ink"
             onClick={(e) => {
               e.stopPropagation()
               navigate('/profile')
             }}
-            style={{ fontSize: 12.5, fontWeight: 600, color: c.ink, cursor: 'pointer', whiteSpace: 'nowrap' }}
           >
             {post.handle.replace('@', '')}
           </div>
           <Dot />
-          <div style={{ fontSize: 11, color: c.muted2, whiteSpace: 'nowrap' }}>{post.category}</div>
+          <div className="whitespace-nowrap text-[11px] text-muted2">{post.category}</div>
           <Dot />
-          <div style={{ fontSize: 11, color: c.muted2, whiteSpace: 'nowrap' }}>{post.timeAgo}</div>
-          <div style={{ marginLeft: 'auto', display: 'flex', flexShrink: 0 }}>
-            <div style={badgeStyle(post.type)}>{BADGE_LABEL[post.type]}</div>
+          <div className="whitespace-nowrap text-[11px] text-muted2">{post.timeAgo}</div>
+          <div className="ml-auto flex flex-shrink-0">
+            <div className={`badge badge-${post.type}`}>{BADGE_LABEL[post.type]}</div>
           </div>
         </div>
 
-        <div style={{ fontSize: 19, fontWeight: 700, letterSpacing: '-0.02em', lineHeight: 1.28, marginBottom: 8 }}>
+        <div className="mb-2 text-[19px] font-bold leading-[1.28] tracking-[-0.02em]">
           {post.title}
         </div>
-        <div style={{ fontSize: 13.5, lineHeight: 1.55, color: c.muted, marginBottom: 14 }}>{post.desc}</div>
+        <div className="mb-3.5 text-[13.5px] leading-[1.55] text-muted">{post.desc}</div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6, height: 30, padding: '0 12px', borderRadius: 99, background: c.chip, fontSize: 11.5, color: c.ink2 }}>
-            <div style={{ width: 8, height: 8, borderRadius: 99, border: `2px solid ${c.muted2}` }} />
+        <div className="mb-4 flex items-center gap-2">
+          <div className="flex h-[30px] items-center gap-1.5 rounded-full bg-chip px-3 text-[11.5px] text-ink2">
+            <div className="h-2 w-2 rounded-full border-2 border-muted2" />
             {post.area}
           </div>
-          <div style={{ height: 30, padding: '0 12px', borderRadius: 99, background: c.chip, fontSize: 11.5, color: c.ink2, display: 'flex', alignItems: 'center' }}>
+          <div className="flex h-[30px] items-center rounded-full bg-chip px-3 text-[11.5px] text-ink2">
             {post.timeWindow}
           </div>
         </div>
 
-        <div style={{ marginTop: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, borderTop: `1px solid ${c.line2}`, paddingTop: 12 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }}>
+        <div className="mt-auto flex items-center justify-between gap-3 border-t border-line2 pt-3">
+          <div className="flex flex-shrink-0 items-center gap-3">
             <div
               onClick={(e) => {
                 e.stopPropagation()
                 toggleLike(key)
               }}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 6,
-                height: 32,
-                padding: '0 13px',
-                borderRadius: 99,
-                border: `1px solid ${on ? '#F3C4CE' : c.line}`,
-                background: on ? '#FDECEF' : '#fff',
-                color: on ? '#D93A5B' : c.muted,
-                fontSize: 11.5,
-                fontWeight: 600,
-                cursor: 'pointer',
-              }}
+              className={`flex h-8 cursor-pointer items-center gap-1.5 rounded-full border px-[13px] text-[11.5px] font-semibold ${
+                on ? 'border-[#F3C4CE] bg-[#FDECEF] text-[#D93A5B]' : 'border-line bg-white text-muted'
+              }`}
             >
-              <span style={{ fontSize: 12.5, lineHeight: 1 }}>♥</span>
+              <span className="text-[12.5px] leading-none">♥</span>
               {likeLabel}
             </div>
-            <div style={{ fontSize: 11.5, color: c.muted2, whiteSpace: 'nowrap' }}>
+            <div className="whitespace-nowrap text-[11.5px] text-muted2">
               {post.commentLabel} · {post.viewLabel}
             </div>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11.5, fontWeight: 600, color: c.blue, whiteSpace: 'nowrap' }}>
-            Xem chi tiết
-            <div style={{ width: 5, height: 5, borderRight: `1.5px solid ${c.blue}`, borderTop: `1.5px solid ${c.blue}`, transform: 'rotate(45deg)' }} />
           </div>
         </div>
       </div>
@@ -102,4 +77,4 @@ export default function PostCard({ post }) {
   )
 }
 
-const Dot = () => <div style={{ width: 3, height: 3, borderRadius: 99, background: '#C3CCD8', flexShrink: 0 }} />
+const Dot = () => <div className="h-[3px] w-[3px] flex-shrink-0 rounded-full bg-[#C3CCD8]" />
