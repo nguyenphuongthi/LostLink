@@ -24,10 +24,10 @@ export default function Report() {
   const [sent, setSent] = useState(false)
 
   return (
-    <div className="mx-auto max-w-[1060px] px-10 pt-7">
-      <div className="grid grid-cols-[1fr_320px] items-start gap-5">
-        <div className="card p-7">
-          <div className="mb-1.5 text-[22.5px] font-bold tracking-[-0.025em]">Kể cho mình chuyện gì đang xảy ra</div>
+    <div className="mx-auto max-w-[1060px] px-4 pt-5 sm:px-6 lg:px-10 lg:pt-7">
+      <div className="grid grid-cols-1 items-start gap-5 lg:grid-cols-[1fr_320px]">
+        <div className="card p-5 lg:p-7">
+          <div className="mb-1.5 text-[19px] font-bold tracking-[-0.025em] lg:text-[22.5px]">Kể cho mình chuyện gì đang xảy ra</div>
           <div className="mb-6 text-[13px] leading-[1.6] text-muted">
             Bạn không cần chắc chắn tuyệt đối. Cứ nói những gì bạn thấy, người của LostLink sẽ xem giúp bạn.
           </div>
@@ -87,17 +87,17 @@ export default function Report() {
             <div className="text-[12px] text-ink2">Chặn @hoangnam.q1 và ẩn tin của họ khỏi trang chủ của bạn</div>
           </div>
 
-          <div className="flex gap-3">
+          <div className="flex flex-col gap-3 sm:flex-row">
             <div
               onClick={() => setSent(true)}
-              className={`flex h-12 cursor-pointer items-center rounded-[10px] px-[26px] text-[13.5px] font-semibold ${
+              className={`flex h-12 cursor-pointer items-center justify-center rounded-[10px] px-[26px] text-[13.5px] font-semibold ${
                 sent ? 'border border-blue-line bg-blue-soft text-blue' : 'bg-red text-white'
               }`}
             >
               {sent ? 'Mình đã nhận được, cảm ơn bạn' : 'Gửi cho LostLink'}
             </div>
             <div
-              className="ll-subtle flex h-12 cursor-pointer items-center rounded-[10px] border border-line px-[22px] text-[13.5px] font-semibold text-ink2"
+              className="ll-subtle flex h-12 cursor-pointer items-center justify-center rounded-[10px] border border-line px-[22px] text-[13.5px] font-semibold text-ink2"
               onClick={() => navigate('/chat')}
             >
               Quay lại trò chuyện

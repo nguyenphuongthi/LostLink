@@ -27,15 +27,15 @@ export default function Verify() {
   const submitLabel = verify === 'ok' ? 'Mở kênh trò chuyện' : verify === 'wrong' ? 'Xác minh không thành công' : 'Gửi câu trả lời'
 
   return (
-    <div className="mx-auto max-w-[720px] px-10 pt-10">
-      <div className="card rounded-[14px] p-[34px] shadow-[0_8px_30px_rgba(22,35,58,0.07)]">
-        <div className="mb-5 flex items-center gap-3">
+    <div className="mx-auto max-w-[720px] px-4 pt-6 sm:px-6 lg:px-10 lg:pt-10">
+      <div className="card rounded-[14px] p-6 shadow-[0_8px_30px_rgba(22,35,58,0.07)] lg:p-[34px]">
+        <div className="mb-5 flex flex-wrap items-center gap-3">
           <div className="flex h-[26px] items-center rounded-full bg-amber-soft px-3 text-[10.5px] font-bold text-amber">
             CÂU HỎI CỦA NGƯỜI NHẶT
           </div>
           <div className="text-[11.5px] text-muted2">Chỉ trả lời được một lần</div>
         </div>
-        <div className="mb-2 text-[21.5px] font-bold tracking-[-0.025em]">
+        <div className="mb-2 text-[19px] font-bold tracking-[-0.025em] lg:text-[21.5px]">
           Trả lời một câu để mình chắc chiếc ví này là của bạn
         </div>
         <div className="mb-7 text-[13px] leading-[1.6] text-muted">

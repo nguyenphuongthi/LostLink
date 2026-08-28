@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
-import { IMG, PHOTO, BADGE_LABEL } from '../theme/tokens'
+import { IMG, BADGE_LABEL } from '../theme/tokens'
 
 // A feed row on Home. Whole card opens the post; the like pill and the
 // author name are independent click targets.
@@ -14,12 +14,15 @@ export default function PostCard({ post }) {
 
   return (
     <div
-      className="ll-card flex cursor-pointer gap-5 rounded-xl border border-line bg-white p-[18px]"
+      className="ll-card flex cursor-pointer gap-3.5 rounded-xl border border-line bg-white p-3.5 sm:gap-5 sm:p-[18px]"
       onClick={() => navigate('/post/' + post.id)}
     >
-      <div style={PHOTO(IMG(post.seed, 400), 176, 212, 10)} />
+      <div
+        className="h-[112px] w-[100px] flex-shrink-0 rounded-[10px] bg-cover bg-center bg-no-repeat sm:h-[212px] sm:w-[176px]"
+        style={{ backgroundColor: '#EDF1F7', backgroundImage: `url(${IMG(post.seed, 400)})` }}
+      />
       <div className="flex min-w-0 flex-1 flex-col">
-        <div className="mb-2 flex items-center gap-2.5">
+        <div className="mb-2 flex flex-wrap items-center gap-x-2.5 gap-y-1">
           <div
             className="ll-name cursor-pointer whitespace-nowrap text-[12.5px] font-semibold text-ink"
             onClick={(e) => {
@@ -38,12 +41,12 @@ export default function PostCard({ post }) {
           </div>
         </div>
 
-        <div className="mb-2 text-[19px] font-bold leading-[1.28] tracking-[-0.02em]">
+        <div className="mb-2 text-[16px] font-bold leading-[1.28] tracking-[-0.02em] sm:text-[19px]">
           {post.title}
         </div>
-        <div className="mb-3.5 text-[13.5px] leading-[1.55] text-muted">{post.desc}</div>
+        <div className="mb-3.5 text-[13px] leading-[1.55] text-muted sm:text-[13.5px]">{post.desc}</div>
 
-        <div className="mb-4 flex items-center gap-2">
+        <div className="mb-4 flex flex-wrap items-center gap-2">
           <div className="flex h-[30px] items-center gap-1.5 rounded-full bg-chip px-3 text-[11.5px] text-ink2">
             <div className="h-2 w-2 rounded-full border-2 border-muted2" />
             {post.area}
@@ -54,20 +57,20 @@ export default function PostCard({ post }) {
         </div>
 
         <div className="mt-auto flex items-center justify-between gap-3 border-t border-line2 pt-3">
-          <div className="flex flex-shrink-0 items-center gap-3">
+          <div className="flex min-w-0 items-center gap-3">
             <div
               onClick={(e) => {
                 e.stopPropagation()
                 toggleLike(key)
               }}
-              className={`flex h-8 cursor-pointer items-center gap-1.5 rounded-full border px-[13px] text-[11.5px] font-semibold ${
+              className={`flex h-8 flex-shrink-0 cursor-pointer items-center gap-1.5 rounded-full border px-[13px] text-[11.5px] font-semibold ${
                 on ? 'border-[#F3C4CE] bg-[#FDECEF] text-[#D93A5B]' : 'border-line bg-white text-muted'
               }`}
             >
               <span className="text-[12.5px] leading-none">♥</span>
               {likeLabel}
             </div>
-            <div className="whitespace-nowrap text-[11.5px] text-muted2">
+            <div className="truncate text-[11.5px] text-muted2">
               {post.commentLabel} · {post.viewLabel}
             </div>
           </div>

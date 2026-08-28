@@ -37,7 +37,7 @@ export default function Detail() {
   const report = () => (isGuest ? openLogin() : navigate('/report'))
 
   return (
-    <div className="px-10 pt-6">
+    <div className="px-4 pt-5 sm:px-6 lg:px-10 lg:pt-6">
       <div
         className="mb-[18px] flex w-fit cursor-pointer items-center gap-2.5 text-[12px] text-muted"
         onClick={() => navigate('/')}
@@ -46,11 +46,11 @@ export default function Detail() {
         Quay lại danh sách
       </div>
 
-      <div className="grid grid-cols-[1fr_372px] items-start gap-6">
+      <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-[1fr_372px]">
         {/* ── Left column ─────────────────────────── */}
         <div className="flex flex-col gap-4">
           <div className="card overflow-hidden">
-            <div className="relative h-[400px] bg-chip">
+            <div className="relative h-[240px] bg-chip sm:h-[320px] lg:h-[400px]">
               <div
                 className="h-full w-full bg-cover bg-center bg-no-repeat"
                 style={{ backgroundColor: '#EDF1F7', backgroundImage: `url(${IMG(post.seed, 900)})` }}
@@ -61,7 +61,7 @@ export default function Detail() {
                 1 / 4
               </div>
             </div>
-            <div className="flex gap-2.5 px-[18px] py-3.5">
+            <div className="flex gap-2.5 overflow-x-auto px-[18px] py-3.5">
               {gallery.map((url, i) => (
                 <div
                   key={i}
@@ -72,8 +72,8 @@ export default function Detail() {
             </div>
           </div>
 
-          <div className="card p-[26px]">
-            <div className="mb-3 flex items-center gap-2.5">
+          <div className="card p-5 lg:p-[26px]">
+            <div className="mb-3 flex flex-wrap items-center gap-2.5">
               <div
                 className={`flex h-[26px] items-center rounded-full px-3 text-[11px] font-bold tracking-[.02em] ${
                   lost ? 'bg-red-soft text-red' : 'bg-blue-soft text-blue'
@@ -84,7 +84,7 @@ export default function Detail() {
               <div className="flex h-[26px] items-center rounded-full bg-chip px-3 text-[11px] text-ink2">{post.category}</div>
               <div className="text-[11.5px] text-muted2">Đăng {post.timeAgo}</div>
             </div>
-            <div className="mb-2 text-[25px] font-bold tracking-[-0.028em]">{post.title}</div>
+            <div className="mb-2 text-[20px] font-bold tracking-[-0.028em] lg:text-[25px]">{post.title}</div>
             <div className="mb-6 text-[14px] leading-[1.65] text-ink2">{post.desc}</div>
 
             <div className="mb-[22px] grid grid-cols-2 gap-px overflow-hidden rounded-[10px] border border-line bg-line">
@@ -92,7 +92,7 @@ export default function Detail() {
               <Fact label="Khu vực" value={post.area} />
             </div>
 
-            <div className="flex items-center gap-3.5 border-t border-line2 pt-[18px]">
+            <div className="flex flex-wrap items-center gap-3.5 border-t border-line2 pt-[18px]">
               <div
                 onClick={() => toggleLike('detail')}
                 className={`flex h-8 cursor-pointer items-center gap-1.5 rounded-full border px-[13px] text-[11.5px] font-semibold ${
@@ -103,18 +103,18 @@ export default function Detail() {
                 {likeLabel}
               </div>
               <div className="text-[11.5px] text-muted2">
-                {on ? 'Bạn và 37 người khác quan tâm tin này' : 'Thích để nhận thông báo khi tin có cập nhật'}
+                {on ? 'Bạn và 37 người khác quan tâm tin này' : 'Thích để đưa bài viết tiếp cận đến nhiều người dùng hơn'}
               </div>
               <div className="ml-auto text-[11.5px] text-muted2">3 bình luận · 248 lượt xem</div>
             </div>
           </div>
 
           {/* Comments */}
-          <div className="card p-[26px]">
+          <div className="card p-5 lg:p-[26px]">
             <div className="mb-[18px] text-[15px] font-bold">Bình luận · 3</div>
 
             {isGuest ? (
-              <div className="mb-5 flex items-center justify-between gap-4 rounded-[10px] border border-amber-line bg-amber-soft px-[18px] py-4">
+              <div className="mb-5 flex flex-col gap-3 rounded-[10px] border border-amber-line bg-amber-soft px-[18px] py-4 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
                 <div className="text-[12.5px] text-amber-ink">Bạn cần đăng nhập để bình luận hoặc nhận lại đồ.</div>
                 <div
                   className="ll-dark flex h-[38px] flex-shrink-0 cursor-pointer items-center rounded-lg bg-blue-dark px-[18px] text-[12px] font-semibold text-white"
@@ -164,7 +164,7 @@ export default function Detail() {
         </div>
 
         {/* ── Right rail ──────────────────────────── */}
-        <div className="sticky top-[98px] flex flex-col gap-4">
+        <div className="flex flex-col gap-4 lg:sticky lg:top-[90px]">
           <div className="card p-[22px]">
             <div className="mb-4 flex cursor-pointer items-center gap-3" onClick={() => navigate('/profile')}>
               <div className="flex h-[46px] w-[46px] items-center justify-center rounded-lg bg-blue-soft text-[13.5px] font-bold text-blue">

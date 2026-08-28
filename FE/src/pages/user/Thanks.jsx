@@ -21,14 +21,14 @@ export default function Thanks() {
   const toggleTag = (l) => setTags((s) => (s.includes(l) ? s.filter((x) => x !== l) : [...s, l]))
 
   return (
-    <div className="mx-auto max-w-[1060px] px-10 pt-7">
-      <div className="grid grid-cols-[1fr_320px] items-start gap-5">
-        <div className="card p-7">
+    <div className="mx-auto max-w-[1060px] px-4 pt-5 sm:px-6 lg:px-10 lg:pt-7">
+      <div className="grid grid-cols-1 items-start gap-5 lg:grid-cols-[1fr_320px]">
+        <div className="card p-5 lg:p-7">
           <div className="mb-3.5 flex items-center gap-2.5">
             <div className="flex h-[26px] items-center rounded-full bg-blue-soft px-3 text-[11px] font-bold text-blue">ĐÃ TRAO TRẢ</div>
             <div className="text-[11.5px] text-muted2">Cả hai đã xác nhận lúc 15:24 hôm nay</div>
           </div>
-          <div className="mb-1.5 text-[22.5px] font-bold tracking-[-0.025em]">Mừng quá, đồ đã về với bạn!</div>
+          <div className="mb-1.5 text-[19px] font-bold tracking-[-0.025em] lg:text-[22.5px]">Mừng quá, đồ đã về với bạn!</div>
           <div className="mb-6 text-[13px] leading-[1.6] text-muted">
             Người nhặt được đã dành thời gian giữ và hẹn gặp bạn. Một lời cảm ơn nhỏ sẽ giúp họ được tin tưởng hơn trong lần sau.
           </div>
@@ -78,17 +78,17 @@ export default function Thanks() {
             <div className="text-[12px] text-ink2">Cho lời cảm ơn này hiện ở trang của @hoangnam.q1</div>
           </div>
 
-          <div className="flex gap-3">
+          <div className="flex flex-col gap-3 sm:flex-row">
             <div
               onClick={() => setSent(true)}
-              className={`flex h-12 cursor-pointer items-center rounded-[10px] px-[26px] text-[13.5px] font-semibold ${
+              className={`flex h-12 cursor-pointer items-center justify-center rounded-[10px] px-[26px] text-[13.5px] font-semibold ${
                 sent ? 'border border-blue-line bg-blue-soft text-blue' : 'bg-blue text-white'
               }`}
             >
               {sent ? 'Đã gửi, cảm ơn bạn nhiều' : 'Gửi lời cảm ơn'}
             </div>
             <div
-              className="ll-subtle flex h-12 cursor-pointer items-center rounded-[10px] border border-line px-[22px] text-[13.5px] font-semibold text-ink2"
+              className="ll-subtle flex h-12 cursor-pointer items-center justify-center rounded-[10px] border border-line px-[22px] text-[13.5px] font-semibold text-ink2"
               onClick={() => navigate('/')}
             >
               Để sau

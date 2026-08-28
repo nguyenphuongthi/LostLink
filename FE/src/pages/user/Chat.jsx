@@ -42,10 +42,10 @@ export default function Chat() {
   const sendDisabled = request && requestSent
 
   return (
-    <div className="px-10 pt-6">
-      <div className="grid h-[760px] grid-cols-[300px_1fr_300px] gap-4">
+    <div className="px-4 pt-5 sm:px-6 lg:px-10 lg:pt-6">
+      <div className="grid grid-cols-1 gap-4 lg:h-[760px] lg:grid-cols-[300px_1fr_300px]">
         {/* ── Thread list ─────────────────────────── */}
-        <div className="card flex flex-col overflow-hidden">
+        <div className="card flex h-[260px] flex-col overflow-hidden lg:h-auto">
           <div className="px-[18px] pb-3 pt-[18px]">
             <div className="mb-3 text-[15px] font-bold">Tin nhắn</div>
             <div className="flex h-[38px] items-center rounded-lg bg-chip px-3.5 text-[12px] text-muted3">Tìm hội thoại…</div>
@@ -80,7 +80,7 @@ export default function Chat() {
         </div>
 
         {/* ── Conversation ────────────────────────── */}
-        <div className="card flex flex-col overflow-hidden">
+        <div className="card flex h-[72vh] flex-col overflow-hidden lg:h-auto">
           <div className="flex items-center gap-3 border-b border-line2 px-5 py-3.5">
             <div
               onClick={() => navigate('/profile')}
@@ -98,8 +98,8 @@ export default function Chat() {
             <div className="flex gap-2">
               {open && (
                 <>
-                  <div className={`ll-tab-soft ${headerBtn}`}>Gọi thoại</div>
-                  <div className={`ll-tab-soft ${headerBtn}`}>Gọi video</div>
+                  <div className={`ll-tab-soft hidden sm:flex ${headerBtn}`}>Gọi thoại</div>
+                  <div className={`ll-tab-soft hidden sm:flex ${headerBtn}`}>Gọi video</div>
                 </>
               )}
               <div className="flex h-[34px] w-[34px] cursor-pointer items-center justify-center gap-[2.5px] rounded-lg bg-chip">
@@ -178,13 +178,13 @@ export default function Chat() {
 
           <div className="border-t border-line2 px-[18px] pb-4 pt-3">
             {open && (
-              <div className="mb-2.5 flex gap-2">
+              <div className="mb-2.5 flex flex-wrap items-center gap-2">
                 {['Chụp ảnh', 'Gửi ảnh', 'Ghi âm', 'Chia sẻ vị trí'].map((x) => (
                   <div key={x} className={`ll-tab-soft ${toolChip}`}>{x}</div>
                 ))}
                 <div
                   onClick={() => navigate('/')}
-                  className="ml-auto flex h-8 cursor-pointer items-center rounded-full bg-red-soft px-[13px] text-[11px] font-medium text-red-ink"
+                  className="flex h-8 cursor-pointer items-center rounded-full bg-red-soft px-[13px] text-[11px] font-medium text-red-ink sm:ml-auto"
                 >
                   Không phải đồ của tôi
                 </div>

@@ -16,7 +16,7 @@ export default function Profile() {
   const onFollow = () => (isGuest ? openLogin() : toggleFollow())
 
   return (
-    <div className="mx-auto max-w-[1100px] px-10 pt-6">
+    <div className="mx-auto max-w-[1100px] px-4 pt-5 sm:px-6 lg:px-10 lg:pt-6">
       <div
         className="mb-[18px] flex w-fit cursor-pointer items-center gap-2.5 text-[12px] text-muted"
         onClick={() => navigate(-1)}
@@ -27,20 +27,20 @@ export default function Profile() {
 
       {/* ── Header ─────────────────────────────────── */}
       <div className="card mb-5 overflow-hidden rounded-[14px]">
-        <div className="flex items-end gap-5 px-7 pb-6 pt-6">
-          <div className="flex h-[108px] w-[108px] flex-shrink-0 items-center justify-center rounded-full border-[5px] border-white bg-blue-soft text-[28.5px] font-bold text-blue">
+        <div className="flex flex-col gap-4 px-5 pb-6 pt-6 sm:flex-row sm:items-end sm:gap-5 sm:px-7">
+          <div className="flex h-[88px] w-[88px] flex-shrink-0 items-center justify-center rounded-full border-[5px] border-white bg-blue-soft text-[24px] font-bold text-blue sm:h-[108px] sm:w-[108px] sm:text-[28.5px]">
             {profile.initials}
           </div>
           <div className="flex-1 pb-1.5">
-            <div className="mb-1 flex items-center gap-2.5">
-              <div className="text-[21.5px] font-bold tracking-[-0.02em]">{profile.handle}</div>
+            <div className="mb-1 flex flex-wrap items-center gap-2.5">
+              <div className="text-[19px] font-bold tracking-[-0.02em] lg:text-[21.5px]">{profile.handle}</div>
               <div className="flex h-6 items-center rounded-full bg-blue-soft px-2.5 text-[10.5px] font-semibold text-blue">
                 Đã xác thực
               </div>
             </div>
             <div className="text-[12.5px] text-muted">{profile.bio}</div>
           </div>
-          <div className="flex flex-col items-end gap-2 pb-1.5">
+          <div className="flex flex-col items-start gap-2 pb-1.5 sm:items-end">
             <div className="flex gap-2.5">
               <div
                 onClick={onFollow}
@@ -53,14 +53,14 @@ export default function Profile() {
                 {following ? 'Đang theo dõi' : 'Theo dõi'}
               </div>
             </div>
-            <div className="whitespace-nowrap text-[11px] text-muted2">
+            <div className="text-[11px] text-muted2 sm:max-w-[220px] sm:text-right lg:whitespace-nowrap">
               Muốn nhận lại đồ? Trả lời câu hỏi xác minh ở bài đăng để mở trò chuyện.
             </div>
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-[1fr_320px] items-start gap-5">
+      <div className="grid grid-cols-1 items-start gap-5 lg:grid-cols-[1fr_320px]">
         {/* ── Posts ────────────────────────────────── */}
         <div>
           <div className="mb-4 flex gap-2">

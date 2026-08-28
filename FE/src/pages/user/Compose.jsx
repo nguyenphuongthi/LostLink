@@ -46,8 +46,8 @@ export default function Compose() {
   const prev = () => (cur === 1 ? navigate('/') : setStep(cur - 1))
 
   return (
-    <div className="mx-auto max-w-[1040px] px-10 pt-7">
-      <div className="mb-1 text-[25px] font-bold tracking-[-0.028em]">Đăng tin mới</div>
+    <div className="mx-auto max-w-[1040px] px-4 pt-5 sm:px-6 lg:px-10 lg:pt-7">
+      <div className="mb-1 text-[22px] font-bold tracking-[-0.028em] lg:text-[25px]">Đăng tin mới</div>
       <div className="mb-6 text-[13px] text-muted">Kể càng rõ, người còn lại càng dễ nhận ra món đồ.</div>
 
       {/* Stepper */}
@@ -66,7 +66,7 @@ export default function Compose() {
               >
                 {n}
               </div>
-              <div className={`whitespace-nowrap text-[12px] ${active ? 'font-semibold text-ink' : done ? 'font-medium text-ink2' : 'font-medium text-[#A8B3C2]'}`}>
+              <div className={`hidden whitespace-nowrap text-[12px] sm:block ${active ? 'font-semibold text-ink' : done ? 'font-medium text-ink2' : 'font-medium text-[#A8B3C2]'}`}>
                 {label}
               </div>
               {!last && <div className={`mx-2 h-0.5 flex-1 rounded-full ${done ? 'bg-blue-line' : 'bg-[#E7ECF3]'}`} />}
@@ -75,7 +75,7 @@ export default function Compose() {
         })}
       </div>
 
-      <div className="card min-h-[460px] p-[30px]">
+      <div className="card min-h-[460px] p-5 lg:p-[30px]">
         {cur === 1 && <Step1 postType={postType} setPostType={setPostType} composeCat={composeCat} setComposeCat={setComposeCat} />}
         {cur === 2 && <Step2 postType={postType} timeDate={timeDate} setTimeDate={setTimeDate} timePreset={timePreset} setTimePreset={setTimePreset} pickPreset={pickPreset} timeSummary={timeSummary} />}
         {cur === 3 && <Step3 postType={postType} locMode={locMode} setLocMode={setLocMode} />}
@@ -83,15 +83,15 @@ export default function Compose() {
       </div>
 
       {/* Footer nav */}
-      <div className="mt-[18px] flex items-center justify-between">
-        <div className="ll-subtle flex h-[46px] cursor-pointer items-center gap-2.5 rounded-[9px] border border-line bg-white px-[22px] text-[13px] font-medium" onClick={prev}>
+      <div className="mt-[18px] flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="ll-subtle flex h-[46px] cursor-pointer items-center justify-center gap-2.5 rounded-[9px] border border-line bg-white px-[22px] text-[13px] font-medium sm:justify-start" onClick={prev}>
           <div className="h-[7px] w-[7px] rotate-45 border-b-[1.5px] border-l-[1.5px] border-ink2" />
           Quay lại
         </div>
         <div className="flex items-center gap-3">
-          <div className="ll-subtle flex h-[46px] cursor-pointer items-center rounded-[9px] border border-line bg-white px-[22px] text-[13px] font-medium">Lưu nháp</div>
+          <div className="ll-subtle flex h-[46px] flex-1 cursor-pointer items-center justify-center rounded-[9px] border border-line bg-white px-[22px] text-[13px] font-medium sm:flex-none">Lưu nháp</div>
           <div
-            className="ll-primary flex h-[46px] cursor-pointer items-center gap-2.5 rounded-[9px] bg-blue px-[26px] text-[13px] font-semibold text-white shadow-[0_2px_10px_rgba(46,109,180,0.28)]"
+            className="ll-primary flex h-[46px] flex-1 cursor-pointer items-center justify-center gap-2.5 rounded-[9px] bg-blue px-[26px] text-[13px] font-semibold text-white shadow-[0_2px_10px_rgba(46,109,180,0.28)] sm:flex-none"
             onClick={next}
           >
             {cur === maxStep ? 'Xem lại & đăng tin' : 'Tiếp tục'}
@@ -146,7 +146,7 @@ function Step1({ postType, setPostType, composeCat, setComposeCat }) {
       <div className="mb-[22px] text-[11px] text-muted2">Một chi tiết riêng — vết xước, hình dán, chữ viết tay — thường là thứ giúp nhận ra nhau nhanh nhất.</div>
 
       <div className="mb-2.5 text-[12px] font-medium">Hình ảnh <span className="font-normal text-muted2">· tối đa 9 ảnh</span></div>
-      <div className="mb-3.5 flex gap-3">
+      <div className="mb-3.5 flex flex-wrap gap-3">
         <img src="https://picsum.photos/seed/lostlink-bag/300/300" alt="" className="h-[104px] w-[104px] rounded-[9px] object-cover" />
         <img src="https://picsum.photos/seed/lostlink-bag2/300/300" alt="" className="h-[104px] w-[104px] rounded-[9px] object-cover" />
         <div className="flex h-[104px] w-[104px] cursor-pointer flex-col items-center justify-center gap-1.5 rounded-[9px] border-[1.5px] border-dashed border-[#CDD6E2] text-muted2">
@@ -213,7 +213,7 @@ function Step3({ postType, locMode, setLocMode }) {
     <>
       <div className="mb-1.5 text-[18px] font-bold">{postType === 'found' ? 'Bạn nhặt được ở đâu?' : 'Bạn mất đồ ở đâu?'}</div>
       <div className="mb-5 text-[12.5px] text-muted">Vị trí chính xác được giữ kín. Người khác chỉ nhìn thấy một vùng rộng quanh đó.</div>
-      <div className="mb-[18px] flex gap-2">
+      <div className="mb-[18px] flex flex-wrap gap-2">
         {LOC_MODES.map((name) => {
           const on = locMode === name
           return (
@@ -230,7 +230,7 @@ function Step3({ postType, locMode, setLocMode }) {
         })}
       </div>
       <div
-        className="relative mb-4 h-[330px] overflow-hidden rounded-[11px] border border-line"
+        className="relative mb-4 h-[240px] overflow-hidden rounded-[11px] border border-line sm:h-[330px]"
         style={{
           backgroundColor: '#EEF2F7',
           backgroundImage: 'linear-gradient(#DFE6F0 1px, transparent 1px), linear-gradient(90deg, #DFE6F0 1px, transparent 1px), linear-gradient(#D3DDEB 2px, transparent 2px), linear-gradient(90deg, #D3DDEB 2px, transparent 2px)',
@@ -242,12 +242,12 @@ function Step3({ postType, locMode, setLocMode }) {
         <div className="absolute left-4 top-4 rounded-lg bg-white/[0.96] px-3.5 py-2.5 text-[11.5px] shadow-[0_2px_8px_rgba(0,0,0,.08)]">Bến xe Mỹ Đình, Nam Từ Liêm, Hà Nội</div>
         <div className="absolute bottom-4 right-4 rounded-lg bg-[rgba(22,35,58,0.82)] px-3 py-2 text-[10.5px] text-white">Kéo ghim để chỉnh vị trí</div>
       </div>
-      <div className="flex items-center gap-4 rounded-[10px] border border-blue-line bg-blue-soft px-5 py-4">
+      <div className="flex flex-col gap-3 rounded-[10px] border border-blue-line bg-blue-soft px-5 py-4 sm:flex-row sm:items-center sm:gap-4">
         <div className="flex-1">
           <div className="mb-[3px] text-[12px] font-semibold text-blue-ink">Người khác sẽ thấy vùng này</div>
           <div className="text-[11px] text-blue-text">Rộng khoảng 400 m quanh chỗ bạn chọn</div>
         </div>
-        <div className="relative h-1.5 w-[220px] rounded-full bg-[rgba(46,109,180,0.2)]">
+        <div className="relative h-1.5 w-full rounded-full bg-[rgba(46,109,180,0.2)] sm:w-[220px]">
           <div className="absolute inset-y-0 left-0 w-[55%] rounded-full bg-blue" />
           <div className="absolute -top-[5px] left-[55%] -ml-2 h-4 w-4 rounded-full border-[3px] border-blue bg-white" />
         </div>
@@ -296,9 +296,9 @@ function Step4({ correct, setCorrect }) {
           })}
         </div>
       </div>
-      <div className="flex items-center justify-between rounded-[10px] border border-amber-line bg-amber-soft px-5 py-4">
+      <div className="flex flex-col gap-3 rounded-[10px] border border-amber-line bg-amber-soft px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="text-[12px] text-amber-ink">Không muốn đặt câu hỏi? Khi đó ai muốn nhận đồ sẽ gửi lời nhắn xin liên hệ, và bạn tự quyết định đồng ý hay không.</div>
-        <div className="ml-4 flex h-[38px] flex-shrink-0 cursor-pointer items-center rounded-lg border border-amber-line bg-white px-[18px] text-[12px] font-semibold text-amber-ink">Bỏ qua</div>
+        <div className="flex h-[38px] flex-shrink-0 cursor-pointer items-center justify-center rounded-lg border border-amber-line bg-white px-[18px] text-[12px] font-semibold text-amber-ink sm:ml-4">Bỏ qua</div>
       </div>
     </>
   )

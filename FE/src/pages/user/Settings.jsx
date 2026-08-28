@@ -24,19 +24,19 @@ export default function Settings() {
   const toggleArea = (l) => setAreas((s) => (s.includes(l) ? s.filter((x) => x !== l) : [...s, l]))
 
   return (
-    <div className="mx-auto max-w-[1060px] px-10 pt-7">
-      <div className="mb-1 text-[25px] font-bold tracking-[-0.028em]">Cài đặt</div>
+    <div className="mx-auto max-w-[1060px] px-4 pt-5 sm:px-6 lg:px-10 lg:pt-7">
+      <div className="mb-1 text-[22px] font-bold tracking-[-0.028em] lg:text-[25px]">Cài đặt</div>
       <div className="mb-[22px] text-[13px] text-muted">Bạn quyết định người khác thấy gì về mình.</div>
 
-      <div className="grid grid-cols-[220px_1fr] items-start gap-5">
-        <div className="card sticky top-5 p-2.5">
+      <div className="grid grid-cols-1 items-start gap-5 lg:grid-cols-[220px_1fr]">
+        <div className="card flex gap-1 overflow-x-auto p-2.5 lg:sticky lg:top-5 lg:block">
           {NAV.map((l) => {
             const on = section === l
             return (
               <div
                 key={l}
                 onClick={() => setSection(l)}
-                className={`cursor-pointer rounded-[10px] px-3.5 py-[11px] text-[12px] font-semibold ${on ? 'bg-blue-soft text-blue-ink' : 'text-ink2'}`}
+                className={`flex-shrink-0 cursor-pointer whitespace-nowrap rounded-[10px] px-3.5 py-[11px] text-[12px] font-semibold ${on ? 'bg-blue-soft text-blue-ink' : 'text-ink2'}`}
               >
                 {l}
               </div>
@@ -46,7 +46,7 @@ export default function Settings() {
 
         <div className="flex flex-col gap-4">
           {/* Profile */}
-          <div className="card p-6">
+          <div className="card p-5 lg:p-6">
             <div className="mb-[18px] text-[15px] font-bold">Trang cá nhân</div>
             <div className="mb-5 flex items-center gap-4">
               <div className="flex h-[62px] w-[62px] items-center justify-center rounded-full bg-blue-soft text-[17px] font-bold text-blue">NT</div>
@@ -55,25 +55,25 @@ export default function Settings() {
                 <div className="mt-[7px] text-[11px] text-muted2">Ảnh rõ mặt giúp người khác yên tâm khi hẹn gặp</div>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <Field label="Tên hiển thị" value="Nguyễn Thu Hà" />
               <Field label="Tên tài khoản" value="@thuha.q1" muted />
             </div>
           </div>
 
           {/* Privacy */}
-          <div className="card p-6">
+          <div className="card p-5 lg:p-6">
             <div className="mb-1 text-[15px] font-bold">Ai thấy gì về bạn</div>
             <div className="mb-5 text-[12px] text-muted">LostLink luôn hiện vùng rộng thay vì địa chỉ chính xác của bạn.</div>
             <div className="mb-5">
               <div className="mb-1 text-[12.5px] font-semibold">Email xác nhận</div>
               <div className="mb-2.5 text-[11.5px] text-muted2">Đăng nhập, đổi mật khẩu và xác nhận đã nhận đồ đều làm qua email này. LostLink không cần số điện thoại của bạn.</div>
-              <div className="flex items-center gap-3">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
                 <div className="flex h-11 flex-1 items-center gap-2.5 rounded-[10px] border border-line bg-soft px-3.5 text-[13px]">
-                  thuha.nguyen@gmail.com
-                  <div className="ml-auto flex h-6 items-center rounded-full bg-green-soft px-2.5 text-[10.5px] font-semibold text-green">Đã xác nhận</div>
+                  <span className="truncate">thuha.nguyen@gmail.com</span>
+                  <div className="ml-auto flex h-6 flex-shrink-0 items-center rounded-full bg-green-soft px-2.5 text-[10.5px] font-semibold text-green">Đã xác nhận</div>
                 </div>
-                <div className="ll-tab-soft inline-flex h-11 cursor-pointer items-center rounded-[10px] bg-chip px-[18px] text-[12px] font-semibold">Đổi email</div>
+                <div className="ll-tab-soft inline-flex h-11 cursor-pointer items-center justify-center rounded-[10px] bg-chip px-[18px] text-[12px] font-semibold">Đổi email</div>
               </div>
             </div>
             <div className="flex flex-col gap-1">
@@ -97,7 +97,7 @@ export default function Settings() {
           </div>
 
           {/* Areas */}
-          <div className="card p-6">
+          <div className="card p-5 lg:p-6">
             <div className="mb-1 text-[15px] font-bold">Khu vực bạn muốn để ý</div>
             <div className="mb-[18px] text-[12px] text-muted">Mình chỉ nhắn khi có tin trong những vùng này.</div>
             <div className="mb-[22px] flex flex-wrap gap-2.5">
@@ -126,7 +126,7 @@ export default function Settings() {
           </div>
 
           {/* Account */}
-          <div className="card p-6">
+          <div className="card p-5 lg:p-6">
             <div className="mb-3.5 text-[15px] font-bold">Tài khoản</div>
             <div className="flex flex-col">
               {ACCOUNT.map((r, i) => (

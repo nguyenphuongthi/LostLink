@@ -17,13 +17,13 @@ export default function Notifications() {
   const [pref, setPref] = useState({ a: true, b: true, c: false })
 
   return (
-    <div className="mx-auto max-w-[1120px] px-10 pt-7">
-      <div className="mb-1 text-[25px] font-bold tracking-[-0.028em]">Thông báo</div>
+    <div className="mx-auto max-w-[1120px] px-4 pt-5 sm:px-6 lg:px-10 lg:pt-7">
+      <div className="mb-1 text-[22px] font-bold tracking-[-0.028em] lg:text-[25px]">Thông báo</div>
       <div className="mb-[22px] text-[13px] text-muted">Mình sẽ nhắn cho bạn khi có tin liên quan tới món đồ bạn đang tìm.</div>
 
-      <div className="grid grid-cols-[1fr_300px] items-start gap-5">
+      <div className="grid grid-cols-1 items-start gap-5 lg:grid-cols-[1fr_300px]">
         <div className="card overflow-hidden">
-          <div className="flex items-center gap-2 border-b border-line2 px-5 py-4">
+          <div className="flex flex-wrap items-center gap-2 border-b border-line2 px-5 py-4">
             {NOTIF_TABS.map((l) => {
               const on = tab === l
               return (

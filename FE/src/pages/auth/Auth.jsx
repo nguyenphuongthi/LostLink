@@ -151,11 +151,13 @@ export default function Auth() {
         </div>
       </div>
 
-      <div className="relative z-[2] mx-auto flex min-h-screen max-w-[920px] items-center justify-between gap-[clamp(24px,3vw,56px)] px-[clamp(20px,4vw,40px)] pb-12 pt-10">
-        <AuthArt />
+      <div className="relative z-[2] mx-auto flex min-h-screen max-w-[920px] items-center justify-center gap-[clamp(24px,3vw,56px)] px-[clamp(20px,4vw,40px)] pb-12 pt-24 lg:justify-between lg:pt-10">
+        <div className="hidden lg:flex lg:flex-[0_1_350px] lg:justify-center">
+          <AuthArt />
+        </div>
 
         <div
-          className="w-[min(404px,100%)] flex-[0_1_404px] rounded-[22px] px-[30px] pb-[30px] pt-7 backdrop-blur-[20px]"
+          className="w-[min(404px,100%)] flex-[0_1_404px] rounded-[22px] px-6 pb-[30px] pt-7 backdrop-blur-[20px] sm:px-[30px]"
           style={{
             background: a.panel,
             border: `1px solid ${a.panelLine}`,

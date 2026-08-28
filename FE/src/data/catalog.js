@@ -14,6 +14,25 @@ export const CATEGORIES = [
 // Home filter list also has an "all" entry.
 export const FILTER_CATEGORIES = ['Tất cả', ...CATEGORIES]
 
+// Icon đại diện cho từng danh mục (tạm dùng emoji, thay bằng ảnh sau).
+export const CATEGORY_ICONS = {
+  'Tất cả': '🗂️',
+  'Giấy tờ & thẻ': '🪪',
+  'Ví & tiền': '👛',
+  'Túi & balo': '🎒',
+  'Thiết bị điện tử': '📱',
+  'Chìa khóa & xe cộ': '🔑',
+  'Trang sức & phụ kiện': '💍',
+  'Thú cưng': '🐾',
+  Khác: '📦',
+}
+
+// Danh mục kèm icon để render dạng hàng trên trang chủ.
+export const CATEGORY_META = FILTER_CATEGORIES.map((name) => ({
+  name,
+  icon: CATEGORY_ICONS[name] || '📦',
+}))
+
 export const leaders = [
   { rank: 1, handle: '@minhkhoi.td', returned: '31 món đã trao trả', points: '312', initials: 'MK' },
   { rank: 2, handle: '@hoangnam.q1', returned: '24 món đã trao trả', points: '248', initials: 'HN' },
