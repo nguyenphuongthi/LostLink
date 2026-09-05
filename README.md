@@ -8,7 +8,7 @@ Matching is built on three data axes — **location**, **time**, and **item attr
 
 ## Key features
 
-- **LOST / FOUND posts** with flexible categories, dynamic attributes, photos, and a "what's inside" checklist for containers (bags, wallets…).
+- **LOST / FOUND posts** with flexible categories, dynamic attributes, photos.
 - **Two-way matching engine** — an explainable, rule-based scorer (no ML). Hard gates on location + time + exclusive attributes narrow candidates; a weighted soft score (location, time, category, description, image) ranks the rest.
 - **Ownership verification** — a finder's security question (or a contact request) must be passed before contact details are revealed and chat opens.
 - **Privacy by design** — exact coordinates are never shown publicly; every location is displayed as a blurred ~200–500 m area until both sides confirm.

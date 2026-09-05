@@ -63,6 +63,9 @@ const postSchema = new Schema(
     timeFrom: { type: Date, required: true },
     timeTo: { type: Date, default: null },
 
+    // Địa chỉ / khu vực dạng chữ hiển thị công khai (vd "Quận 1, TP.HCM").
+    area: { type: String, default: '', trim: true },
+
     // Tọa độ thật (nội bộ) — chỉ lộ sau khi hai bên xác nhận trò chuyện.
     locExact: { type: pointSchema, required: true, select: false },
 

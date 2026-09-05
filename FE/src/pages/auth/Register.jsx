@@ -30,13 +30,8 @@ export default function Register({ email, onEmail, password, onPassword, strengt
             onChange={toggleNotify}
             className="mt-0.5 h-4 w-4 flex-none cursor-pointer accent-[#3B76D6]"
           />
-          <div>
-            <div className="text-[13.5px] font-semibold leading-[1.45]">
-              Nhận thông báo qua email khi hệ thống có thông tin liên quan đến món đồ của bạn
-            </div>
-            <div className="mt-1 text-[12.5px] leading-[1.55] text-[rgba(234,241,251,.58)]">
-              Khi engine ghép cặp tìm được tin phù hợp mà bạn chưa truy cập hệ thống, LostLink sẽ gửi email để bạn vào kiểm tra và phản hồi kịp thời.
-            </div>
+          <div className="self-center text-[13px] font-medium leading-[1.5]">
+            Nhận thông báo qua email khi hệ thống có thông tin liên quan đến món đồ của bạn
           </div>
         </div>
 

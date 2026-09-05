@@ -62,13 +62,13 @@ export default function Home() {
       {/* ── Mobile filter drawer ──────────────────── */}
       {filterOpen && (
         <div className="fixed inset-0 z-50 lg:hidden">
-          <div className="absolute inset-0 bg-ink/40 backdrop-blur-[2px]" onClick={() => setFilterOpen(false)} />
-          <div className="absolute left-0 top-0 flex h-full w-[86%] max-w-[340px] flex-col bg-white shadow-[0_0_40px_rgba(22,35,58,0.25)]">
+          <div className="absolute inset-0 bg-ink/45 backdrop-blur-[2px]" onClick={() => setFilterOpen(false)} />
+          <div className="sk-drawer-left absolute left-0 top-0 flex h-full w-[86%] max-w-[340px] flex-col [animation:sk-slide-in-left_.28s_cubic-bezier(.22,.7,.25,1)_both]">
             <div className="flex justify-end px-3 pt-3">
               <button
                 aria-label="Đóng"
                 onClick={() => setFilterOpen(false)}
-                className="ll-subtle flex h-9 w-9 items-center justify-center rounded-lg text-[18px] text-muted"
+                className="sk-icon-btn flex h-9 w-9 items-center justify-center rounded-xl text-[16px] text-muted"
               >
                 ✕
               </button>

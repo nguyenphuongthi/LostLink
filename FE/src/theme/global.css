@@ -189,6 +189,160 @@ input[type='date'] {
   }
 }
 
+/* ── Skeuomorphic mobile layer ──────────────────────────────────
+   A light tactile pass for the mobile surfaces (drawers, CTAs): soft
+   layered shadows, subtle top-sheen gradients and inset wells so the
+   touch UI reads as physical rather than flat. Kept subtle on purpose. */
+@layer components {
+  /* Slide-over drawer panel — dimensional, with a faint inner top highlight. */
+  .sk-drawer {
+    background: linear-gradient(180deg, #ffffff 0%, #f4f7fb 100%);
+    border-left: 1px solid rgba(255, 255, 255, 0.7);
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    box-shadow:
+      -22px 0 50px -18px rgba(22, 35, 58, 0.34),
+      inset 1px 1px 0 rgba(255, 255, 255, 0.8);
+  }
+
+  /* Left-anchored variant (Home filter drawer slides in from the left). */
+  .sk-drawer-left {
+    background: linear-gradient(180deg, #ffffff 0%, #f4f7fb 100%);
+    border-right: 1px solid rgba(255, 255, 255, 0.7);
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    box-shadow:
+      22px 0 50px -18px rgba(22, 35, 58, 0.34),
+      inset -1px 1px 0 rgba(255, 255, 255, 0.8);
+  }
+
+  /* Recessed field / well (search box, inputs). */
+  .sk-inset {
+    background: linear-gradient(180deg, #eef2f8 0%, #f6f9fc 100%);
+    border: 1px solid #dbe3ee;
+    box-shadow:
+      inset 0 2px 4px rgba(22, 35, 58, 0.07),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.9);
+  }
+
+  /* Raised tappable row. */
+  .sk-row {
+    background: linear-gradient(180deg, #ffffff 0%, #f5f8fc 100%);
+    border: 1px solid #e6ecf4;
+    box-shadow:
+      0 1px 2px rgba(22, 35, 58, 0.05),
+      inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  }
+  .sk-row:active {
+    box-shadow: inset 0 2px 5px rgba(22, 35, 58, 0.1);
+    transform: translateY(0.5px);
+  }
+  .sk-row-active {
+    background: linear-gradient(180deg, #eaf2fc 0%, #dcebfb 100%);
+    border: 1px solid var(--color-blue-line);
+    box-shadow:
+      0 1px 2px rgba(46, 109, 180, 0.14),
+      inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  }
+
+  /* Dimensional primary button (gradient + emboss). */
+  .sk-primary {
+    background: linear-gradient(180deg, #3f83d6 0%, #2e6db4 55%, #235c9e 100%);
+    border: 1px solid #245da0;
+    box-shadow:
+      0 8px 18px -6px rgba(46, 109, 180, 0.6),
+      inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  }
+  .sk-primary:active {
+    box-shadow:
+      0 3px 8px -4px rgba(46, 109, 180, 0.55),
+      inset 0 2px 6px rgba(11, 34, 66, 0.35);
+    transform: translateY(1px);
+  }
+
+  /* Lost/found selector cards (Compose step 1). */
+  .sk-type {
+    background: linear-gradient(180deg, #ffffff 0%, #f3f6fb 100%);
+    border: 1.5px solid #e2e8f1;
+    box-shadow:
+      0 1px 2px rgba(22, 35, 58, 0.05),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  }
+  .sk-type:active {
+    transform: translateY(1px);
+    box-shadow: inset 0 2px 6px rgba(22, 35, 58, 0.08);
+  }
+  .sk-type--lost {
+    background: linear-gradient(180deg, #fdf0f2 0%, #fbe3e7 100%);
+    border-color: var(--color-red);
+    box-shadow:
+      0 8px 18px -8px rgba(181, 69, 92, 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  }
+  .sk-type--found {
+    background: linear-gradient(180deg, #eaf3fd 0%, #dcebfb 100%);
+    border-color: var(--color-blue);
+    box-shadow:
+      0 8px 18px -8px rgba(46, 109, 180, 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  }
+  .sk-type__icon {
+    background: linear-gradient(180deg, #f2f5fa 0%, #e6ecf4 100%);
+    color: var(--color-muted2);
+    box-shadow:
+      0 1px 2px rgba(22, 35, 58, 0.06),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  }
+  .sk-type__icon--lost.is-on {
+    background: linear-gradient(180deg, #ffffff 0%, #fbe3e7 100%);
+    color: var(--color-red);
+    box-shadow:
+      0 3px 7px -2px rgba(181, 69, 92, 0.32),
+      inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  }
+  .sk-type__icon--found.is-on {
+    background: linear-gradient(180deg, #ffffff 0%, #dcebfb 100%);
+    color: var(--color-blue);
+    box-shadow:
+      0 3px 7px -2px rgba(46, 109, 180, 0.32),
+      inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  }
+
+  /* Tactile square icon button. */
+  .sk-icon-btn {
+    background: linear-gradient(180deg, #ffffff 0%, #eef2f8 100%);
+    border: 1px solid #dbe3ee;
+    box-shadow:
+      0 1px 2px rgba(22, 35, 58, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  }
+  .sk-icon-btn:active {
+    box-shadow: inset 0 2px 5px rgba(22, 35, 58, 0.14);
+    transform: translateY(0.5px);
+  }
+}
+
+@keyframes sk-slide-in {
+  from {
+    transform: translateX(24px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+@keyframes sk-slide-in-left {
+  from {
+    transform: translateX(-24px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
 /* ── Interactive (hover) layer — inline styles can't express :hover ─ */
 .ll-nav,
 .ll-primary,
@@ -205,12 +359,16 @@ input[type='date'] {
 .ll-match-row,
 .ll-notphai,
 .ll-card,
-.ll-card-sm {
+.ll-card-sm,
+.sk-type,
+.sk-row,
+.sk-primary,
+.sk-icon-btn {
   transition:
     background 0.15s ease,
     color 0.15s ease,
     box-shadow 0.16s ease,
-    transform 0.16s ease,
+    transform 0.12s ease,
     border-color 0.15s ease;
 }
 

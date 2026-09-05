@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { createPortal } from 'react-dom'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
 import Logo from './Logo'
@@ -107,71 +108,77 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile drawer */}
-      {open && (
-        <div className="fixed inset-0 z-50 lg:hidden">
-          <div className="absolute inset-0 bg-ink/40 backdrop-blur-[2px]" onClick={() => setOpen(false)} />
-          <div className="absolute right-0 top-0 flex h-full w-[84%] max-w-[330px] flex-col bg-white shadow-[0_0_40px_rgba(22,35,58,0.25)]">
-            <div className="flex h-16 items-center justify-between border-b border-line px-4">
-              <div className="flex items-center gap-2.5">
-                <Logo />
-                <div className="text-[17px] font-bold tracking-[-0.025em] text-blue-dark">LostLink</div>
+      {/* Mobile drawer — portaled to <body> so it escapes the navbar's
+          backdrop-filter, which would otherwise trap this fixed overlay inside
+          the 64px-tall header (a backdrop-filter establishes a containing block
+          for fixed descendants). Without the portal the menu — and the only
+          mobile route to the leaderboard — renders unusable. */}
+      {open &&
+        createPortal(
+          <div className="fixed inset-0 z-[100] lg:hidden">
+            <div className="absolute inset-0 bg-ink/45 backdrop-blur-[2px]" onClick={() => setOpen(false)} />
+            <div className="sk-drawer absolute right-0 top-0 flex h-full w-[86%] max-w-[340px] flex-col [animation:sk-slide-in_.28s_cubic-bezier(.22,.7,.25,1)_both]">
+              <div className="flex h-16 items-center justify-between border-b border-line/70 px-4">
+                <div className="flex items-center gap-2.5">
+                  <Logo />
+                  <div className="text-[17px] font-bold tracking-[-0.025em] text-blue-dark">LostLink</div>
+                </div>
+                <button
+                  aria-label="Đóng menu"
+                  onClick={() => setOpen(false)}
+                  className="sk-icon-btn flex h-9 w-9 items-center justify-center rounded-xl text-[18px] text-muted"
+                >
+                  ✕
+                </button>
               </div>
-              <button
-                aria-label="Đóng menu"
-                onClick={() => setOpen(false)}
-                className="ll-subtle flex h-9 w-9 items-center justify-center rounded-lg text-[20px] text-muted"
-              >
-                ✕
-              </button>
+
+              <div className="flex flex-1 flex-col gap-1.5 overflow-y-auto p-4">
+                {/* Search */}
+                <div className="sk-inset mb-2 flex h-11 items-center gap-2.5 rounded-xl px-4">
+                  <div className="h-[13px] w-[13px] flex-shrink-0 rounded-full border-2 border-muted3" />
+                  <div className="text-[12.5px] text-muted3">Tìm theo tên đồ vật, khu vực…</div>
+                </div>
+
+                {LINKS.map((l) => {
+                  const active = pathname === l.to
+                  return (
+                    <div
+                      key={l.to}
+                      onClick={drawerGo(l.to, l.guarded)}
+                      className={`flex cursor-pointer items-center gap-2 rounded-xl px-3.5 py-3 text-[14px] font-medium ${
+                        active ? 'sk-row-active text-blue' : 'sk-row text-ink2'
+                      }`}
+                    >
+                      {l.label}
+                      {l.badge != null && (
+                        <div className="flex h-5 min-w-5 items-center justify-center rounded-full bg-red px-1.5 text-[10.5px] font-bold text-white">
+                          {l.badge}
+                        </div>
+                      )}
+                    </div>
+                  )
+                })}
+
+                <div
+                  onClick={drawerGo('/settings', true)}
+                  className="sk-row flex cursor-pointer items-center rounded-xl px-3.5 py-3 text-[14px] font-medium text-ink2"
+                >
+                  Thiết lập
+                </div>
+              </div>
+
+              <div className="border-t border-line/70 p-4">
+                <div
+                  onClick={drawerGo('/compose', true)}
+                  className="sk-primary flex h-12 cursor-pointer items-center justify-center gap-2 rounded-xl text-[13.5px] font-semibold text-white"
+                >
+                  Đăng tin mới
+                </div>
+              </div>
             </div>
-
-            <div className="flex flex-1 flex-col gap-1 overflow-y-auto p-4">
-              {/* Search */}
-              <div className="mb-2 flex h-11 items-center gap-2.5 rounded-lg border border-line bg-chip px-4">
-                <div className="h-[13px] w-[13px] flex-shrink-0 rounded-full border-2 border-muted3" />
-                <div className="text-[12.5px] text-muted3">Tìm theo tên đồ vật, khu vực…</div>
-              </div>
-
-              {LINKS.map((l) => {
-                const active = pathname === l.to
-                return (
-                  <div
-                    key={l.to}
-                    onClick={drawerGo(l.to, l.guarded)}
-                    className={`flex cursor-pointer items-center gap-2 rounded-lg px-3 py-3 text-[14px] font-medium ${
-                      active ? 'bg-blue-soft text-blue' : 'll-row text-ink2'
-                    }`}
-                  >
-                    {l.label}
-                    {l.badge != null && (
-                      <div className="flex h-5 min-w-5 items-center justify-center rounded-full bg-red px-1.5 text-[10.5px] font-bold text-white">
-                        {l.badge}
-                      </div>
-                    )}
-                  </div>
-                )
-              })}
-
-              <div
-                onClick={drawerGo('/settings', true)}
-                className="ll-row flex cursor-pointer items-center rounded-lg px-3 py-3 text-[14px] font-medium text-ink2"
-              >
-                Thiết lập
-              </div>
-            </div>
-
-            <div className="border-t border-line p-4">
-              <div
-                onClick={drawerGo('/compose', true)}
-                className="ll-primary flex h-11 cursor-pointer items-center justify-center gap-2 rounded-lg bg-blue text-[13px] font-semibold text-white"
-              >
-                Đăng tin mới
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+          </div>,
+          document.body,
+        )}
     </div>
   )
 }

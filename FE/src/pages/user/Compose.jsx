@@ -108,21 +108,21 @@ function Step1({ postType, setPostType, composeCat, setComposeCat }) {
   return (
     <>
       <div className="mb-5 text-[18px] font-bold">Bạn muốn đăng loại tin nào?</div>
-      <div className="mb-7 grid grid-cols-2 gap-3.5">
-        <div
+      <div className="mb-7 grid grid-cols-2 gap-3 sm:gap-3.5">
+        <TypeCard
+          tone="lost"
+          active={postType === 'lost'}
           onClick={() => setPostType('lost')}
-          className={`cursor-pointer rounded-[11px] border-2 p-5 ${postType === 'lost' ? 'border-red bg-red-soft' : 'border-line bg-white'}`}
-        >
-          <div className="mb-1.5 text-[15px] font-bold">Tôi bị mất đồ</div>
-          <div className="text-[12px] leading-[1.5] text-muted">Đăng tin để cộng đồng cùng để ý giúp bạn.</div>
-        </div>
-        <div
+          icon={<LostIcon />}
+          label="Tôi bị mất đồ"
+        />
+        <TypeCard
+          tone="found"
+          active={postType === 'found'}
           onClick={() => setPostType('found')}
-          className={`cursor-pointer rounded-[11px] border-2 p-5 ${postType === 'found' ? 'border-blue bg-blue-soft' : 'border-line bg-white'}`}
-        >
-          <div className="mb-1.5 text-[15px] font-bold">Tôi nhặt được đồ</div>
-          <div className="text-[12px] leading-[1.5] text-muted">Đăng tin để tìm lại đúng chủ nhân của món đồ.</div>
-        </div>
+          icon={<FoundIcon />}
+          label="Tôi nhặt được đồ"
+        />
       </div>
 
       <div className="eyebrow">Đây là món đồ gì?</div>
@@ -163,6 +163,38 @@ function Step1({ postType, setPostType, composeCat, setComposeCat }) {
     </>
   )
 }
+
+/* Tactile lost/found selector card — icon + label only, no sub-copy. Tone
+   ('lost' | 'found') drives the accent; the raised → pressed states give it a
+   physical, skeuomorphic feel that reads the same on desktop and mobile. */
+function TypeCard({ tone, active, onClick, icon, label }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`sk-type ${active ? `sk-type--${tone}` : ''} flex min-h-[88px] cursor-pointer flex-col items-center justify-center gap-2.5 rounded-2xl px-3 py-4 text-center sm:min-h-[100px] sm:flex-row sm:gap-3.5 sm:px-5`}
+    >
+      <span className={`sk-type__icon sk-type__icon--${tone} ${active ? 'is-on' : ''} flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl`}>
+        {icon}
+      </span>
+      <span className="text-[14px] font-bold leading-tight text-ink sm:text-[15px]">{label}</span>
+    </button>
+  )
+}
+
+const LostIcon = () => (
+  <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="11" cy="11" r="6.5" />
+    <path d="M20 20l-3.8-3.8" />
+  </svg>
+)
+
+const FoundIcon = () => (
+  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="8.5" />
+    <path d="M8.4 12.3l2.4 2.4 4.7-5.1" />
+  </svg>
+)
 
 /* ── Step 2 · When ───────────────────────────────── */
 function Step2({ postType, timeDate, setTimeDate, setTimePreset, timePreset, pickPreset, timeSummary }) {

@@ -151,9 +151,14 @@ export default function Auth() {
         </div>
       </div>
 
-      <div className="relative z-[2] mx-auto flex min-h-screen max-w-[920px] items-center justify-center gap-[clamp(24px,3vw,56px)] px-[clamp(20px,4vw,40px)] pb-12 pt-24 lg:justify-between lg:pt-10">
-        <div className="hidden lg:flex lg:flex-[0_1_350px] lg:justify-center">
-          <AuthArt />
+      <div className="relative z-[2] mx-auto flex min-h-screen max-w-[920px] flex-col items-center justify-center gap-3 px-[clamp(20px,4vw,40px)] pb-12 pt-24 lg:flex-row lg:justify-between lg:gap-[clamp(24px,3vw,56px)] lg:pt-10">
+        {/* Radar illustration — shown on every width; scaled down on mobile
+            (with negative margins trimming the transform's leftover box) so it
+            sits balanced above the form instead of being hidden. */}
+        <div className="flex justify-center lg:flex-[0_1_350px]">
+          <div className="-my-8 origin-center scale-[0.72] sm:-my-4 sm:scale-90 lg:my-0 lg:scale-100">
+            <AuthArt />
+          </div>
         </div>
 
         <div
