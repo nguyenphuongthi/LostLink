@@ -1,6 +1,3 @@
-// env.js — Nạp & kiểm tra biến môi trường một chỗ, rồi export config có cấu trúc.
-// Thiếu biến bắt buộc → dừng ngay (fail-fast) thay vì lỗi mơ hồ lúc chạy.
-
 require('dotenv').config()
 
 const REQUIRED = ['MONGO_URI', 'JWT_SECRET', 'JWT_REFRESH_SECRET']
@@ -32,6 +29,12 @@ const config = {
 
   google: {
     clientId: process.env.GOOGLE_CLIENT_ID,
+  },
+
+  cloudinary: {
+    cloudName: process.env.CLOUDINARY_CLOUD_NAME,
+    apiKey: process.env.CLOUDINARY_API_KEY,
+    apiSecret: process.env.CLOUDINARY_API_SECRET,
   },
 }
 

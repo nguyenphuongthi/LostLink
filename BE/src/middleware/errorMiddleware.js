@@ -27,6 +27,15 @@ const errorHandler = (err, req, res, next) => {
     details = Object.values(err.errors).map((e) => ({ field: e.path, message: e.message }))
   }
 
+  // Lỗi upload của multer (kích thước/số lượng file vượt giới hạn…).
+  if (err.name === 'MulterError') {
+    statusCode = 400
+    if (err.code === 'LIMIT_FILE_SIZE') message = 'Ảnh vượt quá dung lượng cho phép (tối đa 5MB).'
+    else if (err.code === 'LIMIT_FILE_COUNT' || err.code === 'LIMIT_UNEXPECTED_FILE')
+      message = 'Số lượng ảnh vượt quá giới hạn (tối đa 9 ảnh).'
+    else message = 'Tải ảnh lên thất bại.'
+  }
+
   if (statusCode >= 500) console.error('💥', err)
 
   res.status(statusCode).json({

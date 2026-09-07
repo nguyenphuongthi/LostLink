@@ -151,7 +151,7 @@ export default function Settings() {
             <div className="ll-primary flex h-12 cursor-pointer items-center rounded-[10px] bg-blue px-[26px] text-[13.5px] font-semibold text-white">Lưu thay đổi</div>
             <div
               className="ll-subtle flex h-12 cursor-pointer items-center rounded-[10px] border border-line px-[22px] text-[13.5px] font-semibold text-ink2"
-              onClick={() => navigate('/')}
+              onClick={() => navigate('/home')}
             >
               Thoát
             </div>

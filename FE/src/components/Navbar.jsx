@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
 import Logo from './Logo'
+import UserMenu from './UserMenu'
 
 // A top-nav entry. User-only entries route guests to the login modal.
 function NavItem({ label, to, badge, active, guarded }) {
@@ -27,7 +28,7 @@ function NavItem({ label, to, badge, active, guarded }) {
 
 // The nav destinations, shared between the desktop bar and the mobile drawer.
 const LINKS = [
-  { label: 'Trang chủ', to: '/', badge: null, guarded: false },
+  { label: 'Trang chủ', to: '/home', badge: null, guarded: false },
   { label: 'Gợi ý ghép cặp', to: '/matches', badge: '3', guarded: true },
   { label: 'Tin nhắn', to: '/chat', badge: '2', guarded: true },
   { label: 'Trang của tôi', to: '/profile', badge: null, guarded: true },
@@ -37,7 +38,7 @@ const LINKS = [
 export default function Navbar() {
   const navigate = useNavigate()
   const { pathname } = useLocation()
-  const { isGuest, openLogin } = useApp()
+  const { isGuest, openLogin, user, logout } = useApp()
   const [open, setOpen] = useState(false)
 
   const guard = (to) => () => (isGuest ? openLogin() : navigate(to))
@@ -51,14 +52,14 @@ export default function Navbar() {
   return (
     <div className="sticky top-0 z-40 border-b border-line bg-white/[0.93] backdrop-blur-[10px]">
       <div className="flex h-16 items-center gap-4 px-4 sm:px-6 lg:h-[74px] lg:gap-7 lg:px-10">
-        <div className="flex cursor-pointer items-center gap-2.5" onClick={() => navigate('/')}>
+        <div className="flex cursor-pointer items-center gap-2.5" onClick={() => navigate('/home')}>
           <Logo />
           <div className="text-[17px] font-bold tracking-[-0.025em] text-blue-dark lg:text-[18.5px]">LostLink</div>
         </div>
 
         {/* Desktop nav links */}
         <div className="ml-2 hidden items-center gap-1 lg:flex">
-          <NavItem label="Trang chủ" to="/" active={pathname === '/'} />
+          <NavItem label="Trang chủ" to="/home" active={pathname === '/home'} />
           <NavItem label="Gợi ý ghép cặp" to="/matches" badge="3" guarded active={pathname === '/matches'} />
           <NavItem label="Tin nhắn" to="/chat" badge="2" guarded active={pathname === '/chat'} />
           <NavItem label="Trang của tôi" to="/profile" guarded active={pathname === '/profile'} />
@@ -85,13 +86,19 @@ export default function Navbar() {
             <span className="hidden sm:inline">Đăng tin</span>
           </div>
 
-          {/* Desktop avatar */}
-          <div
-            onClick={guard('/profile')}
-            className="hidden h-[42px] w-[42px] cursor-pointer items-center justify-center rounded-lg border border-blue-line bg-blue-soft text-[12.5px] font-bold text-blue lg:flex"
-          >
-            TL
-          </div>
+          {/* Desktop: avatar + menu tài khoản (đã đăng nhập) hoặc nút đăng nhập (guest) */}
+          {user ? (
+            <div className="hidden lg:block">
+              <UserMenu />
+            </div>
+          ) : (
+            <button
+              onClick={() => navigate('/auth?screen=login')}
+              className="hidden h-[42px] items-center rounded-lg border border-blue-line bg-blue-soft px-4 text-[13px] font-semibold text-blue lg:flex"
+            >
+              Đăng nhập
+            </button>
+          )}
 
           {/* Mobile hamburger */}
           <button
@@ -167,13 +174,35 @@ export default function Navbar() {
                 </div>
               </div>
 
-              <div className="border-t border-line/70 p-4">
+              <div className="flex flex-col gap-2 border-t border-line/70 p-4">
                 <div
                   onClick={drawerGo('/compose', true)}
                   className="sk-primary flex h-12 cursor-pointer items-center justify-center gap-2 rounded-xl text-[13.5px] font-semibold text-white"
                 >
                   Đăng tin mới
                 </div>
+                {user ? (
+                  <div
+                    onClick={() => {
+                      setOpen(false)
+                      logout()
+                      navigate('/home')
+                    }}
+                    className="flex h-11 cursor-pointer items-center justify-center rounded-xl border border-line text-[13.5px] font-semibold text-red"
+                  >
+                    Đăng xuất
+                  </div>
+                ) : (
+                  <div
+                    onClick={() => {
+                      setOpen(false)
+                      navigate('/auth?screen=login')
+                    }}
+                    className="flex h-11 cursor-pointer items-center justify-center rounded-xl border border-blue-line bg-blue-soft text-[13.5px] font-semibold text-blue"
+                  >
+                    Đăng nhập
+                  </div>
+                )}
               </div>
             </div>
           </div>,

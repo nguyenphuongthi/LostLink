@@ -89,7 +89,7 @@ export default function Thanks() {
             </div>
             <div
               className="ll-subtle flex h-12 cursor-pointer items-center justify-center rounded-[10px] border border-line px-[22px] text-[13.5px] font-semibold text-ink2"
-              onClick={() => navigate('/')}
+              onClick={() => navigate('/home')}
             >
               Để sau
             </div>

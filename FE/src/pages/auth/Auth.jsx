@@ -151,7 +151,7 @@ export default function Auth() {
     try {
       const res = await authApi.login({ email, password })
       applyAuth(res.data)
-      navigate('/')
+      navigate('/home')
     } catch (e) {
       // Tài khoản chưa xác thực: backend đã gửi lại mã → chuyển sang bước verify.
       if (e.data?.errors?.code === 'EMAIL_NOT_VERIFIED') {
@@ -211,7 +211,7 @@ export default function Auth() {
     try {
       const res = await authApi.googleLogin(idToken)
       applyAuth(res.data)
-      navigate('/')
+      navigate('/home')
     } catch (e) {
       setError(e.message)
     } finally {
@@ -303,7 +303,7 @@ export default function Auth() {
         loading={loading}
       />
     ),
-    done: <Done emailShown={emailShown} notifyNote={notifyNote} onEnter={() => navigate('/')} />,
+    done: <Done emailShown={emailShown} notifyNote={notifyNote} onEnter={() => navigate('/home')} />,
   }
 
   return (
@@ -364,6 +364,17 @@ export default function Auth() {
           <div key={screen} className="[animation:ll-fade_.35s_ease_both]">
             {screens[screen]}
           </div>
+
+          {showTabs && (
+            <div className="mt-5 text-center">
+              <span
+                onClick={() => navigate('/home')}
+                className="cursor-pointer text-[13px] text-au-dim3 hover:text-au-link"
+              >
+                Xem tin công khai mà không cần đăng nhập →
+              </span>
+            </div>
+          )}
         </div>
       </div>
     </div>

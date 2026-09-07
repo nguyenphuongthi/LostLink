@@ -183,7 +183,7 @@ export default function Chat() {
                   <div key={x} className={`ll-tab-soft ${toolChip}`}>{x}</div>
                 ))}
                 <div
-                  onClick={() => navigate('/')}
+                  onClick={() => navigate('/home')}
                   className="flex h-8 cursor-pointer items-center rounded-full bg-red-soft px-[13px] text-[11px] font-medium text-red-ink sm:ml-auto"
                 >
                   Không phải đồ của tôi

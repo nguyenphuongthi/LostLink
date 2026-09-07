@@ -40,7 +40,7 @@ export default function Detail() {
     <div className="px-4 pt-5 sm:px-6 lg:px-10 lg:pt-6">
       <div
         className="mb-[18px] flex w-fit cursor-pointer items-center gap-2.5 text-[12px] text-muted"
-        onClick={() => navigate('/')}
+        onClick={() => navigate('/home')}
       >
         <div className="h-[7px] w-[7px] rotate-45 border-b-[1.5px] border-l-[1.5px] border-[#5A6980]" />
         Quay lại danh sách

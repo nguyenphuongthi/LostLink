@@ -1,5 +1,6 @@
-import { Routes, Route, useLocation } from 'react-router-dom'
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 
+import { useApp } from './context/AppContext'
 import Navbar from './components/Navbar'
 import LoginModal from './components/LoginModal'
 import Auth from './pages/auth/Auth'
@@ -20,6 +21,14 @@ import Thanks from './pages/user/Thanks'
 import Report from './pages/user/Report'
 import Settings from './pages/user/Settings'
 
+// Root gate: `/` yêu cầu đăng nhập. Chưa đăng nhập → trang /auth; đã đăng nhập
+// → feed /home. Chờ authReady để không "nháy" chuyển hướng khi đang khôi phục phiên.
+function RootGate() {
+  const { user, authReady } = useApp()
+  if (!authReady) return null
+  return <Navigate to={user ? '/home' : '/auth'} replace />
+}
+
 export default function App() {
   const { pathname } = useLocation()
 
@@ -34,8 +43,11 @@ export default function App() {
         <Navbar />
 
         <Routes>
+          {/* Cổng: `/` yêu cầu đăng nhập, chuyển hướng phù hợp */}
+          <Route path="/" element={<RootGate />} />
+
           {/* Guest + User */}
-          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/post/:id" element={<Detail />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
@@ -50,7 +62,7 @@ export default function App() {
           <Route path="/report" element={<Report />} />
           <Route path="/settings" element={<Settings />} />
 
-          <Route path="*" element={<Home />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>
 

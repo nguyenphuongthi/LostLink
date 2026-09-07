@@ -42,8 +42,8 @@ export default function Compose() {
     setTimeDate(d.toISOString().slice(0, 10))
   }
 
-  const next = () => (cur === maxStep ? navigate('/') : setStep(cur + 1))
-  const prev = () => (cur === 1 ? navigate('/') : setStep(cur - 1))
+  const next = () => (cur === maxStep ? navigate('/home') : setStep(cur + 1))
+  const prev = () => (cur === 1 ? navigate('/home') : setStep(cur - 1))
 
   return (
     <div className="mx-auto max-w-[1040px] px-4 pt-5 sm:px-6 lg:px-10 lg:pt-7">
