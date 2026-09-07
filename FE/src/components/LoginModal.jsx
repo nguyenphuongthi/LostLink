@@ -5,8 +5,13 @@ import { useApp } from '../context/AppContext'
 // the app role to 'user'; "Đăng ký ngay" hands off to the full auth flow.
 export default function LoginModal() {
   const navigate = useNavigate()
-  const { showLogin, closeLogin, doLogin } = useApp()
+  const { showLogin, closeLogin } = useApp()
   if (!showLogin) return null
+
+  const goLogin = () => {
+    closeLogin()
+    navigate('/auth?screen=login')
+  }
 
   const goRegister = (e) => {
     e.preventDefault()
@@ -43,7 +48,7 @@ export default function LoginModal() {
 
         <div
           className="ll-primary flex h-12 cursor-pointer items-center justify-center rounded-[9px] bg-blue text-[13.5px] font-semibold text-white"
-          onClick={doLogin}
+          onClick={goLogin}
         >
           Đăng nhập
         </div>

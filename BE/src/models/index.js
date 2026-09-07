@@ -5,6 +5,7 @@ module.exports = {
   // Người dùng & uy tín
   User: require('./User'),
   Badge: require('./Badge'),
+  EmailToken: require('./EmailToken'),
 
   // Danh mục
   Category: require('./Category'),

@@ -1,16 +1,18 @@
-import { Field, StrengthMeter, PrimaryButton, GoogleButton, Divider } from '../../components/auth/AuthControls'
+import { Field, StrengthMeter, PrimaryButton, Divider } from '../../components/auth/AuthControls'
+import GoogleSignInButton from '../../components/auth/GoogleSignInButton'
 
 // Step 2 · Create an account. Submitting sends a 6-digit code and advances
 // to the verify screen.
-export default function Register({ email, onEmail, password, onPassword, strength, notify, toggleNotify, onSubmit, onGoogle }) {
+export default function Register({ username, onUsername, email, onEmail, password, onPassword, strength, notify, toggleNotify, onSubmit, onGoogleCredential, onGoogleError, loading }) {
   return (
     <>
-      <p className="mb-[22px] text-[14.5px] leading-[1.6] text-au-dim">
-        Đăng ký bằng email — chúng tôi gửi mã xác thực để kích hoạt tài khoản.
-      </p>
-
       <div className="flex flex-col gap-3.5">
-        <Field label="TÊN HIỂN THỊ" type="text" />
+        <div className="flex flex-col gap-[7px]">
+          <Field label="TÊN NGƯỜI DÙNG" type="text" value={username} onChange={onUsername} placeholder="vd: hoangnam123" />
+          <span className="text-[11.5px] leading-[1.45] text-au-dim3">
+            3–30 ký tự, chỉ gồm chữ, số, dấu chấm (.) và gạch dưới (_) không dấu, không ký tự đặc biệt.
+          </span>
+        </div>
         <Field label="EMAIL" type="email" value={email} onChange={onEmail} />
 
         <div className="flex flex-col gap-[7px]">
@@ -43,11 +45,13 @@ export default function Register({ email, onEmail, password, onPassword, strengt
           </span>
         </label>
 
-        <PrimaryButton onClick={onSubmit}>Gửi mã xác thực</PrimaryButton>
+        <PrimaryButton onClick={onSubmit} disabled={loading}>
+          {loading ? 'Đang gửi…' : 'Gửi mã xác thực'}
+        </PrimaryButton>
 
         <Divider className="my-0.5" />
 
-        <GoogleButton onClick={onGoogle}>Đăng ký với Google</GoogleButton>
+        <GoogleSignInButton onCredential={onGoogleCredential} onError={onGoogleError} text="signup_with" />
       </div>
     </>
   )

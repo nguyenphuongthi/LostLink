@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useApp } from '../../context/AppContext'
 import { a } from '../../theme/authTokens'
 import '../../theme/auth.css'
+import * as authApi from '../../api/auth'
 
 import Starfield from '../../components/auth/Starfield'
 import BrandMark from '../../components/auth/BrandMark'
@@ -36,31 +37,42 @@ function scorePassword(p) {
 }
 
 // The whole authentication flow — a single full-bleed dark surface that
-// walks through login → register → verify → forgot → reset → done, holding
-// the email / password / code state each step shares.
+// walks through login → register → verify → forgot → reset → done. Every step
+// talks to the backend API; the shared email / password / code state lives here.
 export default function Auth() {
   const navigate = useNavigate()
-  const { doLogin } = useApp()
+  const { applyAuth } = useApp()
 
-  // Deep-link support: /auth?screen=register lands straight on that step.
+  // Deep-link support: /auth?screen=register lands straight on that step;
+  // the reset link carries ?token=…&email=… for the reset screen.
   const [params] = useSearchParams()
   const initial = SCREENS.includes(params.get('screen')) ? params.get('screen') : 'login'
+  const resetToken = params.get('token') || ''
 
   const [screen, setScreen] = useState(initial)
-  const [email, setEmail] = useState('')
+  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState(params.get('email') || '')
   const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
   const [notify, setNotify] = useState(true)
   const [code, setCode] = useState(EMPTY_CODE)
   const [seconds, setSeconds] = useState(0)
   const [forgotSent, setForgotSent] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
 
   const timer = useRef(null)
   const refs6 = useRef(Array.from({ length: 6 }, () => ({ current: null })))
   useEffect(() => () => clearInterval(timer.current), [])
 
-  const go = (next) => setScreen(next)
+  const go = (next) => {
+    setError('')
+    setScreen(next)
+  }
   const onEmail = (e) => setEmail(e.target.value)
   const onPassword = (e) => setPassword(e.target.value)
+  const onUsername = (e) => setUsername(e.target.value)
+  const onConfirmPassword = (e) => setConfirmPassword(e.target.value)
   const toggleNotify = () => setNotify((v) => !v)
 
   const startTimer = () => {
@@ -91,17 +103,122 @@ export default function Auth() {
     if (e.key === 'Backspace' && !code[i] && i > 0) refs6.current[i - 1].current?.focus()
   }
 
-  // Login / Google both drop the visitor into the app as a signed-in user.
-  const enterApp = () => {
-    doLogin()
-    navigate('/')
+  // ── Handlers gọi API ────────────────────────────────────────────────────
+
+  const submitRegister = async () => {
+    setError('')
+    setLoading(true)
+    try {
+      await authApi.register({ username, email, password, emailOptIn: notify })
+      setCode(EMPTY_CODE)
+      setScreen('verify')
+      startTimer()
+    } catch (e) {
+      setError(e.message)
+    } finally {
+      setLoading(false)
+    }
   }
 
-  const submitRegister = () => {
-    setCode(EMPTY_CODE)
-    setScreen('verify')
-    startTimer()
+  const submitVerify = async () => {
+    setError('')
+    setLoading(true)
+    try {
+      const res = await authApi.verifyEmail({ email, code: code.join('') })
+      applyAuth(res.data)
+      setScreen('done')
+    } catch (e) {
+      setError(e.message)
+    } finally {
+      setLoading(false)
+    }
   }
+
+  const resendOtp = async () => {
+    if (seconds > 0) return
+    setError('')
+    try {
+      await authApi.resendCode(email)
+      startTimer()
+    } catch (e) {
+      setError(e.message)
+    }
+  }
+
+  const submitLogin = async () => {
+    setError('')
+    setLoading(true)
+    try {
+      const res = await authApi.login({ email, password })
+      applyAuth(res.data)
+      navigate('/')
+    } catch (e) {
+      // Tài khoản chưa xác thực: backend đã gửi lại mã → chuyển sang bước verify.
+      if (e.data?.errors?.code === 'EMAIL_NOT_VERIFIED') {
+        setCode(EMPTY_CODE)
+        setScreen('verify')
+        startTimer()
+        setError('Tài khoản chưa xác thực. Mã mới đã được gửi tới email của bạn.')
+      } else {
+        setError(e.message)
+      }
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const submitForgot = async () => {
+    setError('')
+    setLoading(true)
+    try {
+      await authApi.forgotPassword(email)
+      setForgotSent(true)
+    } catch (e) {
+      setError(e.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const submitReset = async () => {
+    setError('')
+    if (password !== confirmPassword) {
+      setError('Mật khẩu nhập lại không khớp.')
+      return
+    }
+    if (!resetToken) {
+      setError('Liên kết đặt lại không hợp lệ. Vui lòng mở lại từ email.')
+      return
+    }
+    setLoading(true)
+    try {
+      await authApi.resetPassword({ email, token: resetToken, password })
+      setPassword('')
+      setConfirmPassword('')
+      setScreen('login')
+      setError('Đặt mật khẩu mới thành công. Vui lòng đăng nhập.')
+    } catch (e) {
+      setError(e.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  // Google: GIS trả về ID token → gửi lên backend để đăng nhập/đăng ký.
+  const onGoogleCredential = async (idToken) => {
+    setError('')
+    setLoading(true)
+    try {
+      const res = await authApi.googleLogin(idToken)
+      applyAuth(res.data)
+      navigate('/')
+    } catch (e) {
+      setError(e.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+  const onGoogleError = (msg) => setError(msg)
 
   const strength = scorePassword(password)
   const emailShown = email || 'ban@email.com'
@@ -121,12 +238,72 @@ export default function Auth() {
   const showTabs = screen === 'login' || screen === 'register'
 
   const screens = {
-    login: <Login email={email} onEmail={onEmail} onSubmit={enterApp} onGoogle={enterApp} goForgot={() => go('forgot')} goRegister={() => go('register')} />,
-    register: <Register email={email} onEmail={onEmail} password={password} onPassword={onPassword} strength={strength} notify={notify} toggleNotify={toggleNotify} onSubmit={submitRegister} onGoogle={enterApp} />,
-    verify: <Verify emailShown={emailShown} slots={slots} onSubmit={() => go('done')} resendText={resendText} canResend={seconds === 0} resend={() => seconds === 0 && startTimer()} goRegister={() => go('register')} />,
-    forgot: <Forgot email={email} onEmail={onEmail} emailShown={emailShown} onSubmit={() => setForgotSent(true)} forgotSent={forgotSent} goLogin={() => go('login')} />,
-    reset: <Reset emailShown={emailShown} password={password} onPassword={onPassword} onSubmit={() => go('login')} />,
-    done: <Done emailShown={emailShown} notifyNote={notifyNote} onEnter={enterApp} />,
+    login: (
+      <Login
+        email={email}
+        onEmail={onEmail}
+        password={password}
+        onPassword={onPassword}
+        onSubmit={submitLogin}
+        onGoogleCredential={onGoogleCredential}
+        onGoogleError={onGoogleError}
+        goForgot={() => go('forgot')}
+        goRegister={() => go('register')}
+        loading={loading}
+      />
+    ),
+    register: (
+      <Register
+        username={username}
+        onUsername={onUsername}
+        email={email}
+        onEmail={onEmail}
+        password={password}
+        onPassword={onPassword}
+        strength={strength}
+        notify={notify}
+        toggleNotify={toggleNotify}
+        onSubmit={submitRegister}
+        onGoogleCredential={onGoogleCredential}
+        onGoogleError={onGoogleError}
+        loading={loading}
+      />
+    ),
+    verify: (
+      <Verify
+        emailShown={emailShown}
+        slots={slots}
+        onSubmit={submitVerify}
+        resendText={resendText}
+        canResend={seconds === 0}
+        resend={resendOtp}
+        goRegister={() => go('register')}
+        loading={loading}
+      />
+    ),
+    forgot: (
+      <Forgot
+        email={email}
+        onEmail={onEmail}
+        emailShown={emailShown}
+        onSubmit={submitForgot}
+        forgotSent={forgotSent}
+        goLogin={() => go('login')}
+        loading={loading}
+      />
+    ),
+    reset: (
+      <Reset
+        emailShown={emailShown}
+        password={password}
+        onPassword={onPassword}
+        confirmPassword={confirmPassword}
+        onConfirmPassword={onConfirmPassword}
+        onSubmit={submitReset}
+        loading={loading}
+      />
+    ),
+    done: <Done emailShown={emailShown} notifyNote={notifyNote} onEnter={() => navigate('/')} />,
   }
 
   return (
@@ -170,6 +347,20 @@ export default function Auth() {
           }}
         >
           {showTabs && <ScreenTabs screen={screen} go={go} />}
+
+          {error && (
+            <div
+              className="mb-4 rounded-[10px] px-[15px] py-[11px] text-[13px] leading-[1.5]"
+              style={{
+                background: 'rgba(233,96,96,.12)',
+                border: '1px solid rgba(233,96,96,.34)',
+                color: '#ffbcbc',
+              }}
+            >
+              {error}
+            </div>
+          )}
+
           <div key={screen} className="[animation:ll-fade_.35s_ease_both]">
             {screens[screen]}
           </div>

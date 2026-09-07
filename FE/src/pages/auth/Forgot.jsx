@@ -1,7 +1,7 @@
 import { Field, PrimaryButton } from '../../components/auth/AuthControls'
 
 // Step 4 · Request a password-reset link by email.
-export default function Forgot({ email, onEmail, emailShown, onSubmit, forgotSent, goLogin }) {
+export default function Forgot({ email, onEmail, emailShown, onSubmit, forgotSent, goLogin, loading }) {
   return (
     <>
       <h2 className="mb-2 text-[24px] font-bold tracking-[-.3px]">Quên mật khẩu</h2>
@@ -9,7 +9,9 @@ export default function Forgot({ email, onEmail, emailShown, onSubmit, forgotSen
 
       <div className="flex flex-col gap-4">
         <Field label="EMAIL" type="email" value={email} onChange={onEmail} />
-        <PrimaryButton onClick={onSubmit}>Gửi liên kết đặt lại</PrimaryButton>
+        <PrimaryButton onClick={onSubmit} disabled={loading}>
+          {loading ? 'Đang gửi…' : 'Gửi liên kết đặt lại'}
+        </PrimaryButton>
       </div>
 
       {forgotSent && (

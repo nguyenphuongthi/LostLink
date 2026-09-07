@@ -3,7 +3,7 @@ import { PrimaryButton } from '../../components/auth/AuthControls'
 
 // Step 3 · Enter the 6-digit code emailed after registration. `slots`
 // carries per-box value + ref + handlers so focus advances as you type.
-export default function Verify({ emailShown, slots, onSubmit, resendText, canResend, resend, goRegister }) {
+export default function Verify({ emailShown, slots, onSubmit, resendText, canResend, resend, goRegister, loading }) {
   return (
     <>
       <div className="mb-[18px] flex h-[50px] w-[50px] items-center justify-center rounded-[14px] border border-[rgba(110,168,255,.3)] bg-[rgba(110,168,255,.16)]">
@@ -35,7 +35,9 @@ export default function Verify({ emailShown, slots, onSubmit, resendText, canRes
         ))}
       </div>
 
-      <PrimaryButton className="mt-5" onClick={onSubmit}>Xác nhận</PrimaryButton>
+      <PrimaryButton className="mt-5" onClick={onSubmit} disabled={loading}>
+        {loading ? 'Đang xác nhận…' : 'Xác nhận'}
+      </PrimaryButton>
 
       <div className="mt-4 text-[13px] text-[rgba(234,241,251,.58)]">
         {resendText}{' '}

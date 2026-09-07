@@ -1,8 +1,9 @@
-import { createContext, useContext, useState, useCallback, useMemo } from 'react'
+import { createContext, useContext, useState, useCallback, useMemo, useEffect } from 'react'
+import { fetchMe } from '../api/auth'
 
 /**
  * App-wide state that must survive across screens:
- *  - the active role (guest | user) — drives what a visitor may do
+ *  - the authenticated user (null = guest) + JWT persisted in localStorage
  *  - the login modal, which any gated action can raise
  *  - lightweight "engagement" state (likes, follow) shared by Home/Detail/Profile
  *
@@ -11,6 +12,17 @@ import { createContext, useContext, useState, useCallback, useMemo } from 'react
  */
 const AppContext = createContext(null)
 
+const TOKEN_KEY = 'll_token'
+const REFRESH_KEY = 'll_refresh'
+
+const readToken = () => {
+  try {
+    return localStorage.getItem(TOKEN_KEY)
+  } catch {
+    return null
+  }
+}
+
 export const useApp = () => {
   const ctx = useContext(AppContext)
   if (!ctx) throw new Error('useApp must be used inside <AppProvider>')
@@ -18,43 +30,88 @@ export const useApp = () => {
 }
 
 export function AppProvider({ children }) {
-  const [role, setRole] = useState('user') // 'guest' | 'user'
+  const [user, setUser] = useState(null)
+  const [authReady, setAuthReady] = useState(false)
   const [showLogin, setShowLogin] = useState(false)
   const [liked, setLiked] = useState({})
   const [following, setFollowing] = useState(false)
 
+  // Khôi phục phiên khi tải trang: nếu có token thì hỏi /me để lấy lại user.
+  useEffect(() => {
+    if (!readToken()) {
+      setAuthReady(true)
+      return
+    }
+    fetchMe()
+      .then((u) => setUser(u))
+      .catch(() => {
+        try {
+          localStorage.removeItem(TOKEN_KEY)
+          localStorage.removeItem(REFRESH_KEY)
+        } catch {
+          /* ignore */
+        }
+      })
+      .finally(() => setAuthReady(true))
+  }, [])
+
   const openLogin = useCallback(() => setShowLogin(true), [])
   const closeLogin = useCallback(() => setShowLogin(false), [])
-  const doLogin = useCallback(() => {
+
+  // Ghi nhận đăng nhập thành công: lưu token + set user, đóng modal.
+  const applyAuth = useCallback(({ user: u, token, refreshToken }) => {
+    try {
+      if (token) localStorage.setItem(TOKEN_KEY, token)
+      if (refreshToken) localStorage.setItem(REFRESH_KEY, refreshToken)
+    } catch {
+      /* ignore */
+    }
+    setUser(u)
     setShowLogin(false)
-    setRole('user')
   }, [])
-  const toggleRole = useCallback(
-    () => setRole((r) => (r === 'guest' ? 'user' : 'guest')),
-    [],
-  )
-  const toggleLike = useCallback(
-    (key) => setLiked((m) => ({ ...m, [key]: !m[key] })),
-    [],
-  )
+
+  const logout = useCallback(() => {
+    try {
+      localStorage.removeItem(TOKEN_KEY)
+      localStorage.removeItem(REFRESH_KEY)
+    } catch {
+      /* ignore */
+    }
+    setUser(null)
+  }, [])
+
+  const toggleLike = useCallback((key) => setLiked((m) => ({ ...m, [key]: !m[key] })), [])
   const toggleFollow = useCallback(() => setFollowing((f) => !f), [])
 
   const value = useMemo(
     () => ({
-      role,
-      isGuest: role === 'guest',
-      setRole,
-      toggleRole,
+      user,
+      role: user ? user.role : 'guest',
+      isGuest: !user,
+      authReady,
+      applyAuth,
+      logout,
       showLogin,
       openLogin,
       closeLogin,
-      doLogin,
       liked,
       toggleLike,
       following,
       toggleFollow,
     }),
-    [role, showLogin, liked, following, openLogin, closeLogin, doLogin, toggleRole, toggleLike, toggleFollow],
+    [
+      user,
+      authReady,
+      applyAuth,
+      logout,
+      showLogin,
+      openLogin,
+      closeLogin,
+      liked,
+      toggleLike,
+      following,
+      toggleFollow,
+    ]
   )
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>

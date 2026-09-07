@@ -16,10 +16,23 @@ const userBadgeSchema = new Schema(
 
 const userSchema = new Schema(
   {
-    // Tên đăng nhập / định danh duy nhất (vd @hoangnam.q1).
-    username: { type: String, required: true, unique: true, trim: true },
+    // Tên đăng nhập kiêm tên hiển thị, duy nhất (vd "hoangnam123").
+    // Ràng buộc kiểu Instagram: 3–30 ký tự, chỉ chữ/số/dấu chấm/gạch dưới.
+    username: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+      minlength: [3, 'Tên người dùng tối thiểu 3 ký tự.'],
+      maxlength: [30, 'Tên người dùng tối đa 30 ký tự.'],
+      match: [/^[a-zA-Z0-9._]+$/, 'Tên người dùng chỉ gồm chữ, số, dấu chấm và gạch dưới.'],
+    },
     email: { type: String, required: true, unique: true, lowercase: true, trim: true },
-    passwordHash: { type: String, required: true, select: false },
+    // Bắt buộc với tài khoản email/mật khẩu; bỏ trống nếu đăng nhập bằng Google.
+    passwordHash: { type: String, select: false },
+
+    // ID tài khoản Google (đăng nhập OAuth), null nếu không dùng.
+    googleId: { type: String, default: null, index: true, sparse: true },
 
     // guest là trạng thái ngầm định (chưa đăng nhập) nên không lưu trong DB.
     role: {
