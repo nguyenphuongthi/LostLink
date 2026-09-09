@@ -57,7 +57,7 @@ export default function Settings() {
             </div>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <Field label="Tên hiển thị" value="Nguyễn Thu Hà" />
-              <Field label="Tên tài khoản" value="@thuha.q1" muted />
+              <Field label="Tên tài khoản" value="thuha.q1" muted />
             </div>
           </div>
 

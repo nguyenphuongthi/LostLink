@@ -35,7 +35,7 @@ export default function Report() {
           <div className="mb-6 flex items-center gap-3.5 rounded-xl border border-line2 bg-soft px-4 py-3.5">
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-soft text-[11.5px] font-bold text-blue">HN</div>
             <div className="flex-1">
-              <div className="text-[13px] font-semibold">@hoangnam.q1</div>
+              <div className="text-[13px] font-semibold">hoangnam.q1</div>
               <div className="text-[11px] text-muted2">Tin 'Ví da nâu có giấy tờ tên N.T.H' · trò chuyện từ 09:12 hôm nay</div>
             </div>
           </div>
@@ -84,7 +84,7 @@ export default function Report() {
             <div className={`flex h-[18px] w-[18px] flex-shrink-0 items-center justify-center rounded-[5px] ${block ? 'bg-blue' : 'border-[1.5px] border-[#CFDAE8] bg-white'}`}>
               {block && <div className="-mt-0.5 h-2 w-1 rotate-45 border-b-2 border-r-2 border-white" />}
             </div>
-            <div className="text-[12px] text-ink2">Chặn @hoangnam.q1 và ẩn tin của họ khỏi trang chủ của bạn</div>
+            <div className="text-[12px] text-ink2">Chặn hoangnam.q1 và ẩn tin của họ khỏi trang chủ của bạn</div>
           </div>
 
           <div className="flex flex-col gap-3 sm:flex-row">

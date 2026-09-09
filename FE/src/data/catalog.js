@@ -34,11 +34,11 @@ export const CATEGORY_META = FILTER_CATEGORIES.map((name) => ({
 }))
 
 export const leaders = [
-  { rank: 1, handle: '@minhkhoi.td', returned: '31 món đã trao trả', points: '312', initials: 'MK' },
-  { rank: 2, handle: '@hoangnam.q1', returned: '24 món đã trao trả', points: '248', initials: 'HN' },
-  { rank: 3, handle: '@baotran.sg', returned: '19 món đã trao trả', points: '174', initials: 'BT' },
-  { rank: 4, handle: '@ngockhanh.dn', returned: '14 món đã trao trả', points: '141', initials: 'NK' },
-  { rank: 5, handle: '@thuylinh.hn', returned: '9 món đã trao trả', points: '96', initials: 'TL' },
+  { rank: 1, handle: 'minhkhoi.td', returned: '31 món đã trao trả', points: '312', initials: 'MK' },
+  { rank: 2, handle: 'hoangnam.q1', returned: '24 món đã trao trả', points: '248', initials: 'HN' },
+  { rank: 3, handle: 'baotran.sg', returned: '19 món đã trao trả', points: '174', initials: 'BT' },
+  { rank: 4, handle: 'ngockhanh.dn', returned: '14 món đã trao trả', points: '141', initials: 'NK' },
+  { rank: 5, handle: 'thuylinh.hn', returned: '9 món đã trao trả', points: '96', initials: 'TL' },
 ]
 
 export const communityStats = [

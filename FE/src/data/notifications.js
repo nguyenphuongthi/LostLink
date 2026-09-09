@@ -19,7 +19,7 @@ export const notifGroups = [
       {
         icon: '💬',
         tone: 'warm',
-        title: '@ducanh.bk xin trò chuyện về chiếc ví',
+        title: 'ducanh.bk xin trò chuyện về chiếc ví',
         body: '"Em nghĩ đây là ví của em, trong ví có thẻ sinh viên Bách Khoa." Bạn đồng ý thì hai bên nhắn tin bình thường.',
         time: '1 giờ trước',
         action: 'Xem yêu cầu',
@@ -45,7 +45,7 @@ export const notifGroups = [
         icon: '⏰',
         tone: 'warm',
         title: 'Đừng quên kể kết quả nhé',
-        body: 'Bạn đã hẹn gặp @baotran.sg hôm qua. Nếu nhận được đồ rồi, xác nhận giúp mình một câu.',
+        body: 'Bạn đã hẹn gặp baotran.sg hôm qua. Nếu nhận được đồ rồi, xác nhận giúp mình một câu.',
         time: 'Hôm qua',
         action: 'Xác nhận',
         unread: false,

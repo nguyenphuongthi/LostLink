@@ -2,7 +2,7 @@ import { IMG } from '../theme/tokens'
 
 // A public community profile (U11). One demo profile stands in for everyone.
 export const profile = {
-  handle: '@hoangnam.q1',
+  handle: 'hoangnam.q1',
   initials: 'HN',
   points: '248',
   returned: '24',
@@ -60,12 +60,12 @@ export const profilePosts = [
 
 export const reviews = [
   {
-    handle: '@thuylinh.hn',
+    handle: 'thuylinh.hn',
     stars: '★★★★★',
     text: 'Anh giữ ví cẩn thận, hẹn gặp đúng giờ và không nhận đồng nào cảm ơn. Rất quý người như vậy.',
   },
   {
-    handle: '@ducanh.bk',
+    handle: 'ducanh.bk',
     stars: '★★★★★',
     text: 'Nhắn tin lịch sự, chủ động đề nghị gặp ở chỗ đông người cho an tâm.',
   },

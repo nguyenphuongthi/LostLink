@@ -236,7 +236,7 @@ export default function Chat() {
                   <div className="flex h-[18px] w-[18px] items-center justify-center rounded-full bg-blue">
                     <div className="-mt-0.5 h-2 w-[5px] rotate-45 border-b-2 border-r-2 border-white" />
                   </div>
-                  <div className="text-[11.5px] text-ink2">@hoangnam.q1 đã xác nhận</div>
+                  <div className="text-[11.5px] text-ink2">hoangnam.q1 đã xác nhận</div>
                 </div>
                 <div
                   onClick={() => setReturned((v) => !v)}

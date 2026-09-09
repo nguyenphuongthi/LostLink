@@ -3,12 +3,14 @@
 const config = require('../config/env')
 const mongoose = require('mongoose')
 const { seedUsers } = require('./userSeed')
+const { seedCategories } = require('./categorySeed')
 
 const run = async () => {
   await mongoose.connect(config.mongoUri)
   console.log('🌱 Bắt đầu seed dữ liệu...')
 
   await seedUsers()
+  await seedCategories()
 
   console.log('✅ Seed hoàn tất.')
   await mongoose.disconnect()

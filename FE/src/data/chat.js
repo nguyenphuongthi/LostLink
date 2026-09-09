@@ -2,13 +2,13 @@
 
 export const threads = [
   {
-    name: '@hoangnam.q1',
+    name: 'hoangnam.q1',
     time: '09:41',
     preview: 'Vâng, 15h chiều nay tại quán cà phê nhé',
     initials: 'HN',
   },
   {
-    name: '@baotran.sg',
+    name: 'baotran.sg',
     time: 'Hôm qua',
     preview: 'Chìa khóa đang gửi ở quầy bảo vệ chợ',
     initials: 'BT',
@@ -21,7 +21,7 @@ export const threads = [
     system: true,
   },
   {
-    name: '@minhkhoi.td',
+    name: 'minhkhoi.td',
     time: '08/08',
     preview: 'Đã trao trả · cảm ơn bạn nhiều',
     initials: 'MK',

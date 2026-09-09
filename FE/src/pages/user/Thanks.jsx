@@ -6,7 +6,7 @@ const RATING_LABELS = ['', 'Chưa ổn lắm', 'Tạm được', 'Bình thườn
 const TAGS = ['Đúng hẹn', 'Nhắn tin rõ ràng', 'Giữ đồ cẩn thận', 'Không đòi tiền', 'Chọn chỗ gặp an toàn']
 const AFTER = [
   "Bài đăng của bạn chuyển sang 'Đã tìm thấy' và không hiện trên trang chủ nữa.",
-  '@hoangnam.q1 được cộng một lần trao trả thành công vào trang cá nhân.',
+  'hoangnam.q1 được cộng một lần trao trả thành công vào trang cá nhân.',
   'Ảnh và mô tả món đồ sẽ tự ẩn sau 7 ngày cho riêng tư của bạn.',
 ]
 
@@ -37,7 +37,7 @@ export default function Thanks() {
             <div style={PHOTO(IMG('lostlink-wallet', 200), 72, 72, 10)} />
             <div className="min-w-0 flex-1">
               <div className="mb-1 text-[14px] font-semibold">Ví da nâu có giấy tờ tên N.T.H</div>
-              <div className="text-[11.5px] text-muted2">Nhận lại tại Cà phê Nhà Nhỏ, Quận 1 · @hoangnam.q1 trao lại</div>
+              <div className="text-[11.5px] text-muted2">Nhận lại tại Cà phê Nhà Nhỏ, Quận 1 · hoangnam.q1 trao lại</div>
             </div>
           </div>
 
@@ -75,7 +75,7 @@ export default function Thanks() {
 
           <div className="mb-6 flex cursor-pointer items-center gap-2.5" onClick={() => setPublicThanks((v) => !v)}>
             <Check on={publicThanks} />
-            <div className="text-[12px] text-ink2">Cho lời cảm ơn này hiện ở trang của @hoangnam.q1</div>
+            <div className="text-[12px] text-ink2">Cho lời cảm ơn này hiện ở trang của hoangnam.q1</div>
           </div>
 
           <div className="flex flex-col gap-3 sm:flex-row">

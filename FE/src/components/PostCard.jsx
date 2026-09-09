@@ -30,7 +30,7 @@ export default function PostCard({ post }) {
               navigate('/profile')
             }}
           >
-            {post.handle.replace('@', '')}
+            {post.handle}
           </div>
           <Dot />
           <div className="whitespace-nowrap text-[11px] text-muted2">{post.category}</div>
