@@ -70,15 +70,45 @@ Project/
 
 ## Getting started
 
-```bash
-# Frontend
-cd FE
-npm install
-npm run dev      
+Requires Node.js 18+ and MongoDB.
 
+```bash
 # Backend
 cd BE
 npm install
-npm run dev
+copy .env.example .env   # (macOS/Linux: cp)
+npm run seed       
+npm run dev           
+
+# Frontend
+cd FE
+npm install
+npm run dev          
 ```
+
+## Test accounts
+
+### Role accounts (one per permission level)
+
+| Role | Email | Password |
+| --- | --- | --- |
+| **Admin** | `admin@lostlink.vn` | `Admin@123` |
+| **Moderator** | `mod@lostlink.vn` | `Mod@1234` |
+| **User** | `user@lostlink.vn` | `User@1234` |
+
+### Community members (authors of the sample posts)
+
+These match the handles shown in the demo feed, leaderboard and profiles. They
+all share the password **`User@1234`**.
+
+| Handle (username) | Email | Reputation |
+| --- | --- | --- |
+| `minhkhoi.td` | `minhkhoi.td@lostlink.vn` | 312 |
+| `hoangnam.q1` | `hoangnam.q1@lostlink.vn` | 248 |
+| `baotran.sg` | `baotran.sg@lostlink.vn` | 174 |
+| `ngockhanh.dn` | `ngockhanh.dn@lostlink.vn` | 141 |
+| `thuylinh.hn` | `thuylinh.hn@lostlink.vn` | 96 |
+| `ducanh.bk` | `ducanh.bk@lostlink.vn` | 60 |
+
+> These are demo credentials for local testing only — never reuse them in a real deployment.
 
