@@ -151,7 +151,7 @@ export default function Auth() {
     try {
       const res = await authApi.login({ email, password })
       applyAuth(res.data)
-      navigate('/home')
+      navigate(['moderator', 'admin'].includes(res.data.user.role) ? '/moderator' : '/home')
     } catch (e) {
       // Tài khoản chưa xác thực: backend đã gửi lại mã → chuyển sang bước verify.
       if (e.data?.errors?.code === 'EMAIL_NOT_VERIFIED') {
@@ -211,7 +211,7 @@ export default function Auth() {
     try {
       const res = await authApi.googleLogin(idToken)
       applyAuth(res.data)
-      navigate('/home')
+      navigate(['moderator', 'admin'].includes(res.data.user.role) ? '/moderator' : '/home')
     } catch (e) {
       setError(e.message)
     } finally {
