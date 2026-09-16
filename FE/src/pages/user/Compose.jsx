@@ -158,7 +158,7 @@ function Step1({ postType, setPostType, composeCat, setComposeCat }) {
         </div>
       </div>
       <div className="flex items-center gap-2.5 rounded-lg border border-blue-line bg-blue-soft px-4 py-3 text-[11.5px] text-blue-ink">
-        Một tấm ảnh thôi cũng giúp người kia nhận ra món đồ nhanh hơn nhiều.
+        Thêm hình ảnh để mọi người nhận biết dễ hơn nào
       </div>
     </>
   )
@@ -228,12 +228,9 @@ function Step2({ postType, timeDate, setTimeDate, setTimePreset, timePreset, pic
           )
         })}
       </div>
-      <div className="mb-5 flex items-center gap-3 rounded-[10px] border border-blue-line bg-blue-soft px-[18px] py-3.5">
+      <div className="flex items-center gap-3 rounded-[10px] border border-blue-line bg-blue-soft px-[18px] py-3.5">
         <div className="text-[12px] text-blue-ink">Sẽ hiển thị trên tin:</div>
         <div className="text-[12.5px] font-semibold text-blue-ink">{timeSummary}</div>
-      </div>
-      <div className="rounded-[10px] border border-line2 bg-soft px-5 py-[18px] text-[12px] leading-[1.6] text-ink2">
-        Đồ thường được nhặt sau khi mất vài giờ, nên bạn cứ chọn rộng tay — LostLink đã tính sẵn khoảng chênh lệch đó.
       </div>
     </>
   )
@@ -274,15 +271,11 @@ function Step3({ postType, locMode, setLocMode }) {
         <div className="absolute left-4 top-4 rounded-lg bg-white/[0.96] px-3.5 py-2.5 text-[11.5px] shadow-[0_2px_8px_rgba(0,0,0,.08)]">Bến xe Mỹ Đình, Nam Từ Liêm, Hà Nội</div>
         <div className="absolute bottom-4 right-4 rounded-lg bg-[rgba(22,35,58,0.82)] px-3 py-2 text-[10.5px] text-white">Kéo ghim để chỉnh vị trí</div>
       </div>
-      <div className="flex flex-col gap-3 rounded-[10px] border border-blue-line bg-blue-soft px-5 py-4 sm:flex-row sm:items-center sm:gap-4">
-        <div className="flex-1">
-          <div className="mb-[3px] text-[12px] font-semibold text-blue-ink">Người khác sẽ thấy vùng này</div>
-          <div className="text-[11px] text-blue-text">Rộng khoảng 400 m quanh chỗ bạn chọn</div>
+      <div className="flex items-center gap-3 rounded-[10px] border border-blue-line bg-blue-soft px-5 py-4">
+        <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-white text-blue">
+          <div className="h-2.5 w-2.5 rounded-full border-[3px] border-blue" />
         </div>
-        <div className="relative h-1.5 w-full rounded-full bg-[rgba(46,109,180,0.2)] sm:w-[220px]">
-          <div className="absolute inset-y-0 left-0 w-[55%] rounded-full bg-blue" />
-          <div className="absolute -top-[5px] left-[55%] -ml-2 h-4 w-4 rounded-full border-[3px] border-blue bg-white" />
-        </div>
+        <div className="text-[12.5px] font-semibold text-blue-ink">Bài viết ưu tiên hiển thị trong bán kính 400m</div>
       </div>
     </>
   )

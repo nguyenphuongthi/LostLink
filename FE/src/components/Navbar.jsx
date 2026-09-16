@@ -29,7 +29,8 @@ function NavItem({ label, to, badge, active, guarded }) {
 // The nav destinations, shared between the desktop bar and the mobile drawer.
 const LINKS = [
   { label: 'Trang chủ', to: '/home', badge: null, guarded: false },
-  { label: 'Gợi ý ghép cặp', to: '/matches', badge: '3', guarded: true },
+  { label: 'Tin hot gần đây', to: '/trending', badge: null, guarded: false },
+  { label: 'Thông báo', to: '/notifications', badge: '3', guarded: true },
   { label: 'Tin nhắn', to: '/chat', badge: '2', guarded: true },
   { label: 'Trang của tôi', to: '/profile', badge: null, guarded: true },
   { label: 'Bảng vinh danh', to: '/leaderboard', badge: null, guarded: false },
@@ -60,7 +61,8 @@ export default function Navbar() {
         {/* Desktop nav links */}
         <div className="ml-2 hidden items-center gap-1 lg:flex">
           <NavItem label="Trang chủ" to="/home" active={pathname === '/home'} />
-          <NavItem label="Gợi ý ghép cặp" to="/matches" badge="3" guarded active={pathname === '/matches'} />
+          <NavItem label="Tin hot gần đây" to="/trending" active={pathname === '/trending'} />
+          <NavItem label="Thông báo" to="/notifications" badge="3" guarded active={pathname === '/notifications'} />
           <NavItem label="Tin nhắn" to="/chat" badge="2" guarded active={pathname === '/chat'} />
           <NavItem label="Trang của tôi" to="/profile" guarded active={pathname === '/profile'} />
         </div>
@@ -170,7 +172,7 @@ export default function Navbar() {
                   onClick={drawerGo('/settings', true)}
                   className="sk-row flex cursor-pointer items-center rounded-xl px-3.5 py-3 text-[14px] font-medium text-ink2"
                 >
-                  Thiết lập
+                  Cài đặt
                 </div>
               </div>
 

@@ -178,6 +178,31 @@ input[type='date'] {
     color: #fff;
   }
 
+  /* User badge shown under the profile name — tone via modifier. */
+  .ubadge {
+    height: 26px;
+    padding: 0 12px;
+    border-radius: 99px;
+    font-size: 11px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    white-space: nowrap;
+  }
+  .ubadge-good {
+    background: var(--color-amber-soft);
+    color: var(--color-amber);
+  }
+  .ubadge-love {
+    background: #fdeef3;
+    color: #c24d78;
+  }
+  .ubadge-bad {
+    background: var(--color-red-soft);
+    color: var(--color-red);
+  }
+
   /* Small uppercase section label. */
   .eyebrow {
     font-size: 10.5px;
@@ -319,6 +344,99 @@ input[type='date'] {
   .sk-icon-btn:active {
     box-shadow: inset 0 2px 5px rgba(22, 35, 58, 0.14);
     transform: translateY(0.5px);
+  }
+}
+
+/* ── Header logo radar animation (a small, always-on nod to the auth art) ─ */
+@keyframes lg-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes lg-glow {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.65;
+  }
+}
+@keyframes lg-ping {
+  0% {
+    transform: scale(0.78);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+/* Assemble loop: magnifier + pin fly in from opposite sides and snap together
+   (a small echo of the auth screen). */
+@keyframes lg-mag {
+  0% {
+    transform: translate(-15px, 9px) scale(0.72) rotate(-12deg);
+    opacity: 0;
+  }
+  22% {
+    transform: none;
+    opacity: 1;
+  }
+  84% {
+    transform: none;
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-15px, 9px) scale(0.72) rotate(-12deg);
+    opacity: 0;
+  }
+}
+@keyframes lg-pin {
+  0% {
+    transform: translate(15px, -16px) scale(0.5);
+    opacity: 0;
+  }
+  26% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  32% {
+    transform: translate(0, -3px) scale(1.08);
+  }
+  40% {
+    transform: translate(0, 0) scale(1);
+  }
+  84% {
+    transform: none;
+    opacity: 1;
+  }
+  100% {
+    transform: translate(15px, -16px) scale(0.5);
+    opacity: 0;
+  }
+}
+@keyframes lg-snap {
+  0%,
+  24% {
+    transform: scale(0.2);
+    opacity: 0;
+  }
+  33% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+  48%,
+  100% {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+}
+/* Respect users who prefer less motion (elements rest in the assembled state). */
+@media (prefers-reduced-motion: reduce) {
+  .lg-anim *,
+  .lg-anim {
+    animation: none !important;
   }
 }
 

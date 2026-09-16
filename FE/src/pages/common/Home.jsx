@@ -4,26 +4,33 @@ import PostCard from '../../components/PostCard'
 import HomeFilters from '../../components/HomeFilters'
 import RightRail from '../../components/RightRail'
 
-export default function Home() {
+// Dùng chung cho Trang chủ và "Tin hot gần đây": cùng một giao diện, chỉ khác
+// tiêu đề (`heading`) và cách sắp xếp feed (`sortPosts`, tùy chọn).
+export default function Home({ heading = 'Tin mới quanh bạn', sortPosts } = {}) {
   const [cat, setCat] = useState('Tất cả')
   const [range, setRange] = useState('7 ngày qua')
+  // Khoảng ngày cụ thể do người dùng chọn (khi range === 'custom').
+  const [customRange, setCustomRange] = useState({ from: '', to: '' })
   const [filterOpen, setFilterOpen] = useState(false)
 
-  const shown = posts.filter((p) => cat === 'Tất cả' || p.category === cat)
+  let shown = posts.filter((p) => cat === 'Tất cả' || p.category === cat)
+  if (sortPosts) shown = [...shown].sort(sortPosts)
+
+  const filterProps = { cat, setCat, range, setRange, customRange, setCustomRange }
 
   return (
     <div className="px-4 pt-5 sm:px-6 lg:px-10 lg:pt-7">
       <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-[268px_1fr_316px]">
         {/* ── Filters (desktop sidebar) ─────────────── */}
-        <div className="card sticky top-[90px] hidden self-start p-5 shadow-[0_1px_2px_rgba(22,35,58,0.04)] lg:block">
-          <HomeFilters cat={cat} setCat={setCat} range={range} setRange={setRange} />
+        <div className="card sticky top-[90px] hidden max-h-[calc(100vh-110px)] self-start overflow-y-auto p-5 shadow-[0_1px_2px_rgba(22,35,58,0.04)] lg:block">
+          <HomeFilters {...filterProps} />
         </div>
 
         {/* ── Feed ──────────────────────────────────── */}
         <div>
           <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <div className="text-[20px] font-bold tracking-[-0.025em] lg:text-[24px]">Tin mới quanh bạn</div>
+              <div className="text-[20px] font-bold tracking-[-0.025em] lg:text-[24px]">{heading}</div>
               <div className="mt-1 text-[12.5px] text-muted">
                 {shown.length} tin trong bán kính 3 km · cập nhật 2 phút trước
               </div>
@@ -74,13 +81,7 @@ export default function Home() {
               </button>
             </div>
             <div className="flex-1 overflow-y-auto px-5 pb-5 pt-1">
-              <HomeFilters
-                cat={cat}
-                setCat={setCat}
-                range={range}
-                setRange={setRange}
-                onApply={() => setFilterOpen(false)}
-              />
+              <HomeFilters {...filterProps} onApply={() => setFilterOpen(false)} />
             </div>
           </div>
         </div>

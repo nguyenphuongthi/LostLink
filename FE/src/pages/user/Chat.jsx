@@ -249,18 +249,20 @@ export default function Chat() {
               </div>
 
               <div className="card flex-1 p-5">
-                <div className="mb-1 text-[14px] font-bold">Chỗ hẹn an toàn gần đó</div>
-                <div className="mb-3.5 text-[11px] text-muted2">Nơi công cộng, có người qua lại</div>
+                <div className="mb-1 text-[14px] font-bold">Gợi ý chỗ hẹn an toàn</div>
+                <div className="mb-3.5 text-[11px] leading-[1.5] text-muted2">
+                  Nên hẹn ở nơi công cộng, đông người. Dưới đây là vài loại chỗ an toàn bạn có thể tìm thấy ở gần như bất cứ đâu.
+                </div>
                 <div className="flex flex-col gap-2">
                   {meetups.map((s, i) => (
                     <div
                       key={i}
-                      className="ll-meetup flex cursor-pointer items-center gap-3 rounded-[9px] border border-line2 bg-soft px-3 py-[11px]"
+                      className="flex items-start gap-3 rounded-[9px] border border-line2 bg-soft px-3 py-[11px]"
                     >
-                      <div className="h-2 w-2 flex-shrink-0 rounded-full bg-blue" />
+                      <div className="mt-[5px] h-2 w-2 flex-shrink-0 rounded-full bg-blue" />
                       <div className="min-w-0 flex-1">
                         <div className="text-[12px] font-medium">{s.name}</div>
-                        <div className="text-[10.5px] text-muted2">{s.dist}</div>
+                        <div className="text-[10.5px] leading-[1.45] text-muted2">{s.hint}</div>
                       </div>
                     </div>
                   ))}

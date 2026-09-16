@@ -3,7 +3,13 @@ import CategoryIcon from './CategoryIcon'
 
 // The Home filter panel. Rendered in the desktop sidebar and inside the mobile
 // filter drawer. `onApply` lets the mobile drawer close itself on apply.
-export default function HomeFilters({ cat, setCat, range, setRange, onApply }) {
+export default function HomeFilters({ cat, setCat, range, setRange, customRange, setCustomRange, onApply }) {
+  // Khi người dùng chọn ngày → tự chuyển sang chế độ lọc theo khoảng ngày.
+  const setDate = (key) => (e) => {
+    setCustomRange((s) => ({ ...s, [key]: e.target.value }))
+    setRange('custom')
+  }
+
   return (
     <>
       <div className="mb-[18px] flex items-center justify-between">
@@ -13,6 +19,7 @@ export default function HomeFilters({ cat, setCat, range, setRange, onApply }) {
           onClick={() => {
             setCat('Tất cả')
             setRange('7 ngày qua')
+            setCustomRange({ from: '', to: '' })
           }}
         >
           Xóa lọc
@@ -66,14 +73,14 @@ export default function HomeFilters({ cat, setCat, range, setRange, onApply }) {
       <Slider pct={42} />
 
       <div className="eyebrow mt-[22px]">Khoảng thời gian</div>
-      <div className="mb-[22px] flex flex-col gap-2">
+      <div className="mb-3 grid grid-cols-3 gap-2">
         {TIME_RANGES.map((t) => {
           const on = range === t
           return (
             <div
               key={t}
-              className={`flex h-9 cursor-pointer items-center rounded-lg px-3 text-[12px] ${
-                on ? 'border-[1.5px] border-blue-line bg-blue-soft font-semibold text-blue' : 'll-chip-soft bg-chip'
+              className={`flex h-[52px] cursor-pointer items-center justify-center rounded-lg px-1 text-center text-[11px] leading-tight ${
+                on ? 'border-[1.5px] border-blue-line bg-blue-soft font-semibold text-blue' : 'll-chip-soft bg-chip text-ink2'
               }`}
               onClick={() => setRange(t)}
             >
@@ -81,6 +88,30 @@ export default function HomeFilters({ cat, setCat, range, setRange, onApply }) {
             </div>
           )
         })}
+      </div>
+
+      {/* Khoảng ngày cụ thể — luôn hiển thị Từ ngày / Đến ngày */}
+      <div className="mb-[22px] grid grid-cols-2 gap-2">
+        <div>
+          <div className="mb-1 text-[11px] font-medium text-ink2">Từ ngày</div>
+          <input
+            type="date"
+            value={customRange?.from || ''}
+            max={customRange?.to || undefined}
+            onChange={setDate('from')}
+            className="h-9 w-full rounded-lg border border-line bg-white px-2.5 text-[12px] text-ink outline-none focus:border-blue"
+          />
+        </div>
+        <div>
+          <div className="mb-1 text-[11px] font-medium text-ink2">Đến ngày</div>
+          <input
+            type="date"
+            value={customRange?.to || ''}
+            min={customRange?.from || undefined}
+            onChange={setDate('to')}
+            className="h-9 w-full rounded-lg border border-line bg-white px-2.5 text-[12px] text-ink outline-none focus:border-blue"
+          />
+        </div>
       </div>
 
       <div
