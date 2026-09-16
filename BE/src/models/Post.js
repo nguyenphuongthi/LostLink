@@ -73,6 +73,10 @@ const postSchema = new Schema(
     locPublic: { type: pointSchema, required: true },
     locPublicRadius: { type: Number, default: 300 }, // mét
 
+    // Bán kính ưu tiên hiển thị bài trên feed (mặc định 400m).
+    // Dự kiến phát triển: mỗi danh mục có mức ưu tiên khác nhau.
+    priorityRadius: { type: Number, default: 400 }, // mét
+
     locType: { type: String, enum: ['point', 'road_segment'], default: 'point' },
 
     status: {
@@ -87,6 +91,11 @@ const postSchema = new Schema(
       index: true,
     },
 
+    // Bộ đếm tương tác — phục vụ feed "Tin hot gần đây" (nhiều xem + nhiều thích).
+    viewCount: { type: Number, default: 0 },
+    likeCount: { type: Number, default: 0 },
+    commentCount: { type: Number, default: 0 },
+
     contents: [postContentSchema],
     images: [postImageSchema],
     tags: [{ type: String, trim: true }],
@@ -99,6 +108,8 @@ const postSchema = new Schema(
 postSchema.index({ locPublic: '2dsphere' })
 // Hỗ trợ lọc feed & matching hai chiều.
 postSchema.index({ type: 1, status: 1, createdAt: -1 })
+// Feed "Tin hot gần đây": bài mới, nhiều lượt xem/thích.
+postSchema.index({ status: 1, viewCount: -1, likeCount: -1 })
 // Tìm kiếm toàn văn tiêu đề + mô tả.
 postSchema.index({ title: 'text', description: 'text' })
 
