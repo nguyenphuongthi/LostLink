@@ -93,6 +93,9 @@ export default function UserMenu() {
           <div className="my-1 h-px bg-line" />
 
           <MenuRow icon={<IconUser />} onClick={go('/profile')}>Trang cá nhân</MenuRow>
+          {['moderator', 'admin'].includes(user.role) && (
+            <MenuRow icon={<IconGear />} onClick={go('/moderator')}>Không gian kiểm duyệt</MenuRow>
+          )}
           <MenuRow icon={<IconGear />} onClick={go('/settings')}>Cài đặt tài khoản</MenuRow>
           <MenuRow icon={<IconKey />} onClick={go('/settings')}>Đổi mật khẩu</MenuRow>
 

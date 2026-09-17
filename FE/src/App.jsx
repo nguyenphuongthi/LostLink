@@ -4,6 +4,7 @@ import { useApp } from './context/AppContext'
 import Navbar from './components/Navbar'
 import LoginModal from './components/LoginModal'
 import Auth from './pages/auth/Auth'
+import Moderator from './pages/moderator/Moderator'
 
 // Public / shared screens — a Guest may view these; a User gets the full set.
 import Home from './pages/common/Home'
@@ -27,7 +28,7 @@ import Settings from './pages/user/Settings'
 function RootGate() {
   const { user, authReady } = useApp()
   if (!authReady) return null
-  return <Navigate to={user ? '/home' : '/auth'} replace />
+  return <Navigate to={user ? (['moderator', 'admin'].includes(user.role) ? '/moderator' : '/home') : '/auth'} replace />
 }
 
 export default function App() {
@@ -36,6 +37,9 @@ export default function App() {
   // The auth flow is a full-bleed, self-contained dark experience — it renders
   // on its own, without the app chrome (navbar / modal).
   if (pathname === '/auth') return <Auth />
+  if (pathname === '/moderator' || pathname.startsWith('/moderator/')) {
+    return <Routes><Route path="/moderator/*" element={<Moderator />} /></Routes>
+  }
 
   return (
     <>
