@@ -36,9 +36,11 @@ export const messages = [
   { me: true, text: 'Vâng, 15h chiều nay tại quán cà phê nhé. Em cảm ơn anh nhiều ạ.', time: '09:41' },
 ]
 
+// Gợi ý CHUNG cho mọi vị trí: các loại nơi công cộng, đông người, ở đâu cũng
+// có — không phải địa điểm cụ thể, không kèm khoảng cách.
 export const meetups = [
-  { name: 'Công an phường Bến Nghé', dist: 'Cách điểm hẹn 400 m' },
-  { name: 'Quầy bảo vệ trung tâm thương mại Đồng Khởi', dist: 'Cách 650 m' },
-  { name: 'Quán cà phê tầng trệt toà nhà Bitexco', dist: 'Cách 900 m' },
-  { name: 'Siêu thị trên đường Nguyễn Đình Chiểu', dist: 'Cách 1,4 km' },
+  { name: 'Quán cà phê đông khách', hint: 'Không gian mở, luôn có người qua lại' },
+  { name: 'Quầy bảo vệ chung cư / toà nhà', hint: 'Có người trực và camera an ninh' },
+  { name: 'Siêu thị, cửa hàng tiện lợi', hint: 'Sáng đèn, đông người gần như cả ngày' },
+  { name: 'Trụ sở công an phường', hint: 'An tâm nhất khi cần người làm chứng' },
 ]

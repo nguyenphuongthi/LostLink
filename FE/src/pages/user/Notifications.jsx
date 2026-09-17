@@ -1,12 +1,13 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { c } from '../../theme/tokens'
-import { NOTIF_TABS, notifGroups, notifPrefs } from '../../data/notifications'
+import { NOTIF_TABS, TAB_KINDS, notifGroups, notifPrefs } from '../../data/notifications'
 
 const TONES = {
   blue: [c.blueSoft, c.blue],
   green: [c.greenSoft, c.green],
   warm: [c.amberSoft, c.amber],
+  rose: ['#FDEEF3', '#C24D78'],
 }
 
 // U6 · Activity feed + reminder preferences.
@@ -19,7 +20,7 @@ export default function Notifications() {
   return (
     <div className="mx-auto max-w-[1120px] px-4 pt-5 sm:px-6 lg:px-10 lg:pt-7">
       <div className="mb-1 text-[22px] font-bold tracking-[-0.028em] lg:text-[25px]">Thông báo</div>
-      <div className="mb-[22px] text-[13px] text-muted">Mình sẽ nhắn cho bạn khi có tin liên quan tới món đồ bạn đang tìm.</div>
+      <div className="mb-[22px] text-[13px] text-muted">Gợi ý ghép cặp, lượt thích, bình luận và tin bài được duyệt — tất cả ở một nơi.</div>
 
       <div className="grid grid-cols-1 items-start gap-5 lg:grid-cols-[1fr_300px]">
         <div className="card overflow-hidden">
@@ -39,38 +40,49 @@ export default function Notifications() {
             <div className="ml-auto cursor-pointer text-[11.5px] font-medium text-blue" onClick={() => setRead(true)}>Đánh dấu đã đọc hết</div>
           </div>
 
-          {notifGroups.map((g) => (
-            <div key={g.label}>
-              <div className="bg-[#FBFCFE] px-5 pb-2 pt-3.5 text-[10.5px] font-semibold uppercase tracking-[0.05em] text-muted2">{g.label}</div>
-              {g.items.map((n, i) => {
-                const [bg, fg] = TONES[n.tone]
-                const unread = n.unread && !read
-                return (
-                  <div
-                    key={i}
-                    onClick={() => navigate(n.go)}
-                    className={`flex cursor-pointer items-start gap-3.5 border-t border-line2 px-5 py-4 ${unread ? 'bg-[#F8FBFF]' : 'bg-white'}`}
-                  >
+          {notifGroups.map((g) => {
+            const kinds = TAB_KINDS[tab]
+            const items = kinds ? g.items.filter((n) => kinds.includes(n.kind)) : g.items
+            if (!items.length) return null
+            return (
+              <div key={g.label}>
+                <div className="bg-[#FBFCFE] px-5 pb-2 pt-3.5 text-[10.5px] font-semibold uppercase tracking-[0.05em] text-muted2">{g.label}</div>
+                {items.map((n, i) => {
+                  const [bg, fg] = TONES[n.tone]
+                  const unread = n.unread && !read
+                  return (
                     <div
-                      className="flex h-[38px] w-[38px] flex-shrink-0 items-center justify-center rounded-[10px] text-[14.5px]"
-                      style={{ background: bg, color: fg }}
+                      key={i}
+                      onClick={() => navigate(n.go)}
+                      className={`flex cursor-pointer items-start gap-3.5 border-t border-line2 px-5 py-4 ${unread ? 'bg-[#F8FBFF]' : 'bg-white'}`}
                     >
-                      {n.icon}
+                      <div
+                        className="flex h-[38px] w-[38px] flex-shrink-0 items-center justify-center rounded-[10px] text-[14.5px]"
+                        style={{ background: bg, color: fg }}
+                      >
+                        {n.icon}
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <div className="mb-[3px] text-[13px] font-semibold">{n.title}</div>
+                        <div className="text-[12px] leading-[1.5] text-muted">{n.body}</div>
+                        {/* Gợi ý ghép cặp: các lý do gộp chung 1 thẻ, tự xuống dòng */}
+                        {n.reasons && (
+                          <div className="mt-2 rounded-[10px] border border-blue-line bg-blue-soft px-3 py-2 text-[11.5px] leading-[1.6] text-blue-ink">
+                            {n.reasons.join(' · ')}
+                          </div>
+                        )}
+                        <div className="mt-1.5 text-[11px] text-muted2">{n.time}</div>
+                      </div>
+                      <div className="flex flex-shrink-0 items-center gap-3">
+                        <div className={`h-2 w-2 rounded-full ${unread ? 'bg-red' : 'bg-transparent'}`} />
+                        <div className="ll-tab-soft flex h-[34px] items-center rounded-[10px] bg-chip px-3.5 text-[11.5px] font-semibold text-ink">{n.action}</div>
+                      </div>
                     </div>
-                    <div className="min-w-0 flex-1">
-                      <div className="mb-[3px] text-[13px] font-semibold">{n.title}</div>
-                      <div className="text-[12px] leading-[1.5] text-muted">{n.body}</div>
-                      <div className="mt-1.5 text-[11px] text-muted2">{n.time}</div>
-                    </div>
-                    <div className="flex flex-shrink-0 items-center gap-3">
-                      <div className={`h-2 w-2 rounded-full ${unread ? 'bg-red' : 'bg-transparent'}`} />
-                      <div className="ll-tab-soft flex h-[34px] items-center rounded-[10px] bg-chip px-3.5 text-[11.5px] font-semibold text-ink">{n.action}</div>
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-          ))}
+                  )
+                })}
+              </div>
+            )
+          })}
         </div>
 
         <div className="flex flex-col gap-3.5">

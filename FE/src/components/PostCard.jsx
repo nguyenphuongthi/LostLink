@@ -3,8 +3,9 @@ import { useApp } from '../context/AppContext'
 import { IMG, BADGE_LABEL } from '../theme/tokens'
 
 // A feed row on Home. Whole card opens the post; the like pill and the
-// author name are independent click targets.
-export default function PostCard({ post }) {
+// author name are independent click targets. `dimmed` mờ đi các bài đã trao
+// trả trên trang cá nhân; `post.status` (kèm `post.tone`) hiện nhãn trạng thái.
+export default function PostCard({ post, dimmed = false }) {
   const navigate = useNavigate()
   const { liked, toggleLike } = useApp()
 
@@ -14,7 +15,9 @@ export default function PostCard({ post }) {
 
   return (
     <div
-      className="ll-card flex cursor-pointer gap-3.5 rounded-xl border border-line bg-white p-3.5 sm:gap-5 sm:p-[18px]"
+      className={`ll-card flex cursor-pointer gap-3.5 rounded-xl border border-line bg-white p-3.5 sm:gap-5 sm:p-[18px] ${
+        dimmed ? 'opacity-60 grayscale-[0.25]' : ''
+      }`}
       onClick={() => navigate('/post/' + post.id)}
     >
       <div
@@ -36,7 +39,8 @@ export default function PostCard({ post }) {
           <div className="whitespace-nowrap text-[11px] text-muted2">{post.category}</div>
           <Dot />
           <div className="whitespace-nowrap text-[11px] text-muted2">{post.timeAgo}</div>
-          <div className="ml-auto flex flex-shrink-0">
+          <div className="ml-auto flex flex-shrink-0 items-center gap-2">
+            {post.status && <div className={`status status-${post.tone || 'idle'}`}>{post.status}</div>}
             <div className={`badge badge-${post.type}`}>{BADGE_LABEL[post.type]}</div>
           </div>
         </div>

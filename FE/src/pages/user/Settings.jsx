@@ -55,8 +55,7 @@ export default function Settings() {
                 <div className="mt-[7px] text-[11px] text-muted2">Ảnh rõ mặt giúp người khác yên tâm khi hẹn gặp</div>
               </div>
             </div>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <Field label="Tên hiển thị" value="Nguyễn Thu Hà" />
+            <div className="grid grid-cols-1 gap-4 sm:max-w-[360px]">
               <Field label="Tên tài khoản" value="thuha.q1" muted />
             </div>
           </div>

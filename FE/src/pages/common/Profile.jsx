@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useApp } from '../../context/AppContext'
-import { PHOTO, BADGE_LABEL } from '../../theme/tokens'
+import PostCard from '../../components/PostCard'
 import { profile, PROFILE_TABS, profilePosts, reviews } from '../../data/people'
 
 export default function Profile() {
@@ -9,9 +9,14 @@ export default function Profile() {
   const { isGuest, openLogin, following, toggleFollow } = useApp()
   const [tab, setTab] = useState('Tất cả')
 
-  const shown = profilePosts.filter(
-    (p) => tab === 'Tất cả' || (tab === 'Nhặt được' ? p.type === 'found' : p.type === 'lost'),
-  )
+  // Lọc theo tab, rồi sắp theo mốc thời gian (mới nhất trước). Bài "đã trao trả"
+  // luôn nằm cuối danh sách và được làm mờ.
+  const shown = profilePosts
+    .filter((p) => tab === 'Tất cả' || (tab === 'Nhặt được' ? p.type === 'found' : p.type === 'lost'))
+    .sort((a, b) => {
+      if (a.returned !== b.returned) return a.returned ? 1 : -1
+      return b.order - a.order
+    })
 
   const onFollow = () => (isGuest ? openLogin() : toggleFollow())
 
@@ -32,11 +37,19 @@ export default function Profile() {
             {profile.initials}
           </div>
           <div className="flex-1 pb-1.5">
-            <div className="mb-1 flex flex-wrap items-center gap-2.5">
+            <div className="mb-2 flex flex-wrap items-center gap-2.5">
               <div className="text-[19px] font-bold tracking-[-0.02em] lg:text-[21.5px]">{profile.handle}</div>
               <div className="flex h-6 items-center rounded-full bg-blue-soft px-2.5 text-[10.5px] font-semibold text-blue">
                 Đã xác thực
               </div>
+            </div>
+            {/* Huy hiệu — đặt ngay dưới tên user */}
+            <div className="mb-2.5 flex flex-wrap gap-2">
+              {profile.badges.map((b) => (
+                <span key={b.name} className={`ubadge ubadge-${b.tone || 'good'}`}>
+                  {b.name}
+                </span>
+              ))}
             </div>
             <div className="text-[12.5px] text-muted">{profile.bio}</div>
           </div>
@@ -79,24 +92,9 @@ export default function Profile() {
               )
             })}
           </div>
-          <div className="flex flex-col gap-3">
-            {shown.map((p, i) => (
-              <div
-                key={i}
-                className="ll-card-sm card flex cursor-pointer items-center gap-4 rounded-[11px] p-4"
-                onClick={() => navigate('/post/0')}
-              >
-                <div style={PHOTO(p.photo, 92, 92, 14)} />
-                <div className="min-w-0 flex-1">
-                  <div className="mb-1.5 flex items-center gap-2">
-                    <div className={`badge badge-${p.type}`}>{BADGE_LABEL[p.type]}</div>
-                    <div className={`status status-${p.tone}`}>{p.status}</div>
-                    <div className="text-[11px] text-muted2">{p.timeAgo}</div>
-                  </div>
-                  <div className="mb-[5px] text-[14.5px] font-semibold">{p.title}</div>
-                  <div className="text-[11.5px] text-muted2">{p.area}</div>
-                </div>
-              </div>
+          <div className="flex flex-col gap-4">
+            {shown.map((p) => (
+              <PostCard key={p.id} post={p} dimmed={p.returned} />
             ))}
           </div>
         </div>
@@ -113,20 +111,6 @@ export default function Profile() {
             <div className="grid grid-cols-2 gap-2.5">
               <RepStat value={profile.returned} label="Món đã trao trả" />
               <RepStat value={profile.rating} label="Đánh giá trung bình" />
-            </div>
-          </div>
-
-          <div className="card p-5">
-            <div className="mb-3.5 text-[14px] font-bold">Huy hiệu</div>
-            <div className="flex flex-wrap gap-2">
-              {profile.badges.map((b) => (
-                <div
-                  key={b.name}
-                  className="flex h-[30px] items-center rounded-full bg-amber-soft px-3 text-[11px] font-semibold text-amber"
-                >
-                  {b.name}
-                </div>
-              ))}
             </div>
           </div>
 

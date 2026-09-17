@@ -7,6 +7,7 @@ import Auth from './pages/auth/Auth'
 
 // Public / shared screens — a Guest may view these; a User gets the full set.
 import Home from './pages/common/Home'
+import Trending from './pages/common/Trending'
 import Detail from './pages/common/Detail'
 import Profile from './pages/common/Profile'
 import Leaderboard from './pages/common/Leaderboard'
@@ -48,6 +49,7 @@ export default function App() {
 
           {/* Guest + User */}
           <Route path="/home" element={<Home />} />
+          <Route path="/trending" element={<Trending />} />
           <Route path="/post/:id" element={<Detail />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/leaderboard" element={<Leaderboard />} />

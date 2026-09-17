@@ -1,21 +1,67 @@
-import { useState } from 'react'
-
 /**
- * Brand mark. Prefers /logo.png (drop your own into public/), and falls
- * back to the bundled /logo.svg so nothing ever renders broken.
+ * Brand mark — the LostLink magnifier + location pin, drawn as vector so its
+ * pieces can animate. `animated` (default) plays a small, always-on assemble
+ * loop echoing the auth screen: the magnifier flies in from the lower-left and
+ * the pin drops in from the upper-right, snapping together. `animated={false}`
+ * renders the same mark, static.
+ *
+ * Keyframes (lg-mag / lg-pin / lg-snap) live in src/theme/global.css and the
+ * reduced-motion guard there leaves every piece resting in its assembled spot.
  */
-export default function Logo({ size = 42 }) {
-  const [src, setSrc] = useState('/logo.png')
+export default function Logo({ size = 42, animated = true }) {
+  // Groups scale/rotate around the mark's centre.
+  const originCenter = { transformBox: 'view-box', transformOrigin: '32px 32px' }
+  const magStyle = animated ? { ...originCenter, animation: 'lg-mag 3s cubic-bezier(.16,.84,.28,1) infinite' } : undefined
+  const pinStyle = animated ? { ...originCenter, animation: 'lg-pin 3s cubic-bezier(.16,.84,.28,1) infinite' } : undefined
+
   return (
-    <img
-      src={src}
-      alt="LostLink"
-      width={size}
-      height={size}
-      className="block object-contain"
-      onError={() => {
-        if (src !== '/logo.svg') setSrc('/logo.svg')
-      }}
-    />
+    <span
+      className="lg-anim relative inline-flex flex-shrink-0 items-center justify-center"
+      style={{ width: size, height: size }}
+    >
+      {/* Soft glow halo */}
+      {animated && (
+        <span
+          className="pointer-events-none absolute rounded-full"
+          style={{
+            inset: -size * 0.3,
+            background: 'radial-gradient(circle, rgba(46,109,180,0.24), rgba(46,109,180,0) 68%)',
+            animation: 'lg-glow 5s ease-in-out infinite',
+          }}
+        />
+      )}
+
+      <svg width={size} height={size} viewBox="0 0 64 64" fill="none" className="relative z-10 block" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="llHeadG" x1="20" y1="15" x2="38" y2="40" gradientUnits="userSpaceOnUse">
+            <stop stopColor="#3E86D6" />
+            <stop offset="1" stopColor="#2E6DB4" />
+          </linearGradient>
+        </defs>
+
+        {/* Magnifier: handle + lens ring + cupping hand */}
+        <g style={magStyle}>
+          <path d="M43 42 L55 54" stroke="#1B3358" strokeWidth="7" strokeLinecap="round" />
+          <path d="M45.3 35.6 A18 18 0 1 1 34.6 10.9" stroke="#1B3358" strokeWidth="5" strokeLinecap="round" />
+          <path d="M34.6 10.9 A18 18 0 0 1 45.3 35.6" stroke="#9AA7BA" strokeWidth="5" strokeLinecap="round" />
+          <path d="M16 38 C22 43 40 43 47 38.5 C46 47 38 50 30 50 C22 50 17 45 16 38 Z" fill="#1B3358" />
+        </g>
+
+        {/* Snap flash where the pin lands */}
+        <circle
+          cx="29"
+          cy="28"
+          r="9"
+          fill="rgba(142,192,242,0.9)"
+          style={{ transformBox: 'fill-box', transformOrigin: 'center', opacity: 0, ...(animated ? { animation: 'lg-snap 3s ease-out infinite' } : {}) }}
+        />
+
+        {/* Location pin */}
+        <g style={pinStyle}>
+          <path d="M29 14.5 C23.8 14.5 19.6 18.7 19.6 23.9 C19.6 31 29 40.2 29 40.2 C29 40.2 38.4 31 38.4 23.9 C38.4 18.7 34.2 14.5 29 14.5 Z" fill="url(#llHeadG)" />
+          <circle cx="29" cy="23.7" r="4.1" fill="#fff" />
+        </g>
+      </svg>
+    </span>
   )
 }
