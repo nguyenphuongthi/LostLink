@@ -15,7 +15,7 @@ const config = {
 
   jwt: {
     secret: process.env.JWT_SECRET,
-    expire: process.env.JWT_EXPIRE || '30d',
+    expire: process.env.JWT_EXPIRE || '15m',
     refreshSecret: process.env.JWT_REFRESH_SECRET,
     refreshExpire: process.env.JWT_REFRESH_EXPIRE || '7d',
   },

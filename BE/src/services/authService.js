@@ -206,6 +206,7 @@ const resetPassword = async ({ email, token, password }) => {
 
   user.passwordHash = await bcrypt.hash(password, BCRYPT_ROUNDS)
   if (!user.emailVerifiedAt) user.emailVerifiedAt = new Date()
+  user.tokenVersion += 1
   await user.save()
   await EmailToken.deleteMany({ user: user._id, purpose: 'reset' })
 

@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useCallback, useMemo, useEffect } from 'react'
-import { fetchMe } from '../api/auth'
+import { fetchMe, logout as logoutApi } from '../api/auth'
+import { getToken, saveTokens, clearTokens } from '../lib/api'
 
 /**
  * App-wide state that must survive across screens:
@@ -11,17 +12,6 @@ import { fetchMe } from '../api/auth'
  * stays inside each page — only genuinely cross-cutting state lives here.
  */
 const AppContext = createContext(null)
-
-const TOKEN_KEY = 'll_token'
-const REFRESH_KEY = 'll_refresh'
-
-const readToken = () => {
-  try {
-    return localStorage.getItem(TOKEN_KEY)
-  } catch {
-    return null
-  }
-}
 
 export const useApp = () => {
   const ctx = useContext(AppContext)
@@ -38,21 +28,21 @@ export function AppProvider({ children }) {
 
   // Khôi phục phiên khi tải trang: nếu có token thì hỏi /me để lấy lại user.
   useEffect(() => {
-    if (!readToken()) {
+    if (!getToken()) {
       setAuthReady(true)
       return
     }
     fetchMe()
       .then((u) => setUser(u))
-      .catch(() => {
-        try {
-          localStorage.removeItem(TOKEN_KEY)
-          localStorage.removeItem(REFRESH_KEY)
-        } catch {
-          /* ignore */
-        }
-      })
+      .catch(clearTokens)
       .finally(() => setAuthReady(true))
+  }, [])
+
+  // Refresh token hết hạn / bị thu hồi → về trạng thái khách.
+  useEffect(() => {
+    const onExpired = () => setUser(null)
+    window.addEventListener('auth:expired', onExpired)
+    return () => window.removeEventListener('auth:expired', onExpired)
   }, [])
 
   const openLogin = useCallback(() => setShowLogin(true), [])
@@ -60,23 +50,15 @@ export function AppProvider({ children }) {
 
   // Ghi nhận đăng nhập thành công: lưu token + set user, đóng modal.
   const applyAuth = useCallback(({ user: u, token, refreshToken }) => {
-    try {
-      if (token) localStorage.setItem(TOKEN_KEY, token)
-      if (refreshToken) localStorage.setItem(REFRESH_KEY, refreshToken)
-    } catch {
-      /* ignore */
-    }
+    saveTokens({ token, refreshToken })
     setUser(u)
     setShowLogin(false)
   }, [])
 
   const logout = useCallback(() => {
-    try {
-      localStorage.removeItem(TOKEN_KEY)
-      localStorage.removeItem(REFRESH_KEY)
-    } catch {
-      /* ignore */
-    }
+    logoutApi()
+      .catch(() => {})
+      .finally(clearTokens)
     setUser(null)
   }, [])
 

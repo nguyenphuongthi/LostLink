@@ -18,3 +18,5 @@ export const resetPassword = (payload) => api.post('/auth/reset-password', paylo
 
 // Khôi phục phiên: trả về object user hiện tại (yêu cầu token hợp lệ).
 export const fetchMe = () => api.get('/auth/me').then((res) => res.data.user)
+
+export const logout = () => api.post('/auth/logout')

@@ -60,6 +60,9 @@ const userSchema = new Schema(
     emailVerifiedAt: { type: Date, default: null },
 
     badges: [userBadgeSchema],
+
+    // Tăng khi đăng xuất / đổi mật khẩu để thu hồi mọi token đã cấp.
+    tokenVersion: { type: Number, default: 0 },
   },
   { timestamps: true }
 )

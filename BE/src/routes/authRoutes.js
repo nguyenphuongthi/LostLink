@@ -26,7 +26,7 @@ router.post('/google', authLimiter, googleRules, validate, ctrl.google)
 router.post('/forgot-password', authLimiter, forgotRules, validate, ctrl.forgotPassword)
 router.post('/reset-password', authLimiter, resetRules, validate, ctrl.resetPassword)
 router.post('/refresh', ctrl.refresh)
-router.post('/logout', ctrl.logout)
+router.post('/logout', protect, ctrl.logout)
 router.get('/me', protect, ctrl.me)
 
 module.exports = router

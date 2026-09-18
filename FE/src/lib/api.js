@@ -4,16 +4,58 @@
 const BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
 
 const TOKEN_KEY = 'll_token'
+const REFRESH_KEY = 'll_refresh'
 
-export const getToken = () => {
+const read = (key) => {
   try {
-    return localStorage.getItem(TOKEN_KEY)
+    return localStorage.getItem(key)
   } catch {
     return null
   }
 }
 
-async function request(path, { method = 'GET', body, auth = true } = {}) {
+export const getToken = () => read(TOKEN_KEY)
+
+export const saveTokens = ({ token, refreshToken }) => {
+  try {
+    if (token) localStorage.setItem(TOKEN_KEY, token)
+    if (refreshToken) localStorage.setItem(REFRESH_KEY, refreshToken)
+  } catch {
+    /* ignore */
+  }
+}
+
+export const clearTokens = () => {
+  try {
+    localStorage.removeItem(TOKEN_KEY)
+    localStorage.removeItem(REFRESH_KEY)
+  } catch {
+    /* ignore */
+  }
+}
+
+// Dùng chung một lần refresh cho các request 401 đồng thời.
+let refreshing = null
+
+const refreshTokens = () => {
+  if (!refreshing) {
+    refreshing = fetch(BASE + '/auth/refresh', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ refreshToken: read(REFRESH_KEY) }),
+    })
+      .then(async (res) => {
+        if (!res.ok) throw new Error('refresh failed')
+        saveTokens((await res.json()).data)
+      })
+      .finally(() => {
+        refreshing = null
+      })
+  }
+  return refreshing
+}
+
+async function request(path, { method = 'GET', body, auth = true, retry = true } = {}) {
   const headers = { 'Content-Type': 'application/json' }
   if (auth) {
     const token = getToken()
@@ -25,6 +67,16 @@ async function request(path, { method = 'GET', body, auth = true } = {}) {
     headers,
     body: body ? JSON.stringify(body) : undefined,
   })
+
+  if (res.status === 401 && auth && retry && read(REFRESH_KEY)) {
+    try {
+      await refreshTokens()
+    } catch {
+      clearTokens()
+      window.dispatchEvent(new Event('auth:expired'))
+    }
+    if (getToken()) return request(path, { method, body, auth, retry: false })
+  }
 
   let data = null
   try {
