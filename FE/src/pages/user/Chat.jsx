@@ -80,7 +80,7 @@ export default function Chat() {
         </div>
 
         {/* ── Conversation ────────────────────────── */}
-        <div className="card flex h-[72vh] flex-col overflow-hidden lg:h-auto">
+        <div className="card flex h-[calc(var(--screen-h)*0.72)] flex-col overflow-hidden lg:h-auto">
           <div className="flex items-center gap-3 border-b border-line2 px-5 py-3.5">
             <div
               onClick={() => navigate('/profile')}

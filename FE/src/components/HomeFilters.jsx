@@ -1,9 +1,18 @@
+import { useState } from 'react'
 import { CATEGORY_META, TIME_RANGES } from '../data/catalog'
 import CategoryIcon from './CategoryIcon'
+
+const COLLAPSED_COUNT = 1 // chỉ "Tất cả"
 
 // The Home filter panel. Rendered in the desktop sidebar and inside the mobile
 // filter drawer. `onApply` lets the mobile drawer close itself on apply.
 export default function HomeFilters({ cat, setCat, range, setRange, customRange, setCustomRange, onApply }) {
+  // Danh mục thu gọn mặc định; mục đang chọn luôn hiện kể cả khi nằm ngoài phần thu gọn.
+  const [expanded, setExpanded] = useState(false)
+  const shownCats = expanded
+    ? CATEGORY_META
+    : CATEGORY_META.filter((c, i) => i < COLLAPSED_COUNT || c.name === cat)
+
   // Khi người dùng chọn ngày → tự chuyển sang chế độ lọc theo khoảng ngày.
   const setDate = (key) => (e) => {
     setCustomRange((s) => ({ ...s, [key]: e.target.value }))
@@ -38,7 +47,7 @@ export default function HomeFilters({ cat, setCat, range, setRange, customRange,
 
       <div className="eyebrow">Danh mục</div>
       <div className="mb-[22px] flex flex-col gap-1">
-        {CATEGORY_META.map(({ name }) => {
+        {shownCats.map(({ name }) => {
           const on = cat === name
           return (
             <div
@@ -59,6 +68,22 @@ export default function HomeFilters({ cat, setCat, range, setRange, customRange,
             </div>
           )
         })}
+
+        {CATEGORY_META.length > COLLAPSED_COUNT && (
+          <button
+            type="button"
+            aria-expanded={expanded}
+            onClick={() => setExpanded((v) => !v)}
+            className="mt-1 flex items-center gap-1.5 self-start rounded-lg px-2 py-1 text-[12px] font-medium text-blue hover:bg-blue-soft"
+          >
+            {expanded ? 'Thu gọn' : 'Xem thêm'}
+            <div
+              className={`h-[6px] w-[6px] border-b-[1.5px] border-r-[1.5px] border-current ${
+                expanded ? '-mb-0.5 rotate-[225deg]' : '-mt-1 rotate-45'
+              }`}
+            />
+          </button>
+        )}
       </div>
 
       <div className="eyebrow">Khu vực</div>

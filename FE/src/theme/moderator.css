@@ -1,9 +1,9 @@
-.mod-app { --mod-blue: #1a528e; --mod-line: #dce4ed; display: flex; min-height: 100dvh; background: #f0f4f8; color: #16233a; font-size: 13px; }
+.mod-app { --mod-blue: #1a528e; --mod-line: #dce4ed; display: flex; min-height: var(--screen-h); background: #f0f4f8; color: #16233a; font-size: 13px; }
 .mod-app button, .mod-app a, .mod-dialog button { -webkit-tap-highlight-color: transparent; }
 .mod-app button, .mod-dialog button { cursor: pointer; }
 .mod-app button:disabled { cursor: not-allowed; opacity: .45; }
 .mod-app :is(button, a, input, select):focus-visible, .mod-dialog :is(button, input):focus-visible { outline: 3px solid #60a5fa; outline-offset: 3px; }
-.mod-sidebar { width: 264px; flex-shrink: 0; background: #0b1930; color: white; padding: 30px 16px 20px; display: flex; flex-direction: column; position: sticky; top: 0; height: 100dvh; overflow-y: auto; }
+.mod-sidebar { width: 264px; flex-shrink: 0; background: #0b1930; color: white; padding: 30px 16px 20px; display: flex; flex-direction: column; position: sticky; top: 0; height: var(--screen-h); overflow-y: auto; }
 .mod-sidebar-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 32px; }
 .mod-brand { display: flex; align-items: center; gap: 12px; font-size: 23px; font-weight: 700; letter-spacing: -.7px; text-decoration: none; }
 .mod-sidebar .mod-collapse-toggle { color: #a3b2c8; background: #ffffff09; border-color: #ffffff20; }
@@ -143,7 +143,7 @@
 .mod-dashboard-stat { padding: 24px; border: 1px solid var(--mod-line); border-radius: 12px; background: white; }
 .mod-dashboard-stat strong { display: block; font-size: 32px; margin: 16px 0 4px; color: #1a528e; }
 .mod-dashboard-stat > span:last-child { font-size: 11px; color: #8494a8; }
-.mod-dialog { margin: auto; padding: 0; border: 0; border-radius: 14px; width: min(620px, calc(100vw - 32px)); max-height: calc(100dvh - 40px); background: white; color: #16233a; box-shadow: 0 24px 100px #0b193040; }
+.mod-dialog { margin: auto; padding: 0; border: 0; border-radius: 14px; width: min(620px, calc(var(--screen-w) - 32px)); max-height: calc(var(--screen-h) - 40px); background: white; color: #16233a; box-shadow: 0 24px 100px #0b193040; }
 .mod-dialog::backdrop { background: #0b193075; backdrop-filter: blur(3px); }
 .mod-dialog header { display: flex; align-items: center; justify-content: space-between; padding: 18px 24px; background: #f3f7fc; border-bottom: 1px solid #dce4ed; }
 .mod-dialog h2 { font-size: 16px; font-weight: 700; }
@@ -164,7 +164,7 @@
 .mod-status-options label:has(input:checked) { border-color: #1a528e; background: #f5f9fd; }
 .mod-status-options input { accent-color: #1a528e; }
 .mod-menu-toggle, .mod-sidebar-overlay { display: none; }
-.mod-loading { display: grid; min-height: 100dvh; place-items: center; font-size: 14px; color: #64748b; }
+.mod-loading { display: grid; min-height: var(--screen-h); place-items: center; font-size: 14px; color: #64748b; }
 @media (min-width: 901px) {
   .mod-sidebar.collapsed { width: 76px; padding-left: 10px; padding-right: 10px; }
   .mod-sidebar.collapsed .mod-sidebar-header { flex-direction: column; gap: 12px; }

@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 
 import { useApp } from './context/AppContext'
@@ -6,7 +7,8 @@ import LoginModal from './components/LoginModal'
 import Auth from './pages/auth/Auth'
 import Moderator from './pages/moderator/Moderator'
 
-// Public / shared screens — a Guest may view these; a User gets the full set.
+// Shared screens. Guest xem được Home / Trending / Detail; Profile và
+// Leaderboard cần đăng nhập (xem RequireAuth).
 import Home from './pages/common/Home'
 import Trending from './pages/common/Trending'
 import Detail from './pages/common/Detail'
@@ -31,6 +33,19 @@ function RootGate() {
   return <Navigate to={user ? (['moderator', 'admin'].includes(user.role) ? '/moderator' : '/home') : '/auth'} replace />
 }
 
+// Chặn trang chỉ dành cho User khi truy cập bằng URL trực tiếp: Guest bị đưa về
+// /home và thấy popup đăng nhập (giống khi bấm nút bị chặn trên Navbar).
+function RequireAuth({ children }) {
+  const { user, authReady, openLogin } = useApp()
+  useEffect(() => {
+    if (authReady && !user) openLogin()
+  }, [authReady, user, openLogin])
+  if (!authReady) return null
+  return user ? children : <Navigate to="/home" replace />
+}
+
+const authed = (el) => <RequireAuth>{el}</RequireAuth>
+
 export default function App() {
   const { pathname } = useLocation()
 
@@ -41,32 +56,35 @@ export default function App() {
     return <Routes><Route path="/moderator/*" element={<Moderator />} /></Routes>
   }
 
+  // Feed (Trang chủ / Tin hot) kết thúc ngay dưới bài cuối, không chừa khoảng trống.
+  const isFeed = pathname === '/home' || pathname === '/trending'
+
   return (
     <>
       {/* Fluid canvas: reflows at every width, capped at the desktop design width. */}
-      <div className="mx-auto min-h-screen w-full max-w-[1440px] bg-bg pb-24 text-ink">
+      <div className={`mx-auto min-h-(--screen-h) w-full max-w-[1440px] bg-bg text-ink ${isFeed ? 'pb-6' : 'pb-24'}`}>
         <Navbar />
 
         <Routes>
           {/* Cổng: `/` yêu cầu đăng nhập, chuyển hướng phù hợp */}
           <Route path="/" element={<RootGate />} />
 
-          {/* Guest + User */}
+          {/* Guest + User — Guest chỉ xem, thao tác tương tác bị chặn trong trang */}
           <Route path="/home" element={<Home />} />
           <Route path="/trending" element={<Trending />} />
           <Route path="/post/:id" element={<Detail />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/leaderboard" element={<Leaderboard />} />
 
           {/* User only */}
-          <Route path="/compose" element={<Compose />} />
-          <Route path="/matches" element={<Matches />} />
-          <Route path="/verify" element={<Verify />} />
-          <Route path="/chat" element={<Chat />} />
-          <Route path="/notifications" element={<Notifications />} />
-          <Route path="/thanks" element={<Thanks />} />
-          <Route path="/report" element={<Report />} />
-          <Route path="/settings" element={<Settings />} />
+          <Route path="/profile" element={authed(<Profile />)} />
+          <Route path="/leaderboard" element={authed(<Leaderboard />)} />
+          <Route path="/compose" element={authed(<Compose />)} />
+          <Route path="/matches" element={authed(<Matches />)} />
+          <Route path="/verify" element={authed(<Verify />)} />
+          <Route path="/chat" element={authed(<Chat />)} />
+          <Route path="/notifications" element={authed(<Notifications />)} />
+          <Route path="/thanks" element={authed(<Thanks />)} />
+          <Route path="/report" element={authed(<Report />)} />
+          <Route path="/settings" element={authed(<Settings />)} />
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

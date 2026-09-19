@@ -33,7 +33,7 @@ const LINKS = [
   { label: 'Thông báo', to: '/notifications', badge: '3', guarded: true },
   { label: 'Tin nhắn', to: '/chat', badge: '2', guarded: true },
   { label: 'Trang của tôi', to: '/profile', badge: null, guarded: true },
-  { label: 'Bảng vinh danh', to: '/leaderboard', badge: null, guarded: false },
+  { label: 'Bảng vinh danh', to: '/leaderboard', badge: null, guarded: true },
 ]
 
 export default function Navbar() {

@@ -7,7 +7,7 @@ import { IMG, BADGE_LABEL } from '../theme/tokens'
 // trả trên trang cá nhân; `post.status` (kèm `post.tone`) hiện nhãn trạng thái.
 export default function PostCard({ post, dimmed = false }) {
   const navigate = useNavigate()
-  const { liked, toggleLike } = useApp()
+  const { liked, toggleLike, goAuthed } = useApp()
 
   const key = 'p' + post.id
   const on = !!liked[key]
@@ -30,7 +30,7 @@ export default function PostCard({ post, dimmed = false }) {
             className="ll-name cursor-pointer whitespace-nowrap text-[12.5px] font-semibold text-ink"
             onClick={(e) => {
               e.stopPropagation()
-              navigate('/profile')
+              goAuthed('/profile')
             }}
           >
             {post.handle}

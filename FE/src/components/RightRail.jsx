@@ -1,10 +1,10 @@
-import { useNavigate } from 'react-router-dom'
+import { useApp } from '../context/AppContext'
 import { leaders, communityStats } from '../data/catalog'
 
 // Leaderboard + community stats + geofence CTA. Shown as the Home right rail on
 // desktop and as the standalone /leaderboard screen on mobile.
 export default function RightRail() {
-  const navigate = useNavigate()
+  const { goAuthed } = useApp()
   return (
     <div className="flex flex-col gap-4">
       <div className="card p-5">
@@ -18,7 +18,7 @@ export default function RightRail() {
             <div
               key={l.rank}
               className="ll-row flex cursor-pointer items-center gap-3 rounded-lg px-2 py-[9px]"
-              onClick={() => navigate('/profile')}
+              onClick={() => goAuthed('/profile')}
             >
               <div className={`w-[22px] text-center text-[11.5px] font-bold ${l.rank <= 3 ? 'text-blue' : 'text-[#A8B3C2]'}`}>
                 {l.rank}
@@ -57,7 +57,7 @@ export default function RightRail() {
         </div>
         <div
           className="ll-primary flex h-10 cursor-pointer items-center justify-center rounded-lg bg-blue text-[12px] font-semibold text-white"
-          onClick={() => navigate('/settings')}
+          onClick={() => goAuthed('/settings')}
         >
           Thiết lập vùng theo dõi
         </div>

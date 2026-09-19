@@ -44,11 +44,8 @@ export default function LoginModal() {
           </svg>
         </div>
 
-        <div className="mb-1.5 text-[19px] font-bold tracking-[-0.02em]">Đăng nhập để tiếp tục</div>
-        <div className="mb-6 text-[12.5px] leading-[1.55] text-muted">
-          Bạn cần đăng nhập để bình luận, nhận lại đồ và nhắn tin với người nhặt được.
-        </div>
-
+        <div className="mb-1.5 text-[19px] font-bold tracking-[-0.02em]">Vui lòng đăng nhập để tiếp tục</div>
+       
         <button
           onClick={goLogin}
           className="ll-primary flex h-12 w-full cursor-pointer items-center justify-center rounded-[9px] bg-blue text-[13.5px] font-semibold text-white"

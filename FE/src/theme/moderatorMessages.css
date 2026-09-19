@@ -1,5 +1,5 @@
 .mod-messages { padding: 24px 28px; }
-.mod-msg-workspace { display: grid; grid-template-columns: 300px minmax(0, 1fr); height: calc(100dvh - 152px); min-height: 560px; border: 1px solid #9bafc5; border-radius: 12px; overflow: hidden; background: white; box-shadow: 0 3px 14px #16233a0c; }
+.mod-msg-workspace { display: grid; grid-template-columns: 300px minmax(0, 1fr); height: calc(var(--screen-h) - 152px); min-height: 560px; border: 1px solid #9bafc5; border-radius: 12px; overflow: hidden; background: white; box-shadow: 0 3px 14px #16233a0c; }
 .mod-msg-inbox { display: flex; flex-direction: column; min-height: 0; min-width: 0; border-right: 1px solid #b4c4d5; background: #fcfdff; }
 .mod-msg-inbox-top { padding: 20px 16px 0; }
 .mod-msg-inbox-top > div:first-child { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 16px; }
@@ -126,7 +126,7 @@
 }
 @media (max-width: 700px) {
   .mod-messages { padding: 18px 12px; }
-  .mod-msg-workspace { grid-template-columns: minmax(0, 1fr); height: calc(100dvh - 140px); min-height: 540px; }
+  .mod-msg-workspace { grid-template-columns: minmax(0, 1fr); height: calc(var(--screen-h) - 140px); min-height: 540px; }
   .mod-msg-inbox { border-right: 0; }
   .mod-msg-conversation { display: none; }
   .mod-messages.conversation-open .mod-msg-inbox { display: none; }
