@@ -2,7 +2,7 @@
 
 const asyncHandler = require('../utils/asyncHandler')
 const authService = require('../services/authService')
-const { verifyRefreshToken, signAccessToken } = require('../utils/token')
+const { verifyRefreshToken, isRevoked, issueTokens } = require('../utils/token')
 const User = require('../models/User')
 const ApiError = require('../utils/ApiError')
 
@@ -61,7 +61,7 @@ const me = asyncHandler(async (req, res) => {
   res.json({ success: true, data: { user: authService.publicUser(req.user) } })
 })
 
-// POST /api/auth/refresh — cấp access token mới từ refresh token.
+// POST /api/auth/refresh — cấp cặp token mới từ refresh token.
 const refresh = asyncHandler(async (req, res) => {
   const { refreshToken } = req.body
   if (!refreshToken) throw ApiError.badRequest('Thiếu refresh token.')
@@ -75,12 +75,15 @@ const refresh = asyncHandler(async (req, res) => {
 
   const user = await User.findById(payload.sub)
   if (!user) throw ApiError.unauthorized('Tài khoản không tồn tại.')
+  if (isRevoked(payload, user)) throw ApiError.unauthorized('Phiên đăng nhập đã bị thu hồi.')
+  if (user.status === 'locked') throw ApiError.forbidden('Tài khoản đã bị khoá.')
 
-  res.json({ success: true, data: { token: signAccessToken(user) } })
+  res.json({ success: true, data: issueTokens(user) })
 })
 
-// POST /api/auth/logout — với JWT không trạng thái, client chỉ cần xoá token.
+// POST /api/auth/logout — thu hồi mọi token của user.
 const logout = asyncHandler(async (req, res) => {
+  await User.updateOne({ _id: req.user._id }, { $inc: { tokenVersion: 1 } })
   res.json({ success: true, message: 'Đã đăng xuất.' })
 })
 

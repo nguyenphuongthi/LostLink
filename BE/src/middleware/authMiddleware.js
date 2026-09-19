@@ -2,7 +2,8 @@
 
 const User = require('../models/User')
 const ApiError = require('../utils/ApiError')
-const { verifyAccessToken } = require('../utils/token')
+const { verifyAccessToken, isRevoked } = require('../utils/token')
+const { hasPermission } = require('../config/permissions')
 const asyncHandler = require('../utils/asyncHandler')
 
 // Lấy token từ header "Authorization: Bearer <token>".
@@ -25,20 +26,19 @@ const protect = asyncHandler(async (req, res, next) => {
 
   const user = await User.findById(payload.sub)
   if (!user) throw ApiError.unauthorized('Tài khoản không tồn tại.')
+  if (isRevoked(payload, user)) throw ApiError.unauthorized('Phiên đăng nhập đã bị thu hồi.')
   if (user.status === 'locked') throw ApiError.forbidden('Tài khoản đã bị khoá.')
 
   req.user = user
   next()
 })
 
-// Giới hạn theo role, dùng sau protect: authorize('admin', 'moderator').
-const authorize =
-  (...roles) =>
-  (req, res, next) => {
-    if (!req.user || !roles.includes(req.user.role)) {
-      return next(ApiError.forbidden('Bạn không có quyền thực hiện thao tác này.'))
-    }
-    next()
+// Kiểm tra quyền theo role, dùng sau protect: can('report:review').
+const can = (permission) => (req, res, next) => {
+  if (!req.user || !hasPermission(req.user.role, permission)) {
+    return next(ApiError.forbidden('Bạn không có quyền thực hiện thao tác này.'))
   }
+  next()
+}
 
-module.exports = { protect, authorize }
+module.exports = { protect, can }
