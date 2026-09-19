@@ -63,6 +63,18 @@
   --font-sans: 'Be Vietnam Pro', system-ui, -apple-system, 'Segoe UI', sans-serif;
 }
 
+/* ── Tỉ lệ giao diện ───────────────────────────────────────────
+   --ui-zoom thu/phóng toàn bộ app (user, auth, moderator). Đổi đúng
+   con số này để chỉnh; 1 = kích thước gốc của thiết kế.
+   Zoom cũng co các đơn vị vh/vw, nên chỗ nào cần "cao/rộng bằng màn
+   hình" phải dùng --screen-h / --screen-w thay cho 100vh / 100vw. */
+:root {
+  --ui-zoom: 0.9;
+  --screen-h: calc(100dvh / var(--ui-zoom));
+  --screen-w: calc(100vw / var(--ui-zoom));
+  zoom: var(--ui-zoom);
+}
+
 /* ── Base ──────────────────────────────────────────────────── */
 * {
   box-sizing: border-box;
@@ -78,7 +90,7 @@ body {
   color: var(--color-ink);
 }
 #root {
-  min-height: 100vh;
+  min-height: var(--screen-h);
 }
 a {
   color: var(--color-blue);

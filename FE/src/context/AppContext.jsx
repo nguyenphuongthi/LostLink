@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useCallback, useMemo, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { fetchMe, logout as logoutApi } from '../api/auth'
 import { getToken, saveTokens, clearTokens } from '../lib/api'
 
@@ -20,6 +21,7 @@ export const useApp = () => {
 }
 
 export function AppProvider({ children }) {
+  const navigate = useNavigate()
   const [user, setUser] = useState(null)
   const [authReady, setAuthReady] = useState(false)
   const [showLogin, setShowLogin] = useState(false)
@@ -62,8 +64,19 @@ export function AppProvider({ children }) {
     setUser(null)
   }, [])
 
-  const toggleLike = useCallback((key) => setLiked((m) => ({ ...m, [key]: !m[key] })), [])
-  const toggleFollow = useCallback(() => setFollowing((f) => !f), [])
+  // Thao tác tương tác (thả tim, theo dõi) cần đăng nhập — Guest chỉ được xem,
+  // nên chặn ngay tại đây để mọi nơi gọi đều được bảo vệ.
+  const toggleLike = useCallback(
+    (key) => (user ? setLiked((m) => ({ ...m, [key]: !m[key] })) : setShowLogin(true)),
+    [user]
+  )
+  const toggleFollow = useCallback(() => (user ? setFollowing((f) => !f) : setShowLogin(true)), [user])
+
+  // Điều hướng tới trang chỉ dành cho User: Guest thấy popup đăng nhập và ở lại trang hiện tại.
+  const goAuthed = useCallback(
+    (to, options) => (user ? navigate(to, options) : setShowLogin(true)),
+    [user, navigate]
+  )
 
   const value = useMemo(
     () => ({
@@ -80,6 +93,7 @@ export function AppProvider({ children }) {
       toggleLike,
       following,
       toggleFollow,
+      goAuthed,
     }),
     [
       user,
@@ -93,6 +107,7 @@ export function AppProvider({ children }) {
       toggleLike,
       following,
       toggleFollow,
+      goAuthed,
     ]
   )
 

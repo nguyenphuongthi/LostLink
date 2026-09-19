@@ -6,7 +6,7 @@ import { posts, galleryFor, comments } from '../../data/posts'
 export default function Detail() {
   const { id } = useParams()
   const navigate = useNavigate()
-  const { isGuest, openLogin, liked, toggleLike } = useApp()
+  const { isGuest, openLogin, liked, toggleLike, goAuthed } = useApp()
 
   const post = posts[Number(id)] || posts[0]
   const lost = post.type === 'lost'
@@ -143,14 +143,14 @@ export default function Detail() {
               {comments.map((cm, i) => (
                 <div key={i} className="flex gap-3">
                   <div
-                    onClick={() => navigate('/profile')}
+                    onClick={() => goAuthed('/profile')}
                     className="flex h-[38px] w-[38px] flex-shrink-0 cursor-pointer items-center justify-center rounded-lg bg-chip text-[11.5px] font-bold text-ink2"
                   >
                     {cm.initials}
                   </div>
                   <div className="flex-1">
                     <div className="mb-1 flex items-center gap-2">
-                      <div onClick={() => navigate('/profile')} className="cursor-pointer text-[12.5px] font-semibold">
+                      <div onClick={() => goAuthed('/profile')} className="cursor-pointer text-[12.5px] font-semibold">
                         {cm.handle}
                       </div>
                       <div className="text-[10.5px] text-muted2">{cm.time}</div>
@@ -166,7 +166,7 @@ export default function Detail() {
         {/* ── Right rail ──────────────────────────── */}
         <div className="flex flex-col gap-4 lg:sticky lg:top-[90px]">
           <div className="card p-[22px]">
-            <div className="mb-4 flex cursor-pointer items-center gap-3" onClick={() => navigate('/profile')}>
+            <div className="mb-4 flex cursor-pointer items-center gap-3" onClick={() => goAuthed('/profile')}>
               <div className="flex h-[46px] w-[46px] items-center justify-center rounded-lg bg-blue-soft text-[13.5px] font-bold text-blue">
                 {post.initials}
               </div>
@@ -182,7 +182,7 @@ export default function Detail() {
             </div>
             <div
               className="ll-subtle flex h-10 cursor-pointer items-center justify-center rounded-lg border border-line text-[12px] font-semibold"
-              onClick={() => navigate('/profile')}
+              onClick={() => goAuthed('/profile')}
             >
               Xem trang cá nhân
             </div>

@@ -22,7 +22,7 @@ export default function Home({ heading = 'Tin mới quanh bạn', sortPosts } = 
     <div className="px-4 pt-5 sm:px-6 lg:px-10 lg:pt-7">
       <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-[268px_1fr_316px]">
         {/* ── Filters (desktop sidebar) ─────────────── */}
-        <div className="card sticky top-[90px] hidden max-h-[calc(100vh-110px)] self-start overflow-y-auto p-5 shadow-[0_1px_2px_rgba(22,35,58,0.04)] lg:block">
+        <div className="card sticky top-[90px] hidden max-h-[calc(var(--screen-h)-110px)] self-start overflow-y-auto p-5 shadow-[0_1px_2px_rgba(22,35,58,0.04)] lg:block">
           <HomeFilters {...filterProps} />
         </div>
 

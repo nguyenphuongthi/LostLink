@@ -20,7 +20,6 @@ import Done from './Done'
 const RESEND_SECONDS = 45
 const EMPTY_CODE = ['', '', '', '', '', '']
 const SCREENS = ['login', 'register', 'verify', 'forgot', 'reset', 'done']
-
 // Scores a password on length + character-class variety, mirroring the
 // design component's meter (0–4 → bar width / colour / label).
 function scorePassword(p) {
@@ -308,7 +307,7 @@ export default function Auth() {
 
   return (
     <div
-      className="relative min-h-screen overflow-hidden text-au-ink [font-family:'Be_Vietnam_Pro',Helvetica,sans-serif]"
+      className="relative min-h-(--screen-h) overflow-hidden text-au-ink [font-family:'Be_Vietnam_Pro',Helvetica,sans-serif]"
       style={{ backgroundColor: a.bgTop, backgroundImage: `linear-gradient(160deg, ${a.bgDeep} 0%, ${a.bgTop} 100%)` }}
     >
       <Starfield />
@@ -328,7 +327,7 @@ export default function Auth() {
         </div>
       </div>
 
-      <div className="relative z-[2] mx-auto flex min-h-screen max-w-[920px] flex-col items-center justify-center gap-3 px-[clamp(20px,4vw,40px)] pb-12 pt-24 lg:flex-row lg:justify-between lg:gap-[clamp(24px,3vw,56px)] lg:pt-10">
+      <div className="relative z-[2] mx-auto flex min-h-(--screen-h) max-w-[920px] flex-col items-center justify-center gap-3 px-[clamp(20px,4vw,40px)] pb-12 pt-24 lg:flex-row lg:justify-between lg:gap-[clamp(24px,3vw,56px)] lg:pt-10">
         {/* Radar illustration — shown on every width; scaled down on mobile
             (with negative margins trimming the transform's leftover box) so it
             sits balanced above the form instead of being hidden. */}
